@@ -11,10 +11,12 @@ import chess.basecode.bgame.model.GameMove;
 import chess.basecode.bgame.model.GameRules;
 import chess.basecode.bgame.model.Pair;
 import chess.basecode.bgame.model.Piece;
+import chess.basecode.bgame.model.chessPieces.ChessPieceID;
 import chess.basecode.bgame.model.Game.State;
 import chess.basecode.connectn.ConnectNRules;
 
 public class ChessRules implements GameRules/* extends ConnectNRules*/ {
+	
 	
 	//private static int stuckCounter = 0; //Used in an extreme case (game could enter an infinite loop otherwise)
 	//This part can be removed, it is just a remote case check.
@@ -24,17 +26,7 @@ public class ChessRules implements GameRules/* extends ConnectNRules*/ {
 	//
 	protected final Pair<State, Piece> gameInPlayResult = new Pair<State, Piece>(State.InPlay, null);
 	
-	public ChessRules(int dim, int numObs) {
-		//super(dim); 
-		
-		/*if (dim % 2 == 0 || dim < 5)
-		{
-			throw new GameError("Dimension must be odd and greater than five"); //Check dimensions before proceeding
-		} else {
-			this.dim = dim;
-			this.obs = numObs;
-		}*/
-	}
+	public ChessRules() {}
 
 	@Override
 	public String gameDesc() {
@@ -42,61 +34,34 @@ public class ChessRules implements GameRules/* extends ConnectNRules*/ {
 	}
 	
 	@Override
-	public Board createBoard(List<Piece> pieces) {
+	public Board createBoard(List<Piece> pieces) { //pieces.get(0) = White, (1) = Black
 		Board board = new FiniteRectBoard(8, 8);		
-		int tamano = pieces.size();
 		
-		/*if(tamano >= 2){  
-		// Pieces are allocated on opposing corners alternatively.
-			board.setPosition(0, 0, pieces.get(0));
-			board.setPosition(this.dim - 1, this.dim - 1, pieces.get(0));
-			board.setPosition(this.dim - 1, 0, pieces.get(1));
-			board.setPosition(0, this.dim - 1, pieces.get(1));	
+		board.setPosition(0, 0, pieces.get(ChessPieceID.BLACK_ROOK));
+		board.setPosition(0, 1, pieces.get(ChessPieceID.BLACK_KNIGHT));
+		board.setPosition(0, 2, pieces.get(ChessPieceID.BLACK_BISHOP));
+		board.setPosition(0, 3, pieces.get(ChessPieceID.BLACK_QUEEN));
+		board.setPosition(0, 4, pieces.get(ChessPieceID.BLACK_KING));
+		board.setPosition(0, 5, pieces.get(ChessPieceID.BLACK_BISHOP));
+		board.setPosition(0, 6, pieces.get(ChessPieceID.BLACK_KNIGHT));
+		board.setPosition(0, 7, pieces.get(ChessPieceID.BLACK_ROOK));
+		
+		board.setPosition(7, 0, pieces.get(ChessPieceID.WHITE_ROOK));
+		board.setPosition(7, 1, pieces.get(ChessPieceID.WHITE_KNIGHT));
+		board.setPosition(7, 2, pieces.get(ChessPieceID.WHITE_BISHOP));
+		board.setPosition(7, 3, pieces.get(ChessPieceID.WHITE_QUEEN));
+		board.setPosition(7, 4, pieces.get(ChessPieceID.WHITE_KING));
+		board.setPosition(7, 5, pieces.get(ChessPieceID.WHITE_BISHOP));
+		board.setPosition(7, 6, pieces.get(ChessPieceID.WHITE_KNIGHT));
+		board.setPosition(7, 7, pieces.get(ChessPieceID.WHITE_ROOK));
+		
+		for(int i = 0; i < 8; i++) {
+			board.setPosition(0, i, pieces.get(ChessPieceID.BLACK_PAWN));
+			board.setPosition(7, i, pieces.get(ChessPieceID.WHITE_PAWN));
 		}
-		
-		// Player 3 pieces are added on the half of the board side horizontally.
-		if(tamano >= 3){		
-			board.setPosition(0, (this.dim / 2), pieces.get(2));
-			board.setPosition(this.dim - 1, (this.dim / 2), pieces.get(2));			
-		}
-		// Player 4 pieces are added on the half of the board side vertically.
-		if(tamano >= 4){
-			board.setPosition(this.dim / 2, 0, pieces.get(3));
-			board.setPosition(this.dim / 2, this.dim - 1, pieces.get(3));
-		}	
-		
-		for (int i = 0; i < pieces.size(); i++)
-		{
-			board.setPieceCount(pieces.get(i), 2);
-		}*/
-		
-		/*if(this.obs > 0)
-		{
-			createWalls(board, pieces);
-		}*/
 		
 		return board;
 	}
-	
-	/*private void createWalls(Board board, List<Piece> pieces)
-	{
-		int wallRow, wallCol; //Wall auxiliar location
-		int wallCount = 0; //Wall counter
-		Piece wallPiece = new Piece("*"); //Appearance for the walls
-		Random randWall = new Random(); //Random generator for wall coordinates
-		
-		while(this.obs < (dim * dim - pieces.size()) && wallCount < this.obs)
-		{
-			//Generating coordinates...
-			wallRow = randWall.nextInt(this.dim);
-			wallCol = randWall.nextInt(this.dim);
-			if(board.getPosition(wallRow, wallCol) == null) //Check and proceed if the position is empty
-			{
-				board.setPosition(wallRow, wallCol, wallPiece);
-				wallCount++;
-			}
-		}
-	}*/
 	
 	@Override
 	public Pair<State, Piece> updateState(Board board, List<Piece> pieces, Piece lastPlayer) {

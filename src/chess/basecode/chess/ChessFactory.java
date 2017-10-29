@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import chess.basecode.bgame.control.AIPlayer;
 import chess.basecode.bgame.control.ConsolePlayer;
 import chess.basecode.bgame.control.Controller;
+import chess.basecode.bgame.control.DummyAIPlayer;
 import chess.basecode.bgame.control.GameFactory;
 import chess.basecode.bgame.control.Player;
 import chess.basecode.bgame.model.AIAlgorithm;
@@ -15,8 +17,16 @@ import chess.basecode.bgame.model.GameObserver;
 import chess.basecode.bgame.model.GameRules;
 import chess.basecode.bgame.model.Observable;
 import chess.basecode.bgame.model.Piece;
+import chess.basecode.bgame.model.chessPieces.ChessPieceID;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Bishop;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.King;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Knight;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Pawn;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Queen;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Rook;
 import chess.basecode.bgame.views.GenericConsoleView;
 import chess.basecode.connectn.ConnectNFactory;
+import chess.basecode.connectn.ConnectNRandomPlayer;
 
 public class ChessFactory implements GameFactory /*extends ConnectNFactory*/ {
 	
@@ -26,24 +36,18 @@ public class ChessFactory implements GameFactory /*extends ConnectNFactory*/ {
 	
 	
 	public ChessFactory(int dim, int obsNum) {
-		/*super(dim); 
-		
-		if (dim % 2 == 0 || dim < 5) {
-			throw new GameError("Dimension must be odd and greater than five");
-		} else {
-			this.dim = dim;
-			this.obs = obsNum;
-		}*/
+		this.dim = dim;
+		this.obs = obsNum;
 	}
 
 	//Default
 	public ChessFactory(){
-		this(5, 0);
+		this(8, 0);
 	}
 	
 	@Override
 	public GameRules gameRules() {
-		return new ChessRules(dim,this.obs);
+		return new ChessRules();
 	}
 	
 	@Override
@@ -65,21 +69,52 @@ public class ChessFactory implements GameFactory /*extends ConnectNFactory*/ {
 
 	@Override
 	public Player createAIPlayer(AIAlgorithm alg) {
-		// TODO Auto-generated method stub
-		return null;
+		if ( alg != null ) {
+			return new AIPlayer(alg);
+		} else {
+			return new DummyAIPlayer(createRandomPlayer(), 1000);
+		}
 	}
 
+	/**
+	 * By default, we have two players
+	 * <p>
+	 * Por defecto, hay dos jugadores
+	 */
 	@Override
 	public List<Piece> createDefaultPieces() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Piece> pieces = new ArrayList<Piece>();
+		/*for(int i = 0; i < 8; i++) {
+			pieces.add(new Pawn("White Pawn #" + (i + 1), true));
+		}
+		for(int i = 0; i < 8; i++) {
+			pieces.add(new Pawn("Black Pawn #" + (i + 1), false));
+		}*/ //TODO Check this
+		
+		pieces.add(ChessPieceID.WHITE_PAWN, new Pawn(true));
+		pieces.add(ChessPieceID.BLACK_PAWN, new Pawn(false));
+		
+		pieces.add(ChessPieceID.WHITE_ROOK, new Rook(true));
+		pieces.add(ChessPieceID.BLACK_ROOK, new Rook(false));
+		
+		pieces.add(ChessPieceID.WHITE_KNIGHT, new Knight(true));
+		pieces.add(ChessPieceID.BLACK_KNIGHT, new Knight(false));
+		
+		pieces.add(ChessPieceID.WHITE_BISHOP, new Bishop(true));
+		pieces.add(ChessPieceID.BLACK_BISHOP, new Bishop(false));
+		
+		pieces.add(ChessPieceID.WHITE_QUEEN, new Queen(true));
+		pieces.add(ChessPieceID.BLACK_QUEEN, new Queen(false));
+		
+		pieces.add(ChessPieceID.WHITE_KING, new King(true));
+		pieces.add(ChessPieceID.BLACK_KING, new King(false));
+		
+		return pieces;
 	}
 
 	@Override
-	public void createSwingView(Observable<GameObserver> game, Controller ctrl, Piece viewPiece, Player randPlayer,
-			Player aiPlayer) {
-		// TODO Auto-generated method stub
-		
+	public void createSwingView(final Observable<GameObserver> g, final Controller c, final Piece viewPiece,
+			Player random, Player ai) {
+		throw new UnsupportedOperationException("There is no swing view");
 	}
-
 }

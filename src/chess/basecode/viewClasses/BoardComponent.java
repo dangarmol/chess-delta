@@ -117,7 +117,7 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 			return;
 		}
 		g.setColor(Color.black);
-		g.fillRect(0, 0, this.getWidth() - this.cols, this.getHeight() - this.rows);
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		_CELL_WIDTH = this.getWidth() / board.getCols();
 		_CELL_HEIGHT = this.getHeight() / board.getRows();
 
