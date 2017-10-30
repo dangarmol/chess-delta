@@ -524,7 +524,6 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		this.board = board;
 		this.pieces = pieces;
 		this.gameDesc = gameDesc;
-		initPiecesColors();
 		initPlayerModes();
 		redrawBoard();
 		
@@ -561,7 +560,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	/**
 	 * Initiates the colors of the pieces
 	 */
-	private void initPiecesColors() 
+	/*private void initPiecesColors() 
 	{
 		int counter = 0;
 		for(Piece p : pieces){
@@ -579,7 +578,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 			}
 			playerColor.addItem(p);
 		}
-	}
+	}*/
 	
 	/**
 	 * Enables the view
