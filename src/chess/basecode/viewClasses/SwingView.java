@@ -38,7 +38,6 @@ import chess.basecode.bgame.model.GameObserver;
 import chess.basecode.bgame.model.Observable;
 import chess.basecode.bgame.model.Piece;
 import chess.basecode.bgame.model.chessPieces.ChessPieceID;
-import chess.extra.jcolor.ColorChooser;
 import chess.basecode.bgame.model.Game.State;
 import chess.basecode.bgame.model.GameError;
 

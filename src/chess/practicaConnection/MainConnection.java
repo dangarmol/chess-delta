@@ -24,10 +24,6 @@ import chess.basecode.bgame.model.Piece;
 import chess.basecode.minmax.MinMax;
 import chess.practicaConnection.connectionFiles.GameClient;
 import chess.practicaConnection.connectionFiles.GameServer;
-import chess.practicaViews.ataxx.AtaxxFactoryExtended;
-import chess.practicaViews.attt.AdvancedTTTFactoryExtended;
-import chess.practicaViews.connectN.ConnectNFactoryExtended;
-import chess.practicaViews.ttt.TicTacToeFactoryExtended;
 
 /**
  * This is the class with the main method for the board games application.
@@ -373,7 +369,7 @@ public class MainConnection {
 			parseHelpOption(line, cmdLineOptions);
 			parseDimensionOption(line);
 			parseObstacleOption(line);
-			parseGameOption(line);
+			//parseGameOption(line);
 			parseViewOption(line);
 			parseMultiViewOption(line);
 			parsePlayersOptions(line);
@@ -694,7 +690,7 @@ public class MainConnection {
 	 *             Si se proporciona un valor invalido (Los valores validos son
 	 *             los de {@link GameInfo}).
 	 */
-	private static void parseGameOption(CommandLine line) throws ParseException {
+	/*private static void parseGameOption(CommandLine line) throws ParseException {
 		String gameVal = line.getOptionValue("g", DEFAULT_GAME.getId());
 		GameInfo selectedGame = null;
 
@@ -738,7 +734,7 @@ public class MainConnection {
 			throw new UnsupportedOperationException("Something went wrong! This program point should be unreachable!");
 		}
 
-	}
+	}*/
 	
 	private static Option constructApplicationModeOption() {
 		Option opt = new Option("am", "application-mode", true, "The application mode [NORMAL, SERVER or CLIENT]");

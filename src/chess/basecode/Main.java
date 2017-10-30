@@ -23,10 +23,6 @@ import chess.basecode.bgame.model.GameError;
 import chess.basecode.bgame.model.Piece;
 import chess.basecode.chess.ChessFactory;
 import chess.basecode.chessExtended.ChessFactoryExtended;
-import chess.practicaViews.ataxx.AtaxxFactoryExtended;
-import chess.practicaViews.attt.AdvancedTTTFactoryExtended;
-import chess.practicaViews.connectN.ConnectNFactoryExtended;
-import chess.practicaViews.ttt.TicTacToeFactoryExtended;
 
 /**
  * This is the class with the main method for the board games application.
