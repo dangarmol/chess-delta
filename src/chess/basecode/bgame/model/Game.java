@@ -184,10 +184,10 @@ public class Game implements Observable<GameObserver> {
 			notifyError(new GameError("Game alreay started"));
 		}
 
-		// check that number of players is OK
-		if (pieces.size() < rules.minPlayers() || pieces.size() > rules.maxPlayers()) {
+		// check that number of players is OK //TODO Remove
+		/*if (pieces.size() < rules.minPlayers() || pieces.size() > rules.maxPlayers()) {
 			notifyError(new GameError("Too many or too few players: " + pieces.size()));
-		}
+		}*/
 
 		// check for duplicate player names
 		Set<Piece> tmpPieces = new HashSet<Piece>();

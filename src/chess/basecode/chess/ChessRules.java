@@ -37,6 +37,7 @@ public class ChessRules implements GameRules/* extends ConnectNRules*/ {
 	public Board createBoard(List<Piece> pieces) { //pieces.get(0) = White, (1) = Black
 		Board board = new FiniteRectBoard(8, 8);		
 		
+		//Sets the positions for every piece on their starting positions.
 		board.setPosition(0, 0, pieces.get(ChessPieceID.BLACK_ROOK));
 		board.setPosition(0, 1, pieces.get(ChessPieceID.BLACK_KNIGHT));
 		board.setPosition(0, 2, pieces.get(ChessPieceID.BLACK_BISHOP));
@@ -56,8 +57,8 @@ public class ChessRules implements GameRules/* extends ConnectNRules*/ {
 		board.setPosition(7, 7, pieces.get(ChessPieceID.WHITE_ROOK));
 		
 		for(int i = 0; i < 8; i++) {
-			board.setPosition(0, i, pieces.get(ChessPieceID.BLACK_PAWN));
-			board.setPosition(7, i, pieces.get(ChessPieceID.WHITE_PAWN));
+			board.setPosition(1, i, pieces.get(ChessPieceID.BLACK_PAWN));
+			board.setPosition(6, i, pieces.get(ChessPieceID.WHITE_PAWN));
 		}
 		
 		return board;
