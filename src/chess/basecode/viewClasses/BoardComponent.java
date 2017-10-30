@@ -17,7 +17,15 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import chess.basecode.bgame.model.Board;
+import chess.basecode.bgame.model.GameError;
 import chess.basecode.bgame.model.Piece;
+import chess.basecode.bgame.model.chessPieces.ChessPiece;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Bishop;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.King;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Knight;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Pawn;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Queen;
+import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Rook;
 
 @SuppressWarnings("serial")
 public abstract class BoardComponent extends JComponent { //Draws the board and pieces
@@ -25,6 +33,22 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 	private int _CELL_HEIGHT = 50;
 	private int _CELL_WIDTH = 50;
 
+	//Path must end in either "/" on Linux/MacOS or "\" on Windows
+	private String piecesPath = "/Users/Daniel/Google Drive/University and School/2017-2018 Hertfordshire/TFG/Chess Repository Workspace/Chess TFG/img/";
+	
+	private BufferedImage whitePawn;
+	private BufferedImage whiteRook;
+	private BufferedImage whiteKnight;
+	private BufferedImage whiteBishop;
+	private BufferedImage whiteQueen;
+	private BufferedImage whiteKing;
+	private BufferedImage blackPawn;
+	private BufferedImage blackRook;
+	private BufferedImage blackKnight;
+	private BufferedImage blackBishop;
+	private BufferedImage blackQueen;
+	private BufferedImage blackKing;
+	
 	private int rows;
 	private int cols;
 	private Board board;
@@ -33,6 +57,7 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 	 * Default constructor
 	 */
 	public BoardComponent() {
+		loadImages();
 		createGUI();
 	}
 	
@@ -44,7 +69,28 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 	public BoardComponent(int rows, int cols) {
 		this.rows = rows;
 		this.cols = cols;
+		loadImages();
 		createGUI();
+	}
+	
+	private void loadImages() {
+		try {
+			this.whitePawn = ImageIO.read(new File(piecesPath + "WhitePawn.png"));
+			this.whiteRook = ImageIO.read(new File(piecesPath + "WhiteRook.png"));
+			this.whiteKnight = ImageIO.read(new File(piecesPath + "WhiteKnight.png"));
+			this.whiteBishop = ImageIO.read(new File(piecesPath + "WhiteBishop.png"));
+			this.whiteQueen = ImageIO.read(new File(piecesPath + "WhiteQueen.png"));
+			this.whiteKing = ImageIO.read(new File(piecesPath + "WhiteKing.png"));
+			
+			this.blackPawn = ImageIO.read(new File(piecesPath + "BlackPawn.png"));
+			this.blackRook = ImageIO.read(new File(piecesPath + "BlackRook.png"));
+			this.blackKnight = ImageIO.read(new File(piecesPath + "BlackKnight.png"));
+			this.blackBishop = ImageIO.read(new File(piecesPath + "BlackBishop.png"));
+			this.blackQueen = ImageIO.read(new File(piecesPath + "BlackQueen.png"));
+			this.blackKing = ImageIO.read(new File(piecesPath + "BlackKing.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -133,34 +179,64 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 	 * @param g
 	 */
 	private void drawCell(int row, int col, Graphics g) {
-		//TODO Implement "instanceof" piece to paint.
 		int x = col * _CELL_WIDTH;
 		int y = row * _CELL_HEIGHT;
+		//x and y are coordinates in the space, not rows/cols!!
 		
 		//Selects the colour for each tile depending on position
 		if(row % 2 == 0 && col % 2 == 1 || row % 2 == 1 && col % 2 == 0) {
 			g.setColor(new Color(204, 102, 0)); //Dark tiles
 		} else {
-			g.setColor(new Color(255, 221, 153)); //Light tiles
+			g.setColor(new Color(255, 217, 179)); //Light tiles
 		}
-		
-		//g.setColor(new Color(0,161,32)); //Background color
-		//g.fillRect(x + 2, y + 2, _CELL_WIDTH - 4, _CELL_HEIGHT - 4);
+
 		g.fillRect(x, y, _CELL_WIDTH, _CELL_HEIGHT);
 
-		//EXPERIMENTAL PART
-		
-		try {
-	         BufferedImage img = ImageIO.read(new File("/Users/Daniel/Downloads/DarkKing.png"));
-	         g.drawImage(img, x, y, _CELL_WIDTH, _CELL_HEIGHT, this); //Draws a piece
-	      } catch (IOException e) {
-	         e.printStackTrace();
-	      }
-		
-		//EXPERIMENTAL PART END
-		
+		//Checks if there's a piece on the selected position. If there is, draws it depending on the type and colour.
 		if(board.getPosition(row, col) != null) {
-			if(this.getPieceColor(getPiece(row, col, board)) != null) { //If tile isn't empty
+			if(this.getPiece(row, col, board) instanceof Pawn) {
+				if (((ChessPiece) this.getPiece(row, col, board)).getWhite()) {
+					g.drawImage(this.whitePawn, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				} else {
+					g.drawImage(this.blackPawn, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				}
+			} else if (this.getPiece(row, col, board) instanceof Rook) {
+				if (((ChessPiece) this.getPiece(row, col, board)).getWhite()) {
+					g.drawImage(this.whiteRook, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				} else {
+					g.drawImage(this.blackRook, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				}
+			} else if (this.getPiece(row, col, board) instanceof Knight) {
+				if (((ChessPiece) this.getPiece(row, col, board)).getWhite()) {
+					g.drawImage(this.whiteKnight, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				} else {
+					g.drawImage(this.blackKnight, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				}
+			} else if (this.getPiece(row, col, board) instanceof Bishop) {
+				if (((ChessPiece) this.getPiece(row, col, board)).getWhite()) {
+					g.drawImage(this.whiteBishop, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				} else {
+					g.drawImage(this.blackBishop, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				}
+			} else if (this.getPiece(row, col, board) instanceof Queen) {
+				if (((ChessPiece) this.getPiece(row, col, board)).getWhite()) {
+					g.drawImage(this.whiteQueen, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				} else {
+					g.drawImage(this.blackQueen, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				}
+			} else if (this.getPiece(row, col, board) instanceof King) {
+				if (((ChessPiece) this.getPiece(row, col, board)).getWhite()) {
+					g.drawImage(this.whiteKing, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				} else {
+					g.drawImage(this.blackKing, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
+				}
+			} else {
+				throw new GameError("Piece type not recognised!");
+			}
+		}
+		
+		/*if(board.getPosition(row, col) != null) {
+			if(this.getPieceColor(this.getPiece(row, col, board)) != null) { //If tile isn't empty
 				g.setColor(getPieceColor(getPiece(row, col, board))); //Fills the oval with the piece color, the color is obtained from the hashmap
 				g.fillOval(x + 4, y + 4, _CELL_WIDTH - 8, _CELL_HEIGHT - 8);
 				
@@ -178,7 +254,7 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 					g.drawOval(x + 4, y + 4, _CELL_WIDTH - 8, _CELL_HEIGHT - 8);
 				}
 			}
-		}
+		}*/
 	}
 	
 	/**

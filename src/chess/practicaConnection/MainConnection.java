@@ -43,7 +43,7 @@ import chess.practicaViews.ttt.TicTacToeFactoryExtended;
  * sobre esta libreria en la pagina de
  * <a href="https://commons.apache.org/proper/commons-cli"/>commons-cli</a>
  */
-public class Main {
+public class MainConnection {
 
 	/**
 	 * The possible views.
@@ -863,7 +863,7 @@ public class Main {
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
 		if (line.hasOption("h")) {
 			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp(Main.class.getCanonicalName(), cmdLineOptions, true);
+			formatter.printHelp(MainConnection.class.getCanonicalName(), cmdLineOptions, true);
 			System.exit(0);
 		}
 	}
@@ -1024,7 +1024,7 @@ public class Main {
 	}
 
 	public static void setMultiviews(boolean multiviews) {
-		Main.multiviews = multiviews;
+		MainConnection.multiviews = multiviews;
 	}
 	
 	

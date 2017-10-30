@@ -66,6 +66,8 @@ public class ChessRules implements GameRules/* extends ConnectNRules*/ {
 	@Override
 	public Pair<State, Piece> updateState(Board board, List<Piece> pieces, Piece lastPlayer) {
 		
+		//TODO Change Piece to boolean
+		
 		Pair<State, Piece> gameState;
 		boolean noValidMovesAnyPiece = false;
 		int playingPiecesCount = 0; //Counter for the active players (still have pieces on board)

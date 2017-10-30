@@ -30,6 +30,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import chess.basecode.Main;
 import chess.basecode.bgame.control.Controller;
 import chess.basecode.bgame.control.Player;
 import chess.basecode.bgame.model.Board;
@@ -37,7 +38,6 @@ import chess.basecode.bgame.model.GameObserver;
 import chess.basecode.bgame.model.Observable;
 import chess.basecode.bgame.model.Piece;
 import chess.extra.jcolor.ColorChooser;
-import chess.practicaConnection.Main;
 import chess.basecode.bgame.model.Game.State;
 import chess.basecode.bgame.model.GameError;
 
@@ -712,7 +712,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		this.turn = turn;
 		redrawBoard();
 		addMsg("Turn for player '" + turn + "'");
-		if(Main.isMultiviews() || Main.isClientMode())
+		if(Main.isMultiviews()/* || Main.isClientMode()*/) //TODO Only for online mode
 		{
 			this.setTitle("Board games: " + gameDesc + " View from: " + localPiece + " (Turn for: " + turn.getId() + ")");
 			if(turn.equals(localPiece) && playerModes.get(turn) == PlayerMode.MANUAL)

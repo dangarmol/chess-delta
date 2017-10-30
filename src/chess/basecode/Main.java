@@ -21,6 +21,7 @@ import chess.basecode.bgame.model.AIAlgorithm;
 import chess.basecode.bgame.model.Game;
 import chess.basecode.bgame.model.GameError;
 import chess.basecode.bgame.model.Piece;
+import chess.basecode.chess.ChessFactory;
 import chess.basecode.chessExtended.ChessFactoryExtended;
 import chess.practicaViews.ataxx.AtaxxFactoryExtended;
 import chess.practicaViews.attt.AdvancedTTTFactoryExtended;
@@ -724,6 +725,7 @@ public class Main {
     	gameFactory = new ChessFactoryExtended();
         Game g = new Game(gameFactory.gameRules());
         Controller c = null;
+        pieces = new ChessFactory().createDefaultPieces(); //Check this
         
         /*switch (view) {
             case CONSOLE:

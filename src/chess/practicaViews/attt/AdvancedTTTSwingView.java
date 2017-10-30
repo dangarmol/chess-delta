@@ -6,7 +6,7 @@ import chess.basecode.bgame.model.GameObserver;
 import chess.basecode.bgame.model.Observable;
 import chess.basecode.bgame.model.Piece;
 import chess.basecode.viewClasses.FiniteRectBoardSwingView;
-import chess.practicaConnection.Main;
+import chess.practicaConnection.MainConnection;
 
 @SuppressWarnings("serial")
 public class AdvancedTTTSwingView extends FiniteRectBoardSwingView {
@@ -105,7 +105,7 @@ public class AdvancedTTTSwingView extends FiniteRectBoardSwingView {
 	protected void checkSwitcher()
 	{
 		int max;
-		if(Main.isMultiviews())
+		if(MainConnection.isMultiviews())
 		{
 			max = 3;
 		}
