@@ -122,14 +122,6 @@ public class AdvancedTTTSwingView extends FiniteRectBoardSwingView {
 	}
 	
 	/**
-	 * Resets the counter when the game is reset
-	 */
-	protected void resetCounter()
-	{
-		this.counter = 0;
-	}
-	
-	/**
 	 * 
 	 * @return Returns the state of the variable startSwitching
 	 */

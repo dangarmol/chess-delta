@@ -85,12 +85,4 @@ public class ChessSwingView extends FiniteRectBoardSwingView {
 	protected void deActivateBoard() {
 		activeBoard = false;
 	}
-
-	/**
-	 * Not used in this game
-	 */
-	@Override
-	protected void resetCounter() {
-		//Not used
-	}
 }
