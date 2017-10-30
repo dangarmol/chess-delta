@@ -37,6 +37,7 @@ import chess.basecode.bgame.model.Board;
 import chess.basecode.bgame.model.GameObserver;
 import chess.basecode.bgame.model.Observable;
 import chess.basecode.bgame.model.Piece;
+import chess.basecode.bgame.model.chessPieces.ChessPieceID;
 import chess.extra.jcolor.ColorChooser;
 import chess.basecode.bgame.model.Game.State;
 import chess.basecode.bgame.model.GameError;
@@ -203,6 +204,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	final protected Piece getTurn() {
 		return turn;
 	}
+	
 	/**
 	 * Getter
 	 * @return
@@ -210,6 +212,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	final protected Board getBoard() {
 		return board;
 	}
+	
 	/**
 	 * Getter
 	 * @return
@@ -217,6 +220,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	final public List<Piece> getPieces() {
 		return pieces;
 	}
+	
 	/**
 	 * Getter
 	 * @param p
@@ -225,6 +229,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	final protected Color getPieceColorFromSwing(Piece p) {
 		return pieceColors.get(p);
 	}
+	
 	/**
 	 * Setter
 	 * @param p
@@ -234,6 +239,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	final protected Color setPieceColor(Piece p, Color c) {
 		return pieceColors.put(p,c);
 	}
+	
 	/**
 	 * Setter for the board area
 	 * @param c
@@ -241,6 +247,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	final protected void setBoardArea(JComponent c) {
 		boardPanel.add(c, BorderLayout.CENTER);
 	}
+	
 	/**
 	 * Adds a message to the sidebar
 	 * @param msg
@@ -249,6 +256,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	{
 		statusArea.append(msg + "\n");
 	}
+	
 	/**
 	 * Makes a manual move
 	 * @param manualPlayer
@@ -260,6 +268,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 			System.out.println(e.getMessage());
 		}
 	}
+	
 	/**
 	 * Make an auto move
 	 */
@@ -283,7 +292,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	{
 		addStatusMessagesTextArea();
 		addPlayerInfoTable();
-		addPlayersColors();
+		//addPlayersColors();
 		addPlayersModes();
 		addButtons();
 	}
@@ -318,7 +327,6 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 			public void actionPerformed(ActionEvent e) {
 				try{
 					ctrl.restart(); //Calls the controller to restart the game
-					resetCounter();
 				}
 				catch(GameError _e){}
 			}
@@ -327,11 +335,6 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		
 		addToSidePanel(bottomPanel); //Adds bottom panel to the side panel
 	}
-
-	/**
-	 * Needed for ATTT on restart
-	 */
-	protected abstract void resetCounter();
 
 	/**
 	 * Adds the random and intelligent button
@@ -418,7 +421,8 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	/**
 	 * Adds the panel for the players to choose their colors
 	 */
-	private void addPlayersColors()
+	//TODO Delete this feature!!
+	/*private void addPlayersColors()
 	{
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel.setBorder(BorderFactory.createTitledBorder("Piece Colors"));
@@ -440,7 +444,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		panel.add(chooseColor);
 		
 		addToSidePanel(panel);
-	}
+	}*/
 
 	/**
 	 * Adds the player information table to the side
@@ -539,7 +543,8 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 			{
 				for(Piece p: pieces)
 				{
-					if(playerModes.get(p) == null)
+					
+					if((p.hashCode() == ChessPieceID.BLACK_KING || p.hashCode() == ChessPieceID.WHITE_KING) && playerModes.get(p) == null)
 					{
 						playerModes.put(p, PlayerMode.MANUAL);
 						playerModePieces.addItem(p);
@@ -556,29 +561,6 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 			}
 		}
 	}
-
-	/**
-	 * Initiates the colors of the pieces
-	 */
-	/*private void initPiecesColors() 
-	{
-		int counter = 0;
-		for(Piece p : pieces){
-			if(pieceColors.get(p) == null)
-			{
-				switch(counter)
-				{
-					case 0: pieceColors.put(p, Color.RED); break;
-					case 1: pieceColors.put(p, Color.BLACK); break;
-					case 2: pieceColors.put(p, Color.WHITE); break;
-					case 3: pieceColors.put(p, Color.BLUE); break;
-					default: break;
-				}
-				counter++;
-			}
-			playerColor.addItem(p);
-		}
-	}*/
 	
 	/**
 	 * Enables the view

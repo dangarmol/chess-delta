@@ -58,12 +58,4 @@ public class TicTacToeSwingView extends FiniteRectBoardSwingView {
 	{
 		activeBoard = false;
 	}
-
-	/**
-	 * Not used here
-	 */
-	@Override
-	protected void resetCounter() {
-		//Not used
-	}
 }

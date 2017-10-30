@@ -56,12 +56,4 @@ public class ConnectNSwingView extends chess.basecode.viewClasses.FiniteRectBoar
 			addMsg("Piece added on (" + row + "," + col + ")");
 		}
 	}
-
-	/**
-	 * Not used here
-	 */
-	@Override
-	protected void resetCounter() {
-		//Not used
-	}
 }
