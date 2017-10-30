@@ -25,8 +25,6 @@ import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Pawn;
 import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Queen;
 import chess.basecode.bgame.model.chessPieces.chessPiecesImp.Rook;
 import chess.basecode.bgame.views.GenericConsoleView;
-import chess.basecode.connectn.ConnectNFactory;
-import chess.basecode.connectn.ConnectNRandomPlayer;
 
 public class ChessFactory implements GameFactory /*extends ConnectNFactory*/ {
 	
@@ -84,12 +82,6 @@ public class ChessFactory implements GameFactory /*extends ConnectNFactory*/ {
 	@Override
 	public List<Piece> createDefaultPieces() {
 		List<Piece> pieces = new ArrayList<Piece>();
-		/*for(int i = 0; i < 8; i++) {
-			pieces.add(new Pawn("White Pawn #" + (i + 1), true));
-		}
-		for(int i = 0; i < 8; i++) {
-			pieces.add(new Pawn("Black Pawn #" + (i + 1), false));
-		}*/ //TODO Check this
 		
 		pieces.add(ChessPieceID.WHITE_PAWN, new Pawn(true));
 		pieces.add(ChessPieceID.BLACK_PAWN, new Pawn(false));

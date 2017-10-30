@@ -13,17 +13,12 @@ import chess.basecode.bgame.model.Pair;
 import chess.basecode.bgame.model.Piece;
 import chess.basecode.bgame.model.chessPieces.ChessPieceID;
 import chess.basecode.bgame.model.Game.State;
-import chess.basecode.connectn.ConnectNRules;
 
-public class ChessRules implements GameRules/* extends ConnectNRules*/ {
-	
-	
-	//private static int stuckCounter = 0; //Used in an extreme case (game could enter an infinite loop otherwise)
-	//This part can be removed, it is just a remote case check.
+public class ChessRules implements GameRules { //Should it be abstract?
 	
 	// This object is returned by gameOver to indicate that the game is not
 	// over. Just to avoid creating it multiple times, etc.
-	//
+	
 	protected final Pair<State, Piece> gameInPlayResult = new Pair<State, Piece>(State.InPlay, null);
 	
 	public ChessRules() {}
@@ -219,20 +214,20 @@ public class ChessRules implements GameRules/* extends ConnectNRules*/ {
 	}
 
 	@Override
+	public double evaluate(Board board, List<Piece> pieces, Piece turn, Piece p) {
+		// TODO Check ConnectNRules
+		return 0;
+	}
+
+	@Override
 	public int minPlayers() {
-		// TODO Remove
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int maxPlayers() {
-		// TODO Remove
-		return 0;
-	}
-
-	@Override
-	public double evaluate(Board board, List<Piece> pieces, Piece turn, Piece p) {
-		// TODO Check ConnectNRules
+		// TODO Auto-generated method stub
 		return 0;
 	}
 }
