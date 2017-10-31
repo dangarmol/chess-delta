@@ -69,14 +69,27 @@ public class ChessFactory implements GameFactory /*extends ConnectNFactory*/ {
 	}
 
 	/**
-	 * By default, we have two players
-	 * <p>
-	 * Por defecto, hay dos jugadores
+	 * By default, we have two players. Each one of them is represented
+	 * by his colour in this game. One is black and one is white.
 	 */
 	@Override
 	public List<Piece> createDefaultPieces() {
 		List<Piece> pieces = new ArrayList<Piece>();
 		
+		pieces.add(new Piece("White"));
+		pieces.add(new Piece("Black"));
+		
+		return pieces;
+	}
+	
+	/**
+	 * Creates the rest of piece types.
+	 */
+	@Override
+	public List<Piece> createPieceTypes() {
+		List<Piece> pieces = new ArrayList<Piece>();
+		
+		//TODO This should not be here.
 		pieces.add(ChessPieceID.WHITE_PAWN, new Pawn(true));
 		pieces.add(ChessPieceID.BLACK_PAWN, new Pawn(false));
 		

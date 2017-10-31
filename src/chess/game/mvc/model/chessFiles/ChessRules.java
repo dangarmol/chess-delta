@@ -29,31 +29,31 @@ public class ChessRules implements GameRules { //Should it be abstract?
 	}
 	
 	@Override
-	public Board createBoard(List<Piece> pieces) { //pieces.get(0) = White, (1) = Black
+	public Board createBoard(List<Piece> pieces, List<Piece> pieceTypes) {
 		Board board = new FiniteRectBoard(8, 8);		
 		
 		//Sets the positions for every piece on their starting positions.
-		board.setPosition(0, 0, pieces.get(ChessPieceID.BLACK_ROOK));
-		board.setPosition(0, 1, pieces.get(ChessPieceID.BLACK_KNIGHT));
-		board.setPosition(0, 2, pieces.get(ChessPieceID.BLACK_BISHOP));
-		board.setPosition(0, 3, pieces.get(ChessPieceID.BLACK_QUEEN));
-		board.setPosition(0, 4, pieces.get(ChessPieceID.BLACK_KING));
-		board.setPosition(0, 5, pieces.get(ChessPieceID.BLACK_BISHOP));
-		board.setPosition(0, 6, pieces.get(ChessPieceID.BLACK_KNIGHT));
-		board.setPosition(0, 7, pieces.get(ChessPieceID.BLACK_ROOK));
+		board.setPosition(0, 0, pieceTypes.get(ChessPieceID.BLACK_ROOK));
+		board.setPosition(0, 1, pieceTypes.get(ChessPieceID.BLACK_KNIGHT));
+		board.setPosition(0, 2, pieceTypes.get(ChessPieceID.BLACK_BISHOP));
+		board.setPosition(0, 3, pieceTypes.get(ChessPieceID.BLACK_QUEEN));
+		board.setPosition(0, 4, pieceTypes.get(ChessPieceID.BLACK_KING));
+		board.setPosition(0, 5, pieceTypes.get(ChessPieceID.BLACK_BISHOP));
+		board.setPosition(0, 6, pieceTypes.get(ChessPieceID.BLACK_KNIGHT));
+		board.setPosition(0, 7, pieceTypes.get(ChessPieceID.BLACK_ROOK));
 		
-		board.setPosition(7, 0, pieces.get(ChessPieceID.WHITE_ROOK));
-		board.setPosition(7, 1, pieces.get(ChessPieceID.WHITE_KNIGHT));
-		board.setPosition(7, 2, pieces.get(ChessPieceID.WHITE_BISHOP));
-		board.setPosition(7, 3, pieces.get(ChessPieceID.WHITE_QUEEN));
-		board.setPosition(7, 4, pieces.get(ChessPieceID.WHITE_KING));
-		board.setPosition(7, 5, pieces.get(ChessPieceID.WHITE_BISHOP));
-		board.setPosition(7, 6, pieces.get(ChessPieceID.WHITE_KNIGHT));
-		board.setPosition(7, 7, pieces.get(ChessPieceID.WHITE_ROOK));
+		board.setPosition(7, 0, pieceTypes.get(ChessPieceID.WHITE_ROOK));
+		board.setPosition(7, 1, pieceTypes.get(ChessPieceID.WHITE_KNIGHT));
+		board.setPosition(7, 2, pieceTypes.get(ChessPieceID.WHITE_BISHOP));
+		board.setPosition(7, 3, pieceTypes.get(ChessPieceID.WHITE_QUEEN));
+		board.setPosition(7, 4, pieceTypes.get(ChessPieceID.WHITE_KING));
+		board.setPosition(7, 5, pieceTypes.get(ChessPieceID.WHITE_BISHOP));
+		board.setPosition(7, 6, pieceTypes.get(ChessPieceID.WHITE_KNIGHT));
+		board.setPosition(7, 7, pieceTypes.get(ChessPieceID.WHITE_ROOK));
 		
 		for(int i = 0; i < 8; i++) {
-			board.setPosition(1, i, pieces.get(ChessPieceID.BLACK_PAWN));
-			board.setPosition(6, i, pieces.get(ChessPieceID.WHITE_PAWN));
+			board.setPosition(1, i, pieceTypes.get(ChessPieceID.BLACK_PAWN));
+			board.setPosition(6, i, pieceTypes.get(ChessPieceID.WHITE_PAWN));
 		}
 		
 		return board;

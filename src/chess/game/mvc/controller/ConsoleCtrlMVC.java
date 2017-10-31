@@ -22,15 +22,15 @@ import chess.game.mvc.model.genericGameFiles.Game.State;
  */
 public class ConsoleCtrlMVC extends ConsoleCtrl {
 
-	public ConsoleCtrlMVC(Game g, List<Piece> pieces, List<Player> players, Scanner in) {
-		super(g, pieces, players, in);
+	public ConsoleCtrlMVC(Game g, List<Piece> pieces, List<Piece> pieceTypes, List<Player> players, Scanner in) {
+		super(g, pieces, pieceTypes, players, in);
 	}
 
 	@Override
 	public void start() {
 
 		// start the game
-		game.start(pieces);
+		game.start(this.pieces, this.pieceTypes);
 
 		while (game.getState() == State.InPlay) {
 

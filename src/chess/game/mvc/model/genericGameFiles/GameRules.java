@@ -70,7 +70,7 @@ public interface GameRules {
 	 *         <p>
 	 *         Tablero inicial del juego.
 	 */
-	public Board createBoard(List<Piece> pieces);
+	public Board createBoard(List<Piece> pieces, List<Piece> pieceTypes);
 
 	/**
 	 * 

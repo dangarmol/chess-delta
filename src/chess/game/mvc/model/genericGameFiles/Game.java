@@ -66,6 +66,12 @@ public class Game implements Observable<GameObserver> {
 	 * Version de solo lectura de {@link #pieces}.
 	 */
 	private List<Piece> roPieces;
+	
+	/**
+	 * The type of pieces the game may have. It is possible that this is not used
+	 * in games where every piece is the same as every other.
+	 */
+	private List<Piece> pieceTypes;
 
 	/**
 	 * The rules of the game.
@@ -176,7 +182,7 @@ public class Game implements Observable<GameObserver> {
 	 *            <p>
 	 *            lista de fichas.
 	 */
-	public void start(List<Piece> pieces) {
+	public void start(List<Piece> pieces, List<Piece> pieceTypes) {
 
 		// We cannot start a game that is not in Starting state. In this case
 		// you should use restart() instead.
@@ -200,11 +206,13 @@ public class Game implements Observable<GameObserver> {
 		}
 		if (!errors) {
 			// create the initial board
-			this.board = rules.createBoard(pieces);
+			this.board = rules.createBoard(pieces, pieceTypes);
 			// keep a read-only copy of the same
 			this.roBoard = new ReadOnlyBoard(board);
 			// keep a copy of the piece-list
 			this.pieces = new ArrayList<Piece>(pieces);
+			// keep a copy of the piece types
+			this.pieceTypes = pieceTypes;
 			// and a read-only copy of the same
 			this.roPieces = Collections.unmodifiableList(this.pieces);
 			// set the initial player
@@ -229,7 +237,7 @@ public class Game implements Observable<GameObserver> {
 		}
 
 		state = State.Starting; // mark it as starting
-		start(pieces); // and use start again to restart teh game
+		start(this.pieces, this.pieceTypes); // and use start again to restart teh game
 	}
 
 	/**

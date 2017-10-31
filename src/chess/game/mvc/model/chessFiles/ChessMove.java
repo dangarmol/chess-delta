@@ -2,6 +2,7 @@ package chess.game.mvc.model.chessFiles;
 
 import java.util.List;
 
+import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.King;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Knight;
@@ -37,17 +38,19 @@ public class ChessMove extends GameMove {
 	
 	//Checks if the move can be made and, if so, moves the piece to the specified position.
 	public void execute(Board board, List<Piece> pieces) {
-		if(this.getPiece() instanceof Pawn) {
+		//Changed from this.getPiece() instanceof Rook
+		//this.getPiece() now returns the player that made the move.
+		if(board.getPosition(this.row, this.col) instanceof Pawn) {
 			executePawnMove(board, pieces);
-		} else if (this.getPiece() instanceof Rook) {
+		} else if (board.getPosition(this.row, this.col) instanceof Rook) {
 			executeRookMove(board, pieces);
-		} else if (this.getPiece() instanceof Knight) {
+		} else if (board.getPosition(this.row, this.col) instanceof Knight) {
 			executeKnightMove(board, pieces);
-		} else if (this.getPiece() instanceof Bishop) {
+		} else if (board.getPosition(this.row, this.col) instanceof Bishop) {
 			executeBishopMove(board, pieces);
-		} else if (this.getPiece() instanceof Queen) {
+		} else if (board.getPosition(this.row, this.col) instanceof Queen) {
 			executeQueenMove(board, pieces);
-		} else if (this.getPiece() instanceof King) {
+		} else if (board.getPosition(this.row, this.col) instanceof King) {
 			executeKingMove(board, pieces);
 		} else {
 			throw new GameError("Piece type not recognised!");
@@ -93,9 +96,14 @@ public class ChessMove extends GameMove {
 		}*/
 	}
 	
+	public boolean checkTurn(Board board) {
+		return (getPiece().getId() == "White" && ((ChessPiece) board.getPosition(row, col)).getWhite()) ||
+				(getPiece().getId() == "Black" && !((ChessPiece) board.getPosition(row, col)).getWhite());
+	}
+	
 	public void executePawnMove(Board board, List<Piece> pieces) {
 		//Check that the player moves his own piece
-		if(!getPiece().equals(board.getPosition(row, col))) {
+		if(checkTurn(board)) {
 			
 		}
 		//Check that player makes a valid move

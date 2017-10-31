@@ -244,6 +244,14 @@ public class MainConnection {
 	 */
 	private static List<Piece> pieces;
 
+    /**
+     * List of piece types, which is different to the list of "pieces".
+     * "Piece" is only used for the turn and number of players (each one
+     * represents a player), not for the actual type of the piece
+     * unless every piece is treated equally in the game.
+     */
+    private static List<Piece> pieceTypes;
+    
 	/**
 	 * A list of player modes. The i-th mode corresponds to the i-th piece in
 	 * the list {@link #pieces}. They correspond to what is provided in the -p
@@ -863,53 +871,6 @@ public class MainConnection {
 			System.exit(0);
 		}
 	}
-	
-
-
-	/**
-	 * Starts a game using a {@link ConsoleCtrl} which is not based on MVC. Is
-	 * used only for teaching the difference from the MVC one.
-	 * 
-	 * <p>
-	 * MÃ©todo para iniciar un juego con el controlador {@link ConsoleCtrl}, no
-	 * basado en MVC. Solo se utiliza para mostrar las diferencias con el
-	 * controlador MVC.
-	 * 
-	 */
-	public static void startGameNoMVC() {
-		Game g = new Game(gameFactory.gameRules());
-		Controller c = null;
-
-		switch (view) {
-		case CONSOLE:
-			ArrayList<Player> players = new ArrayList<Player>();
-			for (int i = 0; i < pieces.size(); i++) {
-				switch (playerModes.get(i)) {
-				case AI:
-					players.add(gameFactory.createAIPlayer(aiPlayerAlg));
-					break;
-				case MANUAL:
-					players.add(gameFactory.createConsolePlayer());
-					break;
-				case RANDOM:
-					players.add(gameFactory.createRandomPlayer());
-					break;
-				default:
-					throw new UnsupportedOperationException(
-							"Something went wrong! This program point should be unreachable!");
-				}
-			}
-			c = new ConsoleCtrl(g, pieces, players, new Scanner(System.in));
-			break;
-		case WINDOW:
-			throw new UnsupportedOperationException(
-					"Swing Views are not supported in startGameNoMVC!! Please use startGameMVC instead.");
-		default:
-			throw new UnsupportedOperationException("Something went wrong! This program point should be unreachable!");
-		}
-
-		c.start();
-	}
 
 	/**
 	 * Starts a game. Should be called after {@link #parseArgs(String[])} so
@@ -926,7 +887,7 @@ public class MainConnection {
 
 		switch (view) {
 		case WINDOW:
-			c = new Controller(g, pieces);
+			c = new Controller(g, pieces, pieceTypes);
 			if(!isMultiviews())
 			{
 				gameFactory.createSwingView(g, c, null, gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));
@@ -973,7 +934,7 @@ public class MainConnection {
 	}
 	
 	private static void startServer() {
-		GameServer c = new GameServer(gameFactory, pieces, serverPort);
+		GameServer c = new GameServer(gameFactory, pieces, pieceTypes, serverPort);
 		c.start();
 	}
 	

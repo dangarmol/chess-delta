@@ -19,6 +19,7 @@ import chess.game.mvc.controller.GameFactory;
 import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.chessFiles.ChessFactory;
 import chess.game.mvc.model.chessFiles.ChessFactoryExtended;
+import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
 import chess.game.mvc.model.genericGameFiles.Game;
 import chess.game.mvc.model.genericGameFiles.GameError;
@@ -101,6 +102,14 @@ public class Main {
     private static List<Piece> pieces;
     
     /**
+     * List of piece types, which is different to the list of "pieces".
+     * "Piece" is only used for the turn and number of players (each one
+     * represents a player), not for the actual type of the piece
+     * unless every piece is treated equally in the game.
+     */
+    private static List<Piece> pieceTypes;
+    
+    /**
      * A list of players. The i-th player corresponds to the i-th piece in the
      * list {@link #pieces}. They correspond to what is provided in the -p
      * option (or using the default value {@link #DEFAULT_PLAYERMODE}).
@@ -157,13 +166,14 @@ public class Main {
         Game g = new Game(gameFactory.gameRules());
         Controller c = null;
         pieces = gameFactory.createDefaultPieces();
+        pieceTypes = gameFactory.createPieceTypes();
         
         playerModes = new ArrayList<PlayerMode>();
         for (int i = 0; i < pieces.size(); i++) {
             playerModes.add(DEFAULT_PLAYERMODE);
         }
 
-        c = new Controller(g, pieces);
+        c = new Controller(g, pieces, pieceTypes);
         
         if(!isMultiviews()) {
             gameFactory.createSwingView(g, c, null, gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));

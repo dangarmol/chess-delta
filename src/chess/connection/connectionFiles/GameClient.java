@@ -29,7 +29,7 @@ public class GameClient extends Controller implements Observable<GameObserver> {
 	private boolean gameOver;
 	
 	public GameClient(String host, int port) throws Exception {
-		super(null, null);
+		super(null, null, null);
 		this.host = host;
 		this.port = port;
 		this.observers = new ArrayList<GameObserver>();

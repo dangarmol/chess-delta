@@ -82,7 +82,7 @@ public class ConsolePlayer extends Player {
 			}
 		}
 
-		throw new GameError("Uknown move: " + cmd);
+		throw new GameError("Unknown move: " + cmd);
 	}
 
 	/**

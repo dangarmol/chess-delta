@@ -491,16 +491,16 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	 * @param turn
 	 */
 	private void handleGameStart(Board board, String gameDesc, List<Piece> pieces, Piece turn) {
-		this.setTitle("Board games: " + gameDesc);
+		this.setTitle(gameDesc);
 		addMsg("Game started");
-		this.turn = turn;
+		this.turn = pieces.get(0); //White always starts
 		this.board = board;
 		this.pieces = pieces;
 		this.gameDesc = gameDesc;
 		initPlayerModes();
 		redrawBoard();
 		
-		handleOnChangeTurn(board, turn);
+		handleOnChangeTurn(board, pieces.get(0));
 	}
 
 	/**
@@ -513,7 +513,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 				for(Piece p: pieces)
 				{
 					
-					if((p.hashCode() == ChessPieceID.BLACK_KING || p.hashCode() == ChessPieceID.WHITE_KING) && playerModes.get(p) == null)
+					if(playerModes.get(p) == null)
 					{
 						playerModes.put(p, PlayerMode.MANUAL);
 						playerModePieces.addItem(p);
@@ -660,9 +660,9 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		this.turn = turn;
 		redrawBoard();
 		addMsg("Turn for player '" + turn + "'");
-		if(Main.isMultiviews()/* || Main.isClientMode()*/) //TODO Only for online mode
+		if(false/*Main.isMultiviews() || Main.isClientMode()*/) //TODO Only for online mode
 		{
-			this.setTitle("Board games: " + gameDesc + " View from: " + localPiece + " (Turn for: " + turn.getId() + ")");
+			this.setTitle(gameDesc + ". View from: " + localPiece + " (Turn for: " + turn.getId() + ")");
 			if(turn.equals(localPiece) && playerModes.get(turn) == PlayerMode.MANUAL)
 			{
 				enableView();
@@ -674,7 +674,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		}
 		else
 		{
-			this.setTitle("Board games: " + gameDesc + " (Turn for: " + turn + ")");
+			this.setTitle(gameDesc + " (Turn for: " + turn + ")");
 			enableView();
 		}
 		

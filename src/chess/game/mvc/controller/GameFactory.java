@@ -85,14 +85,15 @@ public interface GameFactory extends java.io.Serializable {
 
 	/**
 	 * Creates the default list of pieces (to be used when the user does not
-	 * provide a list of players)
-	 * 
-	 * <p>
-	 * Crea la lista de fichas por defecto (cuando el usuario no proporciona una
-	 * lista de jugadores).
-	 * 
+	 * provide a list of players). Each piece represents a player in most games.
 	 */
 	List<Piece> createDefaultPieces();
+	
+	/**
+	 * Creates the list of special pieces for the game, only in case they are needed.
+	 * These pieces may not represent a player.
+	 */
+	List<Piece> createPieceTypes();
 
 	/**
 	 * Creates a Swing view and connects it to game reference by {@code game}

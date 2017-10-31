@@ -67,8 +67,8 @@ public class ConsoleCtrl extends Controller {
 	 *            A scanner from which we ask for a string representing a
 	 *            command (e.g., play, quit, etc.)
 	 */
-	public ConsoleCtrl(Game game, List<Piece> pieces, List<Player> players, Scanner in) {
-		super(game, pieces);
+	public ConsoleCtrl(Game game, List<Piece> pieces, List<Piece> pieceTypes, List<Player> players, Scanner in) {
+		super(game, pieces, pieceTypes);
 
 		// generate a HashMap that associates pieces with players.
 		this.players = new HashMap<Piece, Player>();
@@ -137,7 +137,7 @@ public class ConsoleCtrl extends Controller {
 		}
 
 		// start the game
-		game.start(pieces);
+		game.start(this.pieces, this.pieceTypes);
 
 		// print the starting message
 		System.out.println("Starting '" + game.gameDesc() + "'");

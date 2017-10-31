@@ -34,6 +34,11 @@ public class Controller {
 	 * Lista de fichas que se utilizarán en {@link #game}.
 	 */
 	protected List<Piece> pieces;
+	
+	/**
+	 * Lista de tipos de fichas (si hay más de una) que se utilizarán en {@link #game}.
+	 */
+	protected List<Piece> pieceTypes;
 
 	/**
 	 * Constructs a controller. Should be called by subclasses to set the values
@@ -55,13 +60,20 @@ public class Controller {
 	 *            <p>
 	 *            Lista de fichas que se utilizara cuando comience el juego
 	 *            {@link #game} (o {@code null}).
+	 * @param pieceTypes
+	 * 			  The piece types
 	 */
-	public Controller(Game game, List<Piece> pieces) {
+	public Controller(Game game, List<Piece> pieces, List<Piece> pieceTypes) {
 		this.game = game;
 		if (pieces != null)
 			this.pieces = new ArrayList<Piece>(pieces);
 		else
 			this.pieces = new ArrayList<Piece>();
+		
+		if (pieceTypes != null)
+			this.pieceTypes = new ArrayList<Piece>(pieceTypes);
+		else
+			this.pieceTypes = new ArrayList<Piece>();
 	};
 
 	/**
@@ -115,7 +127,7 @@ public class Controller {
 	 */
 	public void start() {
 		if (game != null) {
-			game.start(pieces);
+			game.start(this.pieces, this.pieceTypes);
 		}
 	}
 

@@ -234,27 +234,6 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 				throw new GameError("Piece type not recognised!");
 			}
 		}
-		
-		/*if(board.getPosition(row, col) != null) {
-			if(this.getPieceColor(this.getPiece(row, col, board)) != null) { //If tile isn't empty
-				g.setColor(getPieceColor(getPiece(row, col, board))); //Fills the oval with the piece color, the color is obtained from the hashmap
-				g.fillOval(x + 4, y + 4, _CELL_WIDTH - 8, _CELL_HEIGHT - 8);
-				
-				if(getPieceColor(getPiece(row, col, board)) == Color.black) {
-					g.setColor(Color.white);
-					g.drawOval(x + 8, y + 8, _CELL_WIDTH - 16, _CELL_HEIGHT - 16);
-					
-					g.setColor(Color.white); //Oval or shape color
-					g.drawOval(x + 4, y + 4, _CELL_WIDTH - 8, _CELL_HEIGHT - 8);
-				} else {
-					g.setColor(Color.black);
-					g.drawOval(x + 8, y + 8, _CELL_WIDTH - 16, _CELL_HEIGHT - 16);
-					
-					g.setColor(Color.black); //Oval or shape color
-					g.drawOval(x + 4, y + 4, _CELL_WIDTH - 8, _CELL_HEIGHT - 8);
-				}
-			}
-		}*/
 	}
 	
 	/**

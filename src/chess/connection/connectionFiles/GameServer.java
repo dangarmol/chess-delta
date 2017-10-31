@@ -47,11 +47,12 @@ public class GameServer extends Controller implements GameObserver {
 	private JPanel msgPanel;
 	private JTextArea msgArea;
 	
-	public GameServer(GameFactory gameFactory, List<Piece> pieces, int port) {
-		super(new Game(gameFactory.gameRules()), pieces);
+	public GameServer(GameFactory gameFactory, List<Piece> pieces, List<Piece> pieceTypes, int port) {
+		super(new Game(gameFactory.gameRules()), pieces, pieceTypes);
 		this.port = port;
 		this.numPlayers = pieces.size();
 		this.pieces = pieces;
+		this.pieceTypes = pieceTypes;
 		this.gameFactory = gameFactory;
 		this.firstTime = true;
 		this.numOfConnectedPlayers = 0;
