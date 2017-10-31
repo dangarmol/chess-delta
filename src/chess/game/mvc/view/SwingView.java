@@ -64,14 +64,12 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	private JPanel sidebarPanel;
 	private JTextArea statusArea;
 	private JComboBox<Piece> playerModePieces;
-	private JComboBox<Piece> playerColor;
 	private JComboBox<PlayerMode> modes;
 	private PlayerInfoTableModel tableModel;
 	
 	private JButton randomMove;
 	private JButton intelligentMove;
 	private JButton setMode;
-	private JButton chooseColor;
 	private JButton restart;
 	private JButton quit;
 	private String gameDesc;
@@ -416,34 +414,6 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		
 		addToSidePanel(panel);
 	}
-	
-	/**
-	 * Adds the panel for the players to choose their colors
-	 */
-	//TODO Delete this feature!!
-	/*private void addPlayersColors()
-	{
-		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel.setBorder(BorderFactory.createTitledBorder("Piece Colors"));
-		playerColor = new JComboBox <Piece>();
-		
-		chooseColor = new JButton ("Choose Color");
-		chooseColor.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				Piece p = (Piece) playerColor.getSelectedItem();
-				ColorChooser c = new ColorChooser(new JFrame(),"Select a color for your piece", pieceColors.get(p));
-				if(c.getColor() != null){
-					pieceColors.put(p, c.getColor());
-					repaint();
-				}
-			}
-		});
-		panel.add(playerColor);
-		panel.add(chooseColor);
-		
-		addToSidePanel(panel);
-	}*/
 
 	/**
 	 * Adds the player information table to the side
@@ -588,7 +558,6 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		randomMove.setEnabled(false);
 		intelligentMove.setEnabled(false);
 		setMode.setEnabled(false);
-		chooseColor.setEnabled(false);
 	}
 
 	/**
@@ -600,7 +569,6 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		randomMove.setEnabled(true);
 		intelligentMove.setEnabled(true);
 		setMode.setEnabled(true);
-		chooseColor.setEnabled(true);
 	}
 
 	@Override
