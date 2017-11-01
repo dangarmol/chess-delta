@@ -35,6 +35,10 @@ public abstract class FiniteRectBoardSwingView extends SwingView { //Crea el tab
 					handleMouseClick(row, col ,mouseButton);
 				}
 				
+				protected void mouseOver() { //TODO Create this
+					
+				}
+				
 				@Override
 				protected Color getPieceColor(Piece p) {
 					return getPieceColorFromSwing(p);

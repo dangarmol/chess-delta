@@ -318,7 +318,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		});
 		bottomPanel.add(quit); //Adds quit button to the bottom panel
 		
-		restart = new JButton("Restart"); //Same as quit button
+		restart = new JButton(/*"Restart"*/"Back to Menu"); //Same as quit button
 		restart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -339,9 +339,9 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	private void addAutoPlayersButtons()
 	{
 		JPanel autoPlayerPanel = new JPanel(new GridLayout(0,2,5,5)); //Creates a panel with a grid of 2 columns and gaps of 5 units
-		autoPlayerPanel.setBorder(BorderFactory.createTitledBorder("Automatic Moves")); //Creates and sets the label of the border
+		autoPlayerPanel.setBorder(BorderFactory.createTitledBorder(/*"Automatic Moves"*/"Game Options")); //Creates and sets the label of the border
 		autoPlayerPanel.setSize(new Dimension(10,50)); //Sets the size for the panel
-		randomMove = new JButton("Random");	 //Creates the random move button
+		randomMove = new JButton(/*"Random"*/"Help");	 //Creates the random move button
 		randomMove.addActionListener(new ActionListener() { //Same as quit and restart buttons
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -350,7 +350,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		});
 		autoPlayerPanel.add(randomMove); //Adds the button to the Auto players panel
 		
-		intelligentMove = new JButton("Intelligent");
+		intelligentMove = new JButton(/*"Intelligent"*/"Surrender");
 		intelligentMove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -421,7 +421,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	private void addPlayerInfoTable()
 	{
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.setBorder(BorderFactory.createTitledBorder("Player Information"));
+		panel.setBorder(BorderFactory.createTitledBorder("Move History")); //Used to be Player information
 		
 		tableModel = new PlayerInfoTableModel();
 		JTable table = new JTable(tableModel) {
@@ -440,7 +440,10 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 				return comp;
 			}
 		};
-		panel.add(table);
+		
+		JScrollPane tableScroll = new JScrollPane(table);
+		
+		panel.add(tableScroll);
 		
 		addToSidePanel(panel);
 	}
@@ -448,8 +451,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	/**
 	 * Adds the status messages area
 	 */
-	private void addStatusMessagesTextArea()
-	{
+	private void addStatusMessagesTextArea() {
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setPreferredSize(new Dimension(100, 150));
 		panel.setBorder(BorderFactory.createTitledBorder("Status Messages"));
@@ -660,30 +662,22 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		this.turn = turn;
 		redrawBoard();
 		addMsg("Turn for player '" + turn + "'");
-		if(false/*Main.isMultiviews() || Main.isClientMode()*/) //TODO Only for online mode
+		if(false/*Main.isMultiviews() || Main.isClientMode()*/) //TODO Only for online mode or multiviews
 		{
 			this.setTitle(gameDesc + ". View from: " + localPiece + " (Turn for: " + turn.getId() + ")");
-			if(turn.equals(localPiece) && playerModes.get(turn) == PlayerMode.MANUAL)
-			{
+			if(turn.equals(localPiece) && playerModes.get(turn) == PlayerMode.MANUAL) {
 				enableView();
-			}
-			else
-			{
+			} else {
 				disableView();
 			}
-		}
-		else
-		{
+		} else {
 			this.setTitle(gameDesc + " (Turn for: " + turn + ")");
 			enableView();
 		}
 		
-		if(playerModes.get(turn) == PlayerMode.AI)
-		{
+		if(playerModes.get(turn) == PlayerMode.AI) {
 			intelligentMove();
-		}
-		else if(playerModes.get(turn) == PlayerMode.RANDOM)
-		{
+		} else if(playerModes.get(turn) == PlayerMode.RANDOM) {
 			randomMove();
 		}
 	}
@@ -711,15 +705,13 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	
 	/**
 	 * The class for the table model
-	 * (It needs to be here to get the attributes easier)
-	 * @author Dani-MacBookPro
-	 *
+	 * (It needs to be here to get the attributes more easily)
 	 */
-	class PlayerInfoTableModel extends AbstractTableModel{
+	class PlayerInfoTableModel extends AbstractTableModel {
 		private String[] colNames;
 		
 		PlayerInfoTableModel(){
-			this.colNames = new String[] {"Player", "Mode", "#Pieces"};
+			this.colNames = new String[] {"Player", "Move", "Comments"};
 		}
 		
 		@Override

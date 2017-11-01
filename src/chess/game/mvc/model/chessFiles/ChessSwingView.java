@@ -34,11 +34,9 @@ public class ChessSwingView extends FiniteRectBoardSwingView {
 	}
 	
 	/**
-	 * 
 	 * @return the value of firstClick
 	 */
-	public boolean getFirstClick()
-	{
+	public boolean getFirstClick() {
 		return firstClick;
 	}
 	
