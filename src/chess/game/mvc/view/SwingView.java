@@ -443,7 +443,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 		
 		JScrollPane tableScroll = new JScrollPane(table);
 		
-		panel.add(tableScroll);
+		panel.add(tableScroll, BorderLayout.CENTER);
 		
 		addToSidePanel(panel);
 	}

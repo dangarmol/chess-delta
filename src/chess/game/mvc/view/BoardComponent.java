@@ -162,14 +162,34 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 			g.drawString("Game has not started yet, waiting for more clients to connect...", 300, 300);
 			return;
 		}
-		g.setColor(Color.black);
+		g.setColor(Color.lightGray);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		_CELL_WIDTH = this.getWidth() / board.getCols();
-		_CELL_HEIGHT = this.getHeight() / board.getRows();
-
+		
+		//Make cells slightly smaller to be able to fit column and row numbers and letters.
+		_CELL_WIDTH = this.getWidth() / board.getCols() - 2;
+		_CELL_HEIGHT = this.getHeight() / board.getRows() - 2;
+		
 		for (int i = 0; i < board.getCols(); i++)
 			for (int j = 0; j < board.getRows(); j++)
 				drawCell(i, j, g);
+		
+		g.setColor(Color.black);
+		
+		//Letters are 2 px wide.
+		//y = 12 is for the letter not to be too close to the top of the screen.
+		//16 is for the offset on drawCell(...), where the numbers will be.
+		g.drawString("a", 16 + 0 * _CELL_WIDTH + (_CELL_WIDTH / 2), 12);
+		g.drawString("b", 16 + 1 * _CELL_WIDTH + (_CELL_WIDTH / 2), 12);
+		g.drawString("c", 16 + 2 * _CELL_WIDTH + (_CELL_WIDTH / 2), 12);
+		g.drawString("d", 16 + 3 * _CELL_WIDTH + (_CELL_WIDTH / 2), 12);
+		g.drawString("e", 16 + 4 * _CELL_WIDTH + (_CELL_WIDTH / 2), 12);
+		g.drawString("f", 16 + 5 * _CELL_WIDTH + (_CELL_WIDTH / 2), 12);
+		g.drawString("g", 16 + 6 * _CELL_WIDTH + (_CELL_WIDTH / 2), 12);
+		g.drawString("h", 16 + 7 * _CELL_WIDTH + (_CELL_WIDTH / 2), 12);
+		
+		for (int row = 1; row <= 8; row++) {
+			g.drawString(String.valueOf(9 - row), 6, 21 + (row - 1) * _CELL_HEIGHT + (_CELL_HEIGHT / 2));
+		}
 	}
 
 	/**
@@ -179,8 +199,8 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 	 * @param g
 	 */
 	private void drawCell(int row, int col, Graphics g) {
-		int x = col * _CELL_WIDTH;
-		int y = row * _CELL_HEIGHT;
+		int x = col * _CELL_WIDTH + 19;
+		int y = row * _CELL_HEIGHT + 16;
 		//x and y are coordinates in the space, not rows/cols!!
 		
 		//Selects the colour for each tile depending on position
