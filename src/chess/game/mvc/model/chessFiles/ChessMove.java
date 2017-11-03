@@ -96,21 +96,49 @@ public class ChessMove extends GameMove {
 		}*/
 	}
 	
+	/**
+	 * Shows whether the current player is moving his own pieces.
+	 * @param board
+	 * @return
+	 */
 	public boolean checkTurn(Board board) {
-		return (getPiece().getId() == "White" && ((ChessPiece) board.getPosition(row, col)).getWhite()) ||
-				(getPiece().getId() == "Black" && !((ChessPiece) board.getPosition(row, col)).getWhite());
+		return (this.getPiece().getId() == "White" && ((ChessPiece) board.getPosition(this.row, this.col)).getWhite()) ||
+				(this.getPiece().getId() == "Black" && !((ChessPiece) board.getPosition(this.row, this.col)).getWhite());
 	}
 	
 	public void executePawnMove(Board board, List<Piece> pieces) {
 		//Check that the player moves his own piece
 		if(checkTurn(board)) {
-			
+			if(this.getPiece().getId() == "White")
+				executeWhitePawnMove(board, pieces);
+			else
+				executeBlackPawnMove(board, pieces);
+		} else {
+			throw new GameError("You can only move your own pieces!!!");
 		}
+	}
+	
+	//TODO Check arguments
+	/**
+	 * Due to the peculiar pattern of pawn movement, it is required to have two
+	 * different functions, since white pawns move upwards, and black ones move downwards.
+	 * @param board
+	 * @param pieces
+	 */
+	private void executeWhitePawnMove(Board board, List<Piece> pieces) {
 		//Check that player makes a valid move
-		//if(captures something)
-			//
-		//else
-			//
+				//if(captures something)
+					//
+				//else
+					//
+	}
+	
+	private void executeBlackPawnMove(Board board, List<Piece> pieces) {
+		//Check that player makes a valid move
+				//if(captures something)
+					//
+				//else
+					//
 	}
 
 	public void executeRookMove(Board board, List<Piece> pieces) {

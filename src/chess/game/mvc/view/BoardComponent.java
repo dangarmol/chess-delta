@@ -129,6 +129,8 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 			 */
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//TODO Check offset on mouse position click!
+				
 				//System.out.println("Mouse Button "+e.getButton()+" Clicked at " + "(" + e.getX() + ","
 				//		+ e.getY() + ")");
 				int col = (e.getX() / _CELL_WIDTH); 
@@ -201,6 +203,7 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 	private void drawCell(int row, int col, Graphics g) {
 		int x = col * _CELL_WIDTH + 19;
 		int y = row * _CELL_HEIGHT + 16;
+		//IMPORTANT: 19 and 16 express the offset from the left side and top side respectively
 		//x and y are coordinates in the space, not rows/cols!!
 		
 		//Selects the colour for each tile depending on position
