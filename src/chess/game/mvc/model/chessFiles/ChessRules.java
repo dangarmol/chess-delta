@@ -61,8 +61,7 @@ public class ChessRules implements GameRules { //Should it be abstract?
 	
 	@Override
 	public Pair<State, Piece> updateState(Board board, List<Piece> pieces, Piece lastPlayer) {
-		
-		//TODO Change Piece to boolean
+		//TODO This is the next function to modify.
 		
 		Pair<State, Piece> gameState;
 		boolean noValidMovesAnyPiece = false;
@@ -168,49 +167,25 @@ public class ChessRules implements GameRules { //Should it be abstract?
 	@Override
 	public Piece nextPlayer(Board board, List<Piece> playersPieces, Piece lastPlayer){		
 		boolean noMoves = false;	
-		boolean noPieces = false;		
-		int nextPlayerIndex = 1 + playersPieces.indexOf(lastPlayer); //Getting the current player index (even if it is greater than 4 it works later with %)
+		//boolean noPieces = false;	//Might be necessary at some point.	
 		Piece nextPlayer;
-		boolean infiniteLoop = false;
-		int loopCount = 0;
 		
-		do{
-			//Get next player's piece
-			nextPlayer = playersPieces.get((nextPlayerIndex) % playersPieces.size());
-			if(board.getPieceCount(nextPlayer) > 0) //Check if the next player has got at least one piece
-			{
-				noPieces = false;
-				if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
-				{
-					noMoves = true;
-				}
-				else
-				{
-					noMoves = false;
-				}
-			}
-			else
-			{
-				noPieces = true;
-			}
-			nextPlayerIndex++;
-			if(loopCount > playersPieces.size())
-			{
-				infiniteLoop = true;
-				nextPlayer = null;
-				//If no player can move, this can get stuck in some rare cases.
-				//This "if" avoids the execution entering an infinite loop!
-			}
-			loopCount++;
-		} while((noPieces || noMoves) && !infiniteLoop);		
+		if(lastPlayer.getId() == "White")
+			nextPlayer = playersPieces.get(1);
+		else
+			nextPlayer = playersPieces.get(0);
+		
+		/*if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
+			noMoves = true;
+		else
+			noMoves = false;	*/ //TODO This needs to be checked somewhere, but not here.
 		
 		return nextPlayer;
 	}
 
 	@Override
 	public Piece initialPlayer(Board board, List<Piece> pieces) {
-		// TODO Auto-generated method stub
-		return null;
+		return pieces.get(0); //White always starts
 	}
 
 	@Override
@@ -221,13 +196,12 @@ public class ChessRules implements GameRules { //Should it be abstract?
 
 	@Override
 	public int minPlayers() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 2;
 	}
 
 	@Override
 	public int maxPlayers() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 2;
 	}
+
 }

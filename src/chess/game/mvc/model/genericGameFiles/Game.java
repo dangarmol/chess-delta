@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import chess.game.mvc.controller.Player;
+import chess.game.mvc.model.chessPieces.ChessPiece;
 
 /**
  * A class that represents a board game being played. It implements the
@@ -401,7 +402,8 @@ public class Game implements Observable<GameObserver> {
 		}
 
 		// the move must correspond to the current player
-		if (!move.getPiece().equals(turn)) {
+		if (!move.getPiece().equals(turn)) { //TODO Modify this
+		//if (((ChessPiece) move.getPiece()).getWhite() != (turn.getId() == "White")) { 
 			notifyError(new GameError("It is not turn of " + move.getPiece()));
 			errors = true;
 		}
