@@ -70,7 +70,7 @@ public class ChessRules implements GameRules { //Should it be abstract?
 		Piece currentPlayer = nextPlayer(board, pieces, lastPlayer);
 		gameState = gameInPlayResult; //gameInPlayResult = IF GAME IS NOT FINISHED, STILL IN PLAY
 		
-		if(currentPlayer != null) //If at least one piece can move (any player)
+		if(currentPlayer != null) //If next player can move
 		{
 			for(int i = 0; i < pieces.size(); i++)
 			{
@@ -105,7 +105,7 @@ public class ChessRules implements GameRules { //Should it be abstract?
 		if(board.isFull() || noValidMovesAnyPiece /*|| stuckCounter >= 10*/)
 		{
 			//If board is full, noone can move, or a piece got stuck, it checks the winner of the game.
-			gameState = checkWinnerFullBoard(board, pieces);
+			//gameState = checkWinnerFullBoard(board, pieces);
 		}
 		
 		return gameState;
@@ -165,9 +165,7 @@ public class ChessRules implements GameRules { //Should it be abstract?
 	}
 
 	@Override
-	public Piece nextPlayer(Board board, List<Piece> playersPieces, Piece lastPlayer){		
-		boolean noMoves = false;	
-		//boolean noPieces = false;	//Might be necessary at some point.	
+	public Piece nextPlayer(Board board, List<Piece> playersPieces, Piece lastPlayer){
 		Piece nextPlayer;
 		
 		if(lastPlayer.getId() == "White")
@@ -175,10 +173,8 @@ public class ChessRules implements GameRules { //Should it be abstract?
 		else
 			nextPlayer = playersPieces.get(0);
 		
-		/*if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
-			noMoves = true;
-		else
-			noMoves = false;	*/ //TODO This needs to be checked somewhere, but not here.
+		if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
+			return null; //Returns null if next player can't move!
 		
 		return nextPlayer;
 	}

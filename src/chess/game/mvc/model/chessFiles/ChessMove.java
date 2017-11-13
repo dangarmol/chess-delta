@@ -161,7 +161,7 @@ public class ChessMove extends GameMove {
 			(this.rowDes == this.row + 2 || this.rowDes == this.row - 2)) ||
 			((this.rowDes == this.row + 1 || this.rowDes == this.row - 1) &&
 			(this.colDes == this.col + 2 || this.colDes == this.col - 2))) {
-			board.setPosition(this.rowDes, this.colDes, this.getPiece());
+			board.setPosition(this.rowDes, this.colDes, this.getPiece()); //TODO Check this for the movement, this.getPiece() doesn't return suitable piece.
 			deleteMovedPiece(this.row, this.col, board);
 		}
 	}
