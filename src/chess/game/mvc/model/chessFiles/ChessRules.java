@@ -30,7 +30,7 @@ public class ChessRules implements GameRules { //Should it be abstract?
 	
 	@Override
 	public Board createBoard(List<Piece> pieces, List<Piece> pieceTypes) {
-		Board board = new FiniteRectBoard(8, 8);		
+		Board board = new ChessBoard();		
 		
 		//Sets the positions for every piece on their starting positions.
 		board.setPosition(0, 0, pieceTypes.get(ChessPieceID.BLACK_ROOK));

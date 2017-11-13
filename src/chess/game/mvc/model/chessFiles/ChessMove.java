@@ -10,6 +10,7 @@ import chess.game.mvc.model.chessPieces.chessPiecesImp.Pawn;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Queen;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Rook;
 import chess.game.mvc.model.genericGameFiles.Board;
+import chess.game.mvc.model.genericGameFiles.FiniteRectBoard;
 import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.GameMove;
 import chess.game.mvc.model.genericGameFiles.Piece;
@@ -41,65 +42,30 @@ public class ChessMove extends GameMove {
 		//Changed from this.getPiece() instanceof Rook
 		//this.getPiece() now returns the player that made the move.
 		//Check that the player moves his own piece
-		if(checkTurn(board)) { //Checks that the player is trying to move his own piece.
-			if(board.getPosition(this.row, this.col) instanceof Pawn) {
-				executePawnMove(board, pieces);
-			} else if (board.getPosition(this.row, this.col) instanceof Rook) {
-				executeRookMove(board, pieces);
-			} else if (board.getPosition(this.row, this.col) instanceof Knight) {
-				executeKnightMove(board, pieces);
-			} else if (board.getPosition(this.row, this.col) instanceof Bishop) {
-				executeBishopMove(board, pieces);
-			} else if (board.getPosition(this.row, this.col) instanceof Queen) {
-				executeQueenMove(board, pieces);
-			} else if (board.getPosition(this.row, this.col) instanceof King) {
-				executeKingMove(board, pieces);
+		
+		ChessBoard chessBoard = (ChessBoard) board;
+		//https://stackoverflow.com/questions/907360/explanation-of-classcastexception-in-java
+		
+		//board vs chessBoard issue?
+		if(checkTurn(chessBoard)) { //Checks that the player is trying to move his own piece.
+			if(chessBoard.getPosition(this.row, this.col) instanceof Pawn) {
+				executePawnMove(chessBoard, pieces);
+			} else if (chessBoard.getPosition(this.row, this.col) instanceof Rook) {
+				executeRookMove(chessBoard, pieces);
+			} else if (chessBoard.getPosition(this.row, this.col) instanceof Knight) {
+				executeKnightMove(chessBoard, pieces);
+			} else if (chessBoard.getPosition(this.row, this.col) instanceof Bishop) {
+				executeBishopMove(chessBoard, pieces);
+			} else if (chessBoard.getPosition(this.row, this.col) instanceof Queen) {
+				executeQueenMove(chessBoard, pieces);
+			} else if (chessBoard.getPosition(this.row, this.col) instanceof King) {
+				executeKingMove(chessBoard, pieces);
 			} else {
 				throw new GameError("Piece type not recognised!");
 			}
 		} else {
 			throw new GameError("You can only move your own pieces!!!");
 		}
-		
-		/*
-		//Check that the player moves his own piece
-		if(!getPiece().equals(board.getPosition(row, col)))
-		{
-			throw new GameError("You can only move your own pieces!!!");			
-		}
-		else if (board.getPosition(row, col) != null && board.getPosition(rowDes, colDes) != null) //Player needs to choose an empty tile
-		{
-			throw new GameError("Position (" + rowDes + "," + colDes + ") is already occupied!!!");			
-		}
-		else
-		{
-			Piece currentPiece = board.getPosition(row, col);
-			int moveRadius = getDistance(row, col, rowDes, colDes); //Check distance
-			if(moveRadius == 0) //Can't choose the initial tile
-			{
-				throw new GameError("Destination coordinates cannot be the same as the initial ones!!!");
-			}
-			else if(moveRadius == 1) //If moved only one, it duplicates
-			{
-				board.setPosition(rowDes, colDes, getPiece()); //Copy the piece, not move
-				//Counter increments
-				//addPieceToCounter(board, currentPiece); 
-				//Transforms pieces around
-				//transformPiecesAround(board, pieces, rowDes, colDes);
-			}
-			else if(moveRadius == 2) //Long move (does not duplicate)
-			{
-				board.setPosition(rowDes, colDes, getPiece());
-				//Copies and transforms pieces around.
-				//transformPiecesAround(board, pieces, rowDes, colDes);
-				//Deletes the piece to "move" it
-				deletePiece(row, col, board);
-			}
-			else if (moveRadius > 2)
-			{
-				throw new GameError("You can move a maximum of 2 tiles away, not further!!!");
-			}
-		}*/
 	}
 	
 	/**
@@ -107,12 +73,13 @@ public class ChessMove extends GameMove {
 	 * @param board
 	 * @return
 	 */
-	public boolean checkTurn(Board board) {
-		return (this.getPiece().getId() == "White" && ((ChessPiece) board.getPosition(this.row, this.col)).getWhite()) ||
-				(this.getPiece().getId() == "Black" && !((ChessPiece) board.getPosition(this.row, this.col)).getWhite());
+	public boolean checkTurn(ChessBoard board) { //TODO Check this function
+		//this.getPiece() returns the piece to which the move belongs!
+		return (this.getPiece().getId() == "White" && (board.getChessPosition(this.row, this.col)).getWhite()) ||
+				(this.getPiece().getId() == "Black" && !(board.getChessPosition(this.row, this.col)).getWhite());
 	}
 	
-	public void executePawnMove(Board board, List<Piece> pieces) {
+	public void executePawnMove(ChessBoard board, List<Piece> pieces) {
 		if(this.getPiece().getId() == "White")
 			executeWhitePawnMove(board, pieces);
 		else
@@ -126,7 +93,7 @@ public class ChessMove extends GameMove {
 	 * @param board
 	 * @param pieces
 	 */
-	private void executeWhitePawnMove(Board board, List<Piece> pieces) {
+	private void executeWhitePawnMove(ChessBoard board, List<Piece> pieces) {
 		//Check if this pawn is trying to capture a piece. (Diagonal move)
 		if(this.rowDes == this.row - 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			
@@ -140,11 +107,11 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	private void checkPromotion(Board board, List<Piece> pieces) {
+	private void checkPromotion(ChessBoard board, List<Piece> pieces) {
 		
 	}
 	
-	private void executeBlackPawnMove(Board board, List<Piece> pieces) {
+	private void executeBlackPawnMove(ChessBoard board, List<Piece> pieces) {
 		//Check that player makes a valid move
 				//if(captures something)
 					//
@@ -152,29 +119,42 @@ public class ChessMove extends GameMove {
 					//
 	}
 
-	public void executeRookMove(Board board, List<Piece> pieces) {
+	public void executeRookMove(ChessBoard board, List<Piece> pieces) {
 		
 	}
 	
-	public void executeKnightMove(Board board, List<Piece> pieces) {
+	public void executeKnightMove(ChessBoard board, List<Piece> pieces) {
 		if(((this.colDes == this.col + 1 || this.colDes == this.col - 1) &&
-			(this.rowDes == this.row + 2 || this.rowDes == this.row - 2)) ||
-			((this.rowDes == this.row + 1 || this.rowDes == this.row - 1) &&
-			(this.colDes == this.col + 2 || this.colDes == this.col - 2))) {
-			board.setPosition(this.rowDes, this.colDes, this.getPiece()); //TODO Check this for the movement, this.getPiece() doesn't return suitable piece.
-			deleteMovedPiece(this.row, this.col, board);
-		}
+				(this.rowDes == this.row + 2 || this.rowDes == this.row - 2)) ||
+				((this.rowDes == this.row + 1 || this.rowDes == this.row - 1) &&
+				(this.colDes == this.col + 2 || this.colDes == this.col - 2))) {
+				if(board.getPosition(this.rowDes, this.colDes) == null) {
+					board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
+					deleteMovedPiece(this.row, this.col, board);
+				} else if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getId() == "White")) ||
+						((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getId() == "Black")))) { //TODO Check this
+					if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) {
+						throw new GameError("Checkmate? This point should be unreachable.");
+					}
+					throw new GameError("Destination position already occupied by an ally piece!");
+				} else {
+					board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
+					deleteMovedPiece(this.row, this.col, board);
+				}
+			} else {
+				throw new GameError("Invalid movement, try again.");
+			}
 	}
 	
-	public void executeBishopMove(Board board, List<Piece> pieces) {
+	public void executeBishopMove(ChessBoard board, List<Piece> pieces) {
 	
 	}
 
-	public void executeQueenMove(Board board, List<Piece> pieces) {
+	public void executeQueenMove(ChessBoard board, List<Piece> pieces) {
 	
 	}
 	
-	public void executeKingMove(Board board, List<Piece> pieces) {
+	public void executeKingMove(ChessBoard board, List<Piece> pieces) {
 	
 	}
 	
@@ -182,39 +162,6 @@ public class ChessMove extends GameMove {
 	private void deleteMovedPiece(int row, int col, Board board) {
 		board.setPosition(row, col, null);
 	}
-	
-	/*private void transformPiecesAround(Board board, List<Piece> pieces, int rowDes, int colDes){
-		Piece currentPiece = board.getPosition(rowDes, colDes);
-		Piece auxPiece;
-		
-		for(int i = Math.max(rowDes - 1, 0); i <= Math.min(rowDes + 1, board.getRows() - 1); i++){
-			for(int j = Math.max(colDes - 1, 0); j <= Math.min(colDes + 1, board.getCols() - 1); j++){ //Goes all around the current piece
-				
-				if(board.getPosition(i, j) != null){ //If it is not empty...					
-					auxPiece = board.getPosition(i, j); //Copy the piece to compare
-					if(!auxPiece.getId().equals("*")){ //If it is not a wall...
-						if(!currentPiece.equals(auxPiece)){ //If it is not already yours...
-							removePieceFromCounter(board, board.getPosition(i, j)); //Removes one from the enemy counter
-							deletePiece(i, j, board); //Delete enemy piece
-							
-							addPieceToCounter(board, currentPiece); //Add one to the player counter
-							board.setPosition(i, j, currentPiece); //Insert current piece
-						}
-					}					
-				}
-			}
-		}
-	}*/
-	
-	/*private void addPieceToCounter(Board board, Piece currentPiece){
-		int counter = board.getPieceCount(currentPiece);
-		board.setPieceCount(currentPiece, counter + 1);
-	}*/
-	
-	/*private void removePieceFromCounter(Board board, Piece enemy){
-		int counter = board.getPieceCount(enemy);
-		board.setPieceCount(enemy, counter - 1);
-	}*/
 
 	/** Creates a new instance of a ChessMove with parameters row, col, p.
 	 * */
@@ -243,5 +190,4 @@ public class ChessMove extends GameMove {
 		// TODO Remove
 		return null;
 	}
-
 }

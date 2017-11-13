@@ -19,7 +19,7 @@ public class FiniteRectBoard extends BasicBoard {
 	 * Representacion interna del tablero: una matriz de objetos de tipo
 	 * {@link Piece}.
 	 */
-	private Piece[][] board;
+	protected Piece[][] board;
 
 	/**
 	 * The number of occupied cells in the board.
@@ -44,14 +44,14 @@ public class FiniteRectBoard extends BasicBoard {
 	 * <p>
 	 * Numero de columnas del tablero.
 	 */
-	private int cols;
+	protected int cols;
 
 	/**
 	 * Number of rows in the board.
 	 * <p>
 	 * Numero de filas del tablero.
 	 */
-	private int rows;
+	protected int rows;
 
 	/**
 	 * This constructor constructs a finite rectangular board of a given
@@ -99,7 +99,7 @@ public class FiniteRectBoard extends BasicBoard {
 	}
 
 	@Override
-	public Piece getPosition(int row, int col) {
+	public Piece getPosition(int row, int col) { //May be worth overriding this for chess pieces.
 		if (row < 0 || row >= rows || col < 0 || col >= cols) {
 			throw new GameError("Trying to access an invalid position (" + row + "," + col + ")");
 		}
