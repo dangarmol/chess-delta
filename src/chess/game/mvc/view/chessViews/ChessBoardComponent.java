@@ -1,4 +1,4 @@
-package chess.game.mvc.view;
+package chess.game.mvc.view.chessViews;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,7 +28,7 @@ import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.Piece;
 
 @SuppressWarnings("serial")
-public abstract class BoardComponent extends JComponent { //Draws the board and pieces
+public abstract class ChessBoardComponent extends JComponent { //Draws the board and pieces
 
 	private int _CELL_HEIGHT = 50;
 	private int _CELL_WIDTH = 50;
@@ -56,7 +56,7 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 	/**
 	 * Default constructor
 	 */
-	public BoardComponent() {
+	public ChessBoardComponent() {
 		loadImages();
 		createGUI();
 	}
@@ -66,7 +66,7 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 	 * @param rows
 	 * @param cols
 	 */
-	public BoardComponent(int rows, int cols) {
+	public ChessBoardComponent(int rows, int cols) {
 		this.rows = rows;
 		this.cols = cols;
 		loadImages();
@@ -145,7 +145,7 @@ public abstract class BoardComponent extends JComponent { //Draws the board and 
 				} else {
 					return;
 				}
-				BoardComponent.this.mouseClicked(row, col, mouseButton);
+				ChessBoardComponent.this.mouseClicked(row, col, mouseButton);
 			}
 		});
 		

@@ -5,10 +5,10 @@ import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.genericGameFiles.GameObserver;
 import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
-import chess.game.mvc.view.FiniteRectBoardSwingView;
+import chess.game.mvc.view.chessViews.ChessFRBoardSwingView;
 
 @SuppressWarnings("serial")
-public class ChessSwingView extends FiniteRectBoardSwingView {
+public class ChessSwingView extends ChessFRBoardSwingView {
 
 	private ChessSwingPlayer player;
 	private boolean activeBoard;

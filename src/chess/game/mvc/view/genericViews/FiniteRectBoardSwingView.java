@@ -1,4 +1,4 @@
-package chess.game.mvc.view;
+package chess.game.mvc.view.genericViews;
 
 import java.awt.Color;
 
@@ -7,6 +7,7 @@ import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.genericGameFiles.GameObserver;
 import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.view.genericViews.SwingView;
 
 @SuppressWarnings("serial")
 public abstract class FiniteRectBoardSwingView extends SwingView { //Crea el tablero
@@ -33,10 +34,6 @@ public abstract class FiniteRectBoardSwingView extends SwingView { //Crea el tab
 				@Override
 				protected void mouseClicked(int row, int col, int mouseButton) {
 					handleMouseClick(row, col ,mouseButton);
-				}
-				
-				protected void mouseOver() { //TODO Create this
-					
 				}
 				
 				@Override

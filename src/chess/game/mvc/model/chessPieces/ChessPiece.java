@@ -10,7 +10,6 @@ public class ChessPiece extends Piece {
 	
 	public ChessPiece() {
 		super();
-		//TODO Add isWhite or not
 	}
 	
 	public ChessPiece(boolean isWhite) {

@@ -61,10 +61,10 @@ public class ChessMove extends GameMove {
 			} else if (chessBoard.getPosition(this.row, this.col) instanceof King) {
 				executeKingMove(chessBoard, pieces);
 			} else {
-				throw new GameError("Piece type not recognised!");
+				throw new GameError("Piece type not recognised! This should be unreachable");
 			}
 		} else {
-			throw new GameError("You can only move your own pieces!!!");
+			throw new GameError("You can only move your own pieces!!!"); //Working
 		}
 	}
 	
