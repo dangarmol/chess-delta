@@ -402,11 +402,11 @@ public class Game implements Observable<GameObserver> {
 		}
 
 		// the move must correspond to the current player
-		if (!move.getPiece().equals(turn)) { //TODO Modify this
+		/*if (!move.getPiece().equals(turn)) { //TODO Modify this
 		//if (((ChessPiece) move.getPiece()).getWhite() != (turn.getId() == "White")) { 
 			notifyError(new GameError("It is not turn of " + move.getPiece()));
 			errors = true;
-		}
+		}*/
 
 		notifyStartMove(); // we are about to execute a move
 

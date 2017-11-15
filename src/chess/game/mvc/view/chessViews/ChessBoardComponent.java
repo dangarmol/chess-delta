@@ -133,7 +133,7 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 				
 				//System.out.println("Mouse Button "+e.getButton()+" Clicked at " + "(" + e.getX() + ","
 				//		+ e.getY() + ")");
-				int col = (e.getX() / _CELL_WIDTH); 
+				int col = (e.getX() / _CELL_WIDTH); //TODO This should be changed to fix the mouse offset on cells.
 				int row = (e.getY() / _CELL_HEIGHT); 
 				int mouseButton = 0; 
 				if (SwingUtilities.isLeftMouseButton(e)) {

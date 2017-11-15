@@ -10,6 +10,7 @@ import chess.game.mvc.controller.Controller;
 import chess.game.mvc.controller.DummyAIPlayer;
 import chess.game.mvc.controller.GameFactory;
 import chess.game.mvc.controller.Player;
+import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.King;
@@ -24,21 +25,18 @@ import chess.game.mvc.model.genericGameFiles.GameRules;
 import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
 
-public class ChessFactory implements GameFactory /*extends ConnectNFactory*/ {
+public class ChessFactory implements GameFactory {
 	
 	private static final long serialVersionUID = 1L;
-	private int dim;
-	private int obs;
+	private int dim;	
 	
-	
-	public ChessFactory(int dim, int obsNum) {
+	public ChessFactory(int dim) {
 		this.dim = dim;
-		this.obs = obsNum;
 	}
 
 	//Default
 	public ChessFactory(){
-		this(8, 0);
+		this(8);
 	}
 	
 	@Override
@@ -76,8 +74,9 @@ public class ChessFactory implements GameFactory /*extends ConnectNFactory*/ {
 	public List<Piece> createDefaultPieces() {
 		List<Piece> pieces = new ArrayList<Piece>();
 		
-		pieces.add(new Piece("White"));
-		pieces.add(new Piece("Black"));
+		//This is important
+		pieces.add(new ChessPiece("White", true));
+		pieces.add(new ChessPiece("Black", false));
 		
 		return pieces;
 	}
@@ -89,7 +88,6 @@ public class ChessFactory implements GameFactory /*extends ConnectNFactory*/ {
 	public List<Piece> createPieceTypes() {
 		List<Piece> pieces = new ArrayList<Piece>();
 		
-		//TODO This should not be here.
 		pieces.add(ChessPieceID.WHITE_PAWN, new Pawn(true));
 		pieces.add(ChessPieceID.BLACK_PAWN, new Pawn(false));
 		

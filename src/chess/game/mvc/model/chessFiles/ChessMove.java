@@ -22,6 +22,9 @@ public class ChessMove extends GameMove {
 	protected int rowDes;
 	protected int colDes;
 	
+	private ChessPiece chessPiece;
+	private ChessBoard chessBoard;
+	
 	/** Default constructor.
 	 *
 	 **/
@@ -33,6 +36,7 @@ public class ChessMove extends GameMove {
 		this.col = col;
 		this.rowDes = rowDes;
 		this.colDes = colDes;
+		this.chessPiece = (ChessPiece) p;
 	}
 	
 	private static final long serialVersionUID = 273689252496184587L;
@@ -43,7 +47,7 @@ public class ChessMove extends GameMove {
 		//this.getPiece() now returns the player that made the move.
 		//Check that the player moves his own piece
 		
-		ChessBoard chessBoard = (ChessBoard) board;
+		this.chessBoard = (ChessBoard) board;
 		//https://stackoverflow.com/questions/907360/explanation-of-classcastexception-in-java
 		
 		//board vs chessBoard issue?
@@ -75,12 +79,12 @@ public class ChessMove extends GameMove {
 	 */
 	public boolean checkTurn(ChessBoard board) { //TODO Check this function
 		//this.getPiece() returns the piece to which the move belongs!
-		return (this.getPiece().getId() == "White" && (board.getChessPosition(this.row, this.col)).getWhite()) ||
-				(this.getPiece().getId() == "Black" && !(board.getChessPosition(this.row, this.col)).getWhite());
+		return ((this.getPiece().getWhite() && (board.getChessPosition(this.row, this.col)).getWhite()) ||
+				(!this.getPiece().getWhite() && !(board.getChessPosition(this.row, this.col)).getWhite()));
 	}
 	
 	public void executePawnMove(ChessBoard board, List<Piece> pieces) {
-		if(this.getPiece().getId() == "White")
+		if(this.getPiece().getWhite())
 			executeWhitePawnMove(board, pieces);
 		else
 			executeBlackPawnMove(board, pieces);
@@ -131,8 +135,8 @@ public class ChessMove extends GameMove {
 				if(board.getPosition(this.rowDes, this.colDes) == null) {
 					board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
 					deleteMovedPiece(this.row, this.col, board);
-				} else if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getId() == "White")) ||
-						((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getId() == "Black")))) { //TODO Check this
+				} else if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
+						((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) { //TODO Check this
 					if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) {
 						throw new GameError("Checkmate? This point should be unreachable.");
 					}
@@ -183,6 +187,11 @@ public class ChessMove extends GameMove {
 		} else {
 			return "Place a piece '" + getPiece() + "' at (" + row + "," + col + ")";
 		}
+	}
+	
+	@Override
+	public ChessPiece getPiece() {
+		return this.chessPiece;
 	}
 
 	@Override

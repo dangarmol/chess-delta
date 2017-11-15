@@ -19,8 +19,8 @@ public class ChessFactoryExtended extends ChessFactory {
 	 * @param dim Dimension
 	 * @param numObs number of obstacles
 	 */
-	public ChessFactoryExtended(Integer dim, Integer numObs) {
-		super(dim, numObs);
+	public ChessFactoryExtended(Integer dim) {
+		super(dim);
 	}
 	
 	/**
@@ -39,8 +39,7 @@ public class ChessFactoryExtended extends ChessFactory {
 			try {
 				SwingUtilities.invokeAndWait(new Runnable() {
 					@Override
-					public void run()
-					{
+					public void run() {
 						new ChessSwingView(g, c, viewPiece, random, ai);
 					}
 				});
