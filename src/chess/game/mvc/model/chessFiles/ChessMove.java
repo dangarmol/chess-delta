@@ -129,29 +129,92 @@ public class ChessMove extends GameMove {
 	
 	public void executeKnightMove(ChessBoard board, List<Piece> pieces) {
 		if(((this.colDes == this.col + 1 || this.colDes == this.col - 1) &&
-				(this.rowDes == this.row + 2 || this.rowDes == this.row - 2)) ||
-				((this.rowDes == this.row + 1 || this.rowDes == this.row - 1) &&
-				(this.colDes == this.col + 2 || this.colDes == this.col - 2))) {
-				if(board.getPosition(this.rowDes, this.colDes) == null) {
-					board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
-					deleteMovedPiece(this.row, this.col, board);
-				} else if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
-						((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) { //TODO Check this
-					if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) {
-						throw new GameError("Checkmate? This point should be unreachable.");
-					}
-					throw new GameError("Destination position already occupied by an ally piece!");
-				} else {
-					board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
-					deleteMovedPiece(this.row, this.col, board);
+			(this.rowDes == this.row + 2 || this.rowDes == this.row - 2)) ||
+			((this.rowDes == this.row + 1 || this.rowDes == this.row - 1) &&
+			(this.colDes == this.col + 2 || this.colDes == this.col - 2))) { //Check the movement is legal.
+			if(board.getPosition(this.rowDes, this.colDes) == null) { //If the destination position is empty.
+				board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
+				deleteMovedPiece(this.row, this.col, board);
+			} else if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
+					((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) {
+					//If the player tried to capture an ally piece.
+				if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) { //You can't capture the king!
+					throw new GameError("Checkmate? This point should be unreachable.");
 				}
-			} else {
-				throw new GameError("Invalid movement, try again.");
+				throw new GameError("Destination position already occupied by an ally piece!");
+			} else { //If he's capturing an enemy piece.
+				board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
+				deleteMovedPiece(this.row, this.col, board);
 			}
+		} else { //The movement is illegal.
+				throw new GameError("Invalid movement, try again.");
+		}
 	}
 	
-	public void executeBishopMove(ChessBoard board, List<Piece> pieces) {
+	/*
+	 * Returns the direction of the move, being the number returned the one matching the direction
+	 * at the diagram underneath.
+	 * 
+	 * 		0 1 2
+	 * 		7 * 3
+	 * 		6 5 4
+	 */
+	private int checkDirection(int rowIni, int colIni, int rowEnd, int colEnd) {
+		if(rowIni == rowEnd) { //It's either 3 or 7
+			if(colIni > colEnd) {
+				return 7;
+			} else { //colIni < colEnd (colIni always != colEnd at this point!)
+				return 3;
+			}
+		} else if (rowIni > rowEnd) { //It's either 0, 1 or 2
+			if(colIni == colEnd) {
+				return 1;
+			} else if(colIni > colEnd) {
+				return 0;
+			} else { //colIni < colEnd
+				return 2;
+			}
+		} else { //rowIni < rowEnd //It's either 4, 5 or 6
+			if(colIni == colEnd) {
+				return 5;
+			} else if(colIni > colEnd) {
+				return 6;
+			} else { //colIni < colEnd
+				return 4;
+			}
+		}
+	}
 	
+	//Check if there are any pieces between the positions selected (for bishops, rooks and queens)
+	//True means that the move can be performed, false means that there are pieces inbetween.
+	private boolean checkPiecesInbetween(int rowIni, int colIni, int rowEnd, int colEnd) { //TODO Create this
+		int direction = checkDirection(rowIni, colIni, rowEnd, colEnd);
+		
+		return false;
+	} //If returned false, throw an exception from the suitable function.
+	
+	public void executeBishopMove(ChessBoard board, List<Piece> pieces) { //TODO Next to do.
+		if(((this.colDes == this.col + 1 || this.colDes == this.col - 1) &&
+			(this.rowDes == this.row + 2 || this.rowDes == this.row - 2)) ||
+			((this.rowDes == this.row + 1 || this.rowDes == this.row - 1) &&
+			(this.colDes == this.col + 2 || this.colDes == this.col - 2))) { //Check the movement is legal.
+			if(board.getPosition(this.rowDes, this.colDes) == null) { //If the destination position is empty.
+				board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
+				deleteMovedPiece(this.row, this.col, board);
+			} else if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
+					((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) {
+					//If the player tried to capture an ally piece.
+				if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) { //You can't capture the king!
+					throw new GameError("Checkmate? This point should be unreachable.");
+				}
+				throw new GameError("Destination position already occupied by an ally piece!");
+			} else { //If he's capturing an enemy piece.
+				board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
+				deleteMovedPiece(this.row, this.col, board);
+			}
+		} else { //The movement is illegal.
+				throw new GameError("Illegal movement, try again.");
+		}
 	}
 
 	public void executeQueenMove(ChessBoard board, List<Piece> pieces) {

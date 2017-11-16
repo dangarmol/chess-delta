@@ -33,6 +33,9 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 	private int _CELL_HEIGHT = 50;
 	private int _CELL_WIDTH = 50;
 
+	//Java properties file where you can store the current path
+	//Also convert the whole project into a runnable JAR file
+	
 	//Path must end in either "/" on Linux/MacOS or "\" on Windows
 	private String piecesPath = "/Users/Daniel/Google Drive/University and School/2017-2018 Hertfordshire/TFG/Chess Repository Workspace/Chess TFG/img/";
 	
@@ -90,6 +93,7 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 			this.blackKing = ImageIO.read(new File(piecesPath + "BlackKing.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
+			//"Chess piece files not found!! Check the path and try again!" TODO
 		}
 	}
 
