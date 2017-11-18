@@ -50,6 +50,9 @@ public class ChessMove extends GameMove {
 		this.chessBoard = (ChessBoard) board;
 		//https://stackoverflow.com/questions/907360/explanation-of-classcastexception-in-java
 		
+		if(this.row == this.rowDes && this.col == this.colDes)
+			throw new GameError("You cannot move to the same position you were in!!!"); //Works
+		
 		//board vs chessBoard issue?
 		if(checkTurn(chessBoard)) { //Checks that the player is trying to move his own piece.
 			if(chessBoard.getPosition(this.row, this.col) instanceof Pawn) {
@@ -68,7 +71,7 @@ public class ChessMove extends GameMove {
 				throw new GameError("Piece type not recognised! This should be unreachable");
 			}
 		} else {
-			throw new GameError("You can only move your own pieces!!!"); //Working
+			throw new GameError("You can only move your own pieces!!!"); //Works
 		}
 	}
 	
@@ -147,7 +150,7 @@ public class ChessMove extends GameMove {
 				deleteMovedPiece(this.row, this.col, board);
 			}
 		} else { //The movement is illegal.
-				throw new GameError("Invalid movement, try again.");
+			throw new GameError("Invalid movement, try again.");
 		}
 	}
 	
@@ -163,7 +166,7 @@ public class ChessMove extends GameMove {
 		if(rowIni == rowEnd) { //It's either 3 or 7
 			if(colIni > colEnd) {
 				return 7;
-			} else { //colIni < colEnd (colIni always != colEnd at this point!)
+			} else { //colIni < colEnd (colIni always != colEnd at this point!) since both parameters can't be equal!
 				return 3;
 			}
 		} else if (rowIni > rowEnd) { //It's either 0, 1 or 2
@@ -187,10 +190,49 @@ public class ChessMove extends GameMove {
 	
 	//Check if there are any pieces between the positions selected (for bishops, rooks and queens)
 	//True means that the move can be performed, false means that there are pieces inbetween.
-	private boolean checkPiecesInbetween(int rowIni, int colIni, int rowEnd, int colEnd) { //TODO Create this
-		int direction = checkDirection(rowIni, colIni, rowEnd, colEnd);
+	//The directions are shown on at the checkDirection() function above.
+	private boolean checkPiecesInbetween(int rowIni, int colIni, int rowEnd, int colEnd) {
+		int rowOffset, colOffset;
+		switch(checkDirection(rowIni, colIni, rowEnd, colEnd)) {
+			case 0:
+				rowOffset = -1; colOffset = -1; break;
+			case 1:
+				rowOffset = -1; colOffset = 0; break;
+			case 2:
+				rowOffset = -1; colOffset = 1; break;
+			case 3:
+				rowOffset = 0; colOffset = 1; break;
+			case 4:
+				rowOffset = 1; colOffset = 1; break;
+			case 5:
+				rowOffset = 1; colOffset = 0; break;
+			case 6:
+				rowOffset = 1; colOffset = -1; break;
+			case 7:
+				rowOffset = 0; colOffset = -1; break;
+			default:
+				throw new GameError("Invalid move direction, this should be unreachable.");
+		}
 		
-		return false;
+		int itCount = 0; //In case any error is found, this avoids an infinite loop.
+		int row = rowIni, col = colIni;
+		
+		while(itCount < 10 && (row != rowEnd && col != colEnd)) {
+			row += rowOffset;
+			col += colOffset;
+			
+			if(chessBoard.getPosition(row, col) != null) //If it found a piece on the way.
+				return false;
+			
+			itCount++;
+		}
+		
+		//TODO Needs checking! (COMPROBAR QUE NO SE CUENTE LA POSICIÓN FINAL COMO PASADA!!)
+		
+		if(itCount >= 10) 
+			throw new GameError("Invalid move direction. This should never happen.");
+		
+		return true;
 	} //If returned false, throw an exception from the suitable function.
 	
 	public void executeBishopMove(ChessBoard board, List<Piece> pieces) { //TODO Next to do.
