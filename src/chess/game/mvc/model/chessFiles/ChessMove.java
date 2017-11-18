@@ -3,6 +3,7 @@ package chess.game.mvc.model.chessFiles;
 import java.util.List;
 
 import chess.game.mvc.model.chessPieces.ChessPiece;
+import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.King;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Knight;
@@ -51,7 +52,7 @@ public class ChessMove extends GameMove {
 		//https://stackoverflow.com/questions/907360/explanation-of-classcastexception-in-java
 		
 		if(this.row == this.rowDes && this.col == this.colDes)
-			throw new GameError("You cannot move to the same position you were in!!!"); //Works
+			throw new GameError("You cannot move to the same position you were in!!! (Error 014)"); //Works
 		
 		//board vs chessBoard issue?
 		if(checkTurn(chessBoard)) { //Checks that the player is trying to move his own piece.
@@ -68,11 +69,43 @@ public class ChessMove extends GameMove {
 			} else if (chessBoard.getPosition(this.row, this.col) instanceof King) {
 				executeKingMove(chessBoard, pieces);
 			} else {
-				throw new GameError("Piece type not recognised! This should be unreachable");
+				throw new GameError("Piece type not recognised! This should be unreachable. (Error 013)");
 			}
 		} else {
-			throw new GameError("You can only move your own pieces!!!"); //Works
+			throw new GameError("You can only move your own pieces!!! (Error 012)"); //Works properly
 		}
+		
+		//throw new GameError("Movement worked."); //TODO Delete this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		//board = this.chessBoard; //TODO Is this necessary? ASK.
+	}
+	
+	//Simply executes a move that has been previously checked and is legal.
+	public void executeCheckedMove(ChessBoard board) { 
+		board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
+		deleteMovedPiece(this.row, this.col, board);
+	}
+	
+	public void executeCaptureMove(ChessBoard board) {
+		try {
+			if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
+					((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) {
+					//If the player tried to capture an ally piece.
+				throw new GameError("Destination position already occupied by an ally piece! (Error 011)");
+			} else { //If he's capturing an enemy piece.
+				if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) { //You can't capture the king!
+					throw new GameError("Checkmate? This point should be unreachable. (Error 010)");
+				} else {
+					executeCheckedMove(board);
+				}
+			}
+		} catch (Exception e) {
+			throw new GameError("This method has probably been called in the wrong place. This should never be reached. (Error 009)");
+		}
+	}
+	
+	public void disableEnPassant(boolean white) {
+		//TODO Disable En Passant for every Pawn from the colour passed by parameter.
 	}
 	
 	/**
@@ -86,6 +119,13 @@ public class ChessMove extends GameMove {
 				(!this.getPiece().getWhite() && !(board.getChessPosition(this.row, this.col)).getWhite()));
 	}
 	
+	//TODO Check arguments
+		/**
+		 * Due to the peculiar pattern of pawn movement, it is required to have two
+		 * different functions, since white pawns move upwards, and black ones move downwards.
+		 * @param board
+		 * @param pieces
+		 */
 	public void executePawnMove(ChessBoard board, List<Piece> pieces) {
 		if(this.getPiece().getWhite())
 			executeWhitePawnMove(board, pieces);
@@ -93,29 +133,94 @@ public class ChessMove extends GameMove {
 			executeBlackPawnMove(board, pieces);
 	}
 	
-	//TODO Check arguments
-	/**
-	 * Due to the peculiar pattern of pawn movement, it is required to have two
-	 * different functions, since white pawns move upwards, and black ones move downwards.
-	 * @param board
-	 * @param pieces
-	 */
 	private void executeWhitePawnMove(ChessBoard board, List<Piece> pieces) {
 		//Check if this pawn is trying to capture a piece. (Diagonal move)
 		if(this.rowDes == this.row - 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
-			
+			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
+				executeCaptureMove(board); //This already checks the kind of piece that is in the destination position
+				//and if it can be captured.
+			} else if((board.getChessPosition(this.row + 1, this.col) instanceof Pawn) && (this.rowDes == this.row + 1) ||
+					(board.getChessPosition(this.row - 1, this.col) instanceof Pawn) && (this.rowDes == this.row - 1)) { //En Passant capture
+				//No need to check that destination is null, that's checked above.
+				if(this.colDes == this.col + 1) { //Capture to the right
+					if(!board.getChessPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is black
+							((Pawn) board.getChessPosition(this.row + 1, this.col)).getPassant()) { //and it can be captured En Passant for this turn.						
+						executeCheckedMove(board);
+						deleteMovedPiece(this.row, this.col + 1, board);
+					} else { //Trying to capture either your own pawn or a pawn that can't be captured En Passant
+						throw new GameError("Invalid move, try again. (Error 001)");
+					}
+				} else if (this.colDes == this.col - 1) { //Capture to the left.
+					if(!board.getChessPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is black
+							((Pawn) board.getChessPosition(this.row, this.col - 1)).getPassant()) { //and it can be captured En Passant for this turn.
+						executeCheckedMove(board);
+						deleteMovedPiece(this.row - 1, this.col, board);
+					} else { //Trying to capture own piece En Passant
+						throw new GameError("Invalid move, try again. (Error 002)");
+					}
+				} else { //Unrecognised En Passant move (not left nor right?)
+					throw new GameError("Invalid move, try again. (Error 003)");
+				}
+			} else { //Pawn invalid diagonal move.
+				throw new GameError("Invalid move, try again. (Error 004)");
+			}
 		} else if(this.col == this.colDes && this.row - 1 == this.rowDes) { //Check if it's making a simple move
-			
+			if(board.getChessPosition(this.rowDes, this.colDes) == null) { //Working.
+				executeCheckedMove(board);
+			} else {
+				throw new GameError("Invalid move, try again. (Error 005)");
+			}
 		} else if(this.col == this.colDes && this.row - 2 == this.rowDes) { //Check if it's making an opening move (Double).
 			//TODO Check En Passant.
-			
+			if(board.getChessPosition(this.rowDes, this.colDes) != null) {
+				throw new GameError("Invalid move, the position is occupied, try again. (Error 006)");
+			} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) {
+				throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+			} else {
+				executeCheckedMove(board);
+				
+				//Fixed null pointer exception.
+				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
+			}
 		} else { //The move is not valid.
-			throw new GameError("Invalid move, try again.");
+			throw new GameError("Invalid move, try again. (Error 008)");
+		}
+		
+		//You can only get here if everything went right during the execution of the move.
+		if(checkPromotion(board)) {
+			int chosenPiece = -1;
+			ChessPiece newPiece;
+			
+			//TODO Create function that displays a window where you can choose the piece you want.
+			
+			switch(chosenPiece) {
+				case ChessPieceID.WHITE_ROOK:
+					newPiece = new Rook(true, false);
+					break;
+				case ChessPieceID.WHITE_KNIGHT:
+					newPiece = new Knight(true);
+					break;
+				case ChessPieceID.WHITE_BISHOP:
+					newPiece = new Bishop(true);
+					break;
+				case ChessPieceID.WHITE_QUEEN:
+					newPiece = new Queen(true);
+					break;
+				default:
+					throw new GameError("Invalid piece for promotion chosen.");
+			}
+			executePromotion(board, newPiece);
 		}
 	}
 	
-	private void checkPromotion(ChessBoard board, List<Piece> pieces) {
-		
+	private boolean checkPromotion(ChessBoard board) { //TODO Check this function. It might not work as intended.
+													  //Maybe should check the piece and not the position? Maybe ChessBoard?
+		return (board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.rowDes == 0) || //If it's white and has reached the top
+				(!board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.rowDes == 7); //If it's black and has reached the bottom
+	}
+	
+	private void executePromotion(ChessBoard board, ChessPiece p) { //The piece must be properly created in another function. Usually executeWhite/BlackPawnMove().
+		board.setPosition(this.rowDes, this.colDes, p);
 	}
 	
 	private void executeBlackPawnMove(ChessBoard board, List<Piece> pieces) {
@@ -134,23 +239,14 @@ public class ChessMove extends GameMove {
 		if(((this.colDes == this.col + 1 || this.colDes == this.col - 1) &&
 			(this.rowDes == this.row + 2 || this.rowDes == this.row - 2)) ||
 			((this.rowDes == this.row + 1 || this.rowDes == this.row - 1) &&
-			(this.colDes == this.col + 2 || this.colDes == this.col - 2))) { //Check the movement is legal.
+			(this.colDes == this.col + 2 || this.colDes == this.col - 2))) { //Check if the movement is legal.
 			if(board.getPosition(this.rowDes, this.colDes) == null) { //If the destination position is empty.
-				board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
-				deleteMovedPiece(this.row, this.col, board);
-			} else if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
-					((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) {
-					//If the player tried to capture an ally piece.
-				if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) { //You can't capture the king!
-					throw new GameError("Checkmate? This point should be unreachable.");
-				}
-				throw new GameError("Destination position already occupied by an ally piece!");
-			} else { //If he's capturing an enemy piece.
-				board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
-				deleteMovedPiece(this.row, this.col, board);
+				executeCheckedMove(board);
+			} else { //If the piece is trying to capture a piece.
+				executeCaptureMove(board);
 			}
 		} else { //The movement is illegal.
-			throw new GameError("Invalid movement, try again.");
+			throw new GameError("Invalid movement, try again. (Error 015)");
 		}
 	}
 	
@@ -211,15 +307,17 @@ public class ChessMove extends GameMove {
 			case 7:
 				rowOffset = 0; colOffset = -1; break;
 			default:
-				throw new GameError("Invalid move direction, this should be unreachable.");
+				throw new GameError("Invalid move direction, this should be unreachable. (Error 016)");
 		}
 		
-		int itCount = 0; //In case any error is found, this avoids an infinite loop.
-		int row = rowIni, col = colIni;
+		int itCount = 0; //In case any error happens, this avoids an infinite loop.
+		int rowIt = rowIni, colIt = colIni;
 		
-		while(itCount < 10 && (row != rowEnd && col != colEnd)) {
-			row += rowOffset;
-			col += colOffset;
+		while(itCount < 10 && (rowIt != rowEnd && colIt != colEnd)) {
+			rowIt += rowOffset;
+			colIt += colOffset;
+			
+			if(rowIt == rowEnd && colIt == colEnd) break; //Destination position should not be checked so you can capture pieces.
 			
 			if(chessBoard.getPosition(row, col) != null) //If it found a piece on the way.
 				return false;
@@ -227,36 +325,14 @@ public class ChessMove extends GameMove {
 			itCount++;
 		}
 		
-		//TODO Needs checking! (COMPROBAR QUE NO SE CUENTE LA POSICIÓN FINAL COMO PASADA!!)
-		
 		if(itCount >= 10) 
-			throw new GameError("Invalid move direction. This should never happen.");
+			throw new GameError("Move direction bugged. This should never happen. (Error 017)");
 		
 		return true;
 	} //If returned false, throw an exception from the suitable function.
 	
 	public void executeBishopMove(ChessBoard board, List<Piece> pieces) { //TODO Next to do.
-		if(((this.colDes == this.col + 1 || this.colDes == this.col - 1) &&
-			(this.rowDes == this.row + 2 || this.rowDes == this.row - 2)) ||
-			((this.rowDes == this.row + 1 || this.rowDes == this.row - 1) &&
-			(this.colDes == this.col + 2 || this.colDes == this.col - 2))) { //Check the movement is legal.
-			if(board.getPosition(this.rowDes, this.colDes) == null) { //If the destination position is empty.
-				board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
-				deleteMovedPiece(this.row, this.col, board);
-			} else if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
-					((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) {
-					//If the player tried to capture an ally piece.
-				if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) { //You can't capture the king!
-					throw new GameError("Checkmate? This point should be unreachable.");
-				}
-				throw new GameError("Destination position already occupied by an ally piece!");
-			} else { //If he's capturing an enemy piece.
-				board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
-				deleteMovedPiece(this.row, this.col, board);
-			}
-		} else { //The movement is illegal.
-				throw new GameError("Illegal movement, try again.");
-		}
+
 	}
 
 	public void executeQueenMove(ChessBoard board, List<Piece> pieces) {
@@ -268,8 +344,12 @@ public class ChessMove extends GameMove {
 	}
 	
 	//Deletes a piece (used after copying it to a new cell)
-	private void deleteMovedPiece(int row, int col, Board board) {
-		board.setPosition(row, col, null);
+	private void deleteMovedPiece(int row, int col, Board board) { //Working properly.
+		if(board.getPosition(row, col) == null) {
+			throw new GameError("Tried to delete an empty cell, there might be an error in the code. (Error 018)");
+		} else {
+			board.setPosition(row, col, null);
+		}
 	}
 
 	/** Creates a new instance of a ChessMove with parameters row, col, p.

@@ -28,16 +28,9 @@ import chess.game.mvc.model.genericGameFiles.Piece;
 public class ChessFactory implements GameFactory {
 	
 	private static final long serialVersionUID = 1L;
-	private int dim;	
-	
-	public ChessFactory(int dim) {
-		this.dim = dim;
-	}
 
 	//Default
-	public ChessFactory(){
-		this(8);
-	}
+	public ChessFactory() {}
 	
 	@Override
 	public GameRules gameRules() {

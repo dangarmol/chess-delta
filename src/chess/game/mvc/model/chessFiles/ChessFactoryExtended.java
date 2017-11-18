@@ -16,19 +16,8 @@ public class ChessFactoryExtended extends ChessFactory {
 
 	/**
 	 * Constructor
-	 * @param dim Dimension
-	 * @param numObs number of obstacles
 	 */
-	public ChessFactoryExtended(Integer dim) {
-		super(dim);
-	}
-	
-	/**
-	 * Default Ataxx Constructor
-	 */
-	public ChessFactoryExtended() {
-		super();
-	}
+	public ChessFactoryExtended() {}
 	
 	/**
 	 * Creates the Swing View

@@ -17,6 +17,11 @@ public class Rook extends ChessPiece {
 		super(isWhite);
 		this.canCastle = true;
 	}
+	
+	public Rook(boolean isWhite, boolean canCastle) {
+		super(isWhite);
+		this.canCastle = canCastle;
+	}
 
 	public Rook(String id, boolean isWhite) {
 		super(id, isWhite);
