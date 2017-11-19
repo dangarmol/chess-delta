@@ -136,7 +136,7 @@ public class ChessMove extends GameMove {
 			executeBlackPawnMove(board, pieces);
 	}
 	
-	private void executeWhitePawnMove(ChessBoard board, List<Piece> pieces) { //TODO Found some bugs that need solving in diagonal moves.
+	private void executeWhitePawnMove(ChessBoard board, List<Piece> pieces) {
 		//Check if this pawn is trying to capture a piece. (Diagonal move)
 		if(this.rowDes == this.row - 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
@@ -149,7 +149,7 @@ public class ChessMove extends GameMove {
 					if(!board.getChessPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is black
 							((Pawn) board.getChessPosition(this.row + 1, this.col)).getPassant()) { //and it can be captured En Passant for this turn.						
 						executeCheckedMove(board);
-						board.setPosition(this.row, this.col + 1, null);
+						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
 					} else { //Trying to capture either your own pawn or a pawn that can't be captured En Passant
 						throw new GameError("Invalid move, try again. (Error 001)");
 					}
@@ -157,8 +157,7 @@ public class ChessMove extends GameMove {
 					if(!board.getChessPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is black
 							((Pawn) board.getChessPosition(this.row, this.col - 1)).getPassant()) { //and it can be captured En Passant for this turn.
 						executeCheckedMove(board);
-						deleteMovedPiece(this.row - 1, this.col, board);
-						board.setPosition(this.row, this.col + 1, null);
+						board.setPosition(this.row, this.col - 1, null); //Deletes the captured piece
 					} else { //Trying to capture own piece En Passant
 						throw new GameError("Invalid move, try again. (Error 002)");
 					}
@@ -182,7 +181,6 @@ public class ChessMove extends GameMove {
 				throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
 			} else {
 				executeCheckedMove(board);
-
 				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
 			}
 		} else { //The move is not valid.
@@ -220,7 +218,85 @@ public class ChessMove extends GameMove {
 	}
 	
 	private void executeBlackPawnMove(ChessBoard board, List<Piece> pieces) {
+		//Check if this pawn is trying to capture a piece. (Diagonal move)
+		if(this.rowDes == this.row + 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
+			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
+				executeCaptureMove(board); //This already checks the kind of piece that is in the destination position
+				//and if it can be captured.
+			} else if((board.getChessPosition(this.row, this.col + 1) instanceof Pawn) && (this.colDes == this.col + 1) || //There is a pawn on the right
+					(board.getChessPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
+				//No need to check that destination is null, that's checked above.
+				if(this.colDes == this.col + 1) { //Capture to the right
+					if(!board.getChessPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is black
+							((Pawn) board.getChessPosition(this.row + 1, this.col)).getPassant()) { //and it can be captured En Passant for this turn.						
+						executeCheckedMove(board);
+						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
+					} else { //Trying to capture either your own pawn or a pawn that can't be captured En Passant
+						throw new GameError("Invalid move, try again. (Error 001)");
+					}
+				} else if (this.colDes == this.col - 1) { //Capture to the left.
+					if(!board.getChessPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is black
+							((Pawn) board.getChessPosition(this.row, this.col - 1)).getPassant()) { //and it can be captured En Passant for this turn.
+						executeCheckedMove(board);
+						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
+					} else { //Trying to capture own piece En Passant
+						throw new GameError("Invalid move, try again. (Error 002)");
+					}
+				} else { //Unrecognised En Passant move (not left nor right?)
+					throw new GameError("Invalid move, try again. (Error 003)");
+				}
+			} else { //Pawn invalid diagonal move.
+				throw new GameError("Invalid move, try again. (Error 004)");
+			}
+		} else if(this.col == this.colDes && this.row + 1 == this.rowDes) { //Check if it's making a simple move
+			if(board.getChessPosition(this.rowDes, this.colDes) == null) { //Working.
+				executeCheckedMove(board);
+			} else {
+				throw new GameError("Invalid move, try again. (Error 005)");
+			}
+		} else if(this.col == this.colDes && this.row + 2 == this.rowDes) { //Check if it's making an opening move (Double).
+			//TODO Check En Passant.
+			if(board.getChessPosition(this.rowDes, this.colDes) != null) {
+				throw new GameError("Invalid move, the position is occupied, try again. (Error 006)");
+			} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) {
+				throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+			} else {
+				executeCheckedMove(board);
+
+				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
+			}
+		} else { //The move is not valid.
+			throw new GameError("Invalid move, try again. (Error 008)");
+		}
 		
+		//You can only get here if everything went right during the execution of the move.
+		if(checkPromotion(board)) {
+			int chosenPiece = -1;
+			ChessPiece newPiece;
+			ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", false);
+			
+			//https://stackoverflow.com/questions/5472868/how-to-pause-program-until-a-button-press
+			//TODO This needs to sleep or something similar until the piece is chosen.
+			chosenPiece = dialog.getChosenPiece();
+			
+			switch(chosenPiece) {
+				case ChessPieceID.BLACK_ROOK:
+					newPiece = new Rook(false, false);
+					break;
+				case ChessPieceID.BLACK_KNIGHT:
+					newPiece = new Knight(false);
+					break;
+				case ChessPieceID.BLACK_BISHOP:
+					newPiece = new Bishop(false);
+					break;
+				case ChessPieceID.BLACK_QUEEN:
+					newPiece = new Queen(false);
+					break;
+				default:
+					throw new GameError("Invalid piece for promotion chosen.");
+			}
+			executePromotion(board, newPiece);
+		}
 	}
 	
 	private boolean checkPromotion(ChessBoard board) { //TODO Check this function. It might not work as intended.
