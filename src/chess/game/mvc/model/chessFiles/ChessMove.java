@@ -136,20 +136,20 @@ public class ChessMove extends GameMove {
 			executeBlackPawnMove(board, pieces);
 	}
 	
-	private void executeWhitePawnMove(ChessBoard board, List<Piece> pieces) {
+	private void executeWhitePawnMove(ChessBoard board, List<Piece> pieces) { //TODO Found some bugs that need solving in diagonal moves.
 		//Check if this pawn is trying to capture a piece. (Diagonal move)
 		if(this.rowDes == this.row - 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
 				executeCaptureMove(board); //This already checks the kind of piece that is in the destination position
 				//and if it can be captured.
-			} else if((board.getChessPosition(this.row + 1, this.col) instanceof Pawn) && (this.rowDes == this.row + 1) ||
-					(board.getChessPosition(this.row - 1, this.col) instanceof Pawn) && (this.rowDes == this.row - 1)) { //En Passant capture
+			} else if((board.getChessPosition(this.row, this.col + 1) instanceof Pawn) && (this.colDes == this.col + 1) || //There is a pawn on the right
+					(board.getChessPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
 				//No need to check that destination is null, that's checked above.
 				if(this.colDes == this.col + 1) { //Capture to the right
 					if(!board.getChessPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is black
 							((Pawn) board.getChessPosition(this.row + 1, this.col)).getPassant()) { //and it can be captured En Passant for this turn.						
 						executeCheckedMove(board);
-						deleteMovedPiece(this.row, this.col + 1, board);
+						board.setPosition(this.row, this.col + 1, null);
 					} else { //Trying to capture either your own pawn or a pawn that can't be captured En Passant
 						throw new GameError("Invalid move, try again. (Error 001)");
 					}
@@ -158,6 +158,7 @@ public class ChessMove extends GameMove {
 							((Pawn) board.getChessPosition(this.row, this.col - 1)).getPassant()) { //and it can be captured En Passant for this turn.
 						executeCheckedMove(board);
 						deleteMovedPiece(this.row - 1, this.col, board);
+						board.setPosition(this.row, this.col + 1, null);
 					} else { //Trying to capture own piece En Passant
 						throw new GameError("Invalid move, try again. (Error 002)");
 					}
@@ -192,9 +193,9 @@ public class ChessMove extends GameMove {
 		if(checkPromotion(board)) {
 			int chosenPiece = -1;
 			ChessPiece newPiece;
-			
 			ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", true);
 			
+			//https://stackoverflow.com/questions/5472868/how-to-pause-program-until-a-button-press
 			//TODO This needs to sleep or something similar until the piece is chosen.
 			chosenPiece = dialog.getChosenPiece();
 			
@@ -218,6 +219,10 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
+	private void executeBlackPawnMove(ChessBoard board, List<Piece> pieces) {
+		
+	}
+	
 	private boolean checkPromotion(ChessBoard board) { //TODO Check this function. It might not work as intended.
 													  //Maybe should check the piece and not the position? Maybe ChessBoard?
 		return (board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.rowDes == 0) || //If it's white and has reached the top
@@ -226,14 +231,6 @@ public class ChessMove extends GameMove {
 	
 	private void executePromotion(ChessBoard board, ChessPiece p) { //The piece must be properly created in another function. Usually executeWhite/BlackPawnMove().
 		board.setPosition(this.rowDes, this.colDes, p);
-	}
-	
-	private void executeBlackPawnMove(ChessBoard board, List<Piece> pieces) {
-		//Check that player makes a valid move
-				//if(captures something)
-					//
-				//else
-					//
 	}
 
 	public void executeRookMove(ChessBoard board, List<Piece> pieces) {
