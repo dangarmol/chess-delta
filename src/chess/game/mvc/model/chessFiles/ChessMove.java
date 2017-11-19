@@ -181,8 +181,7 @@ public class ChessMove extends GameMove {
 				throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
 			} else {
 				executeCheckedMove(board);
-				
-				//Fixed null pointer exception.
+
 				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
 			}
 		} else { //The move is not valid.
@@ -190,14 +189,14 @@ public class ChessMove extends GameMove {
 		}
 		
 		//You can only get here if everything went right during the execution of the move.
-		if(/*checkPromotion(board)*/ true) {
+		if(checkPromotion(board)) {
 			int chosenPiece = -1;
 			ChessPiece newPiece;
 			
 			ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", true);
+			
+			//TODO This needs to sleep or something similar until the piece is chosen.
 			chosenPiece = dialog.getChosenPiece();
-
-			//TODO Create function that displays a window where you can choose the piece you want.
 			
 			switch(chosenPiece) {
 				case ChessPieceID.WHITE_ROOK:
