@@ -2,6 +2,8 @@ package chess.game.mvc.model.chessFiles;
 
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
@@ -15,6 +17,7 @@ import chess.game.mvc.model.genericGameFiles.FiniteRectBoard;
 import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.GameMove;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.view.genericViews.ColorChooser;
 
 public class ChessMove extends GameMove {
 
@@ -187,10 +190,13 @@ public class ChessMove extends GameMove {
 		}
 		
 		//You can only get here if everything went right during the execution of the move.
-		if(checkPromotion(board)) {
+		if(/*checkPromotion(board)*/ true) {
 			int chosenPiece = -1;
 			ChessPiece newPiece;
 			
+			ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", true);
+			chosenPiece = dialog.getChosenPiece();
+
 			//TODO Create function that displays a window where you can choose the piece you want.
 			
 			switch(chosenPiece) {

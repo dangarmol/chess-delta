@@ -37,7 +37,7 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 	//Also convert the whole project into a runnable JAR file
 	
 	//Path must end in either "/" on Linux/MacOS or "\" on Windows
-	private String piecesPath = "/Users/Daniel/Google Drive/University and School/2017-2018 Hertfordshire/TFG/Chess Repository Workspace/Chess TFG/img/";
+	public static final String piecesPath = "/Users/Daniel/Google Drive/University and School/2017-2018 Hertfordshire/TFG/Chess Repository Workspace/Chess TFG/img/";
 	
 	private BufferedImage whitePawn;
 	private BufferedImage whiteRook;
