@@ -15,7 +15,7 @@ import chess.game.mvc.model.genericGameFiles.Piece;
 import chess.game.mvc.model.genericGameFiles.Game.State;
 import chess.game.mvc.model.genericGameFiles.GameError;
 
-public class ChessRules implements GameRules { //Should it be abstract?
+public class ChessRules implements GameRules {
 	
 	// This object is returned by gameOver to indicate that the game is not
 	// over. Just to avoid creating it multiple times, etc.
@@ -167,7 +167,7 @@ public class ChessRules implements GameRules { //Should it be abstract?
 		else if (lastPlayer == playersPieces.get(1))
 			nextPlayer = playersPieces.get(0);
 		else
-			throw new GameError("Something went wrong while changing turns. Unrecognised player.");
+			throw new GameError("Something went wrong while changing turns. Unrecognised player. This should be unreachable.");
 		
 		/*if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
 			return null; //Returns null if next player can't move!*/ //TODO This should be implemented at a later time.

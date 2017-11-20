@@ -1,8 +1,6 @@
 package chess.game.mvc.model.chessFiles;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -15,8 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.view.chessViews.ChessBoardComponent;
+import javax.swing.JDialog;
 
-public class ChessPawnPromotionDialog extends JFrame {
+public class ChessPawnPromotionDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +33,7 @@ public class ChessPawnPromotionDialog extends JFrame {
 		super();
 		chosenPiece = -1; //Represents that it hasn't been chosen yet.
 		loadPieces(isWhite);
-		this.setVisible(false);
+                this.setModal(true);
 		this.setTitle(title);
 		this.getContentPane().setLayout(new FlowLayout());
 		
@@ -90,8 +89,6 @@ public class ChessPawnPromotionDialog extends JFrame {
 		this.getContentPane().add(knightLabel);
 		this.getContentPane().add(bishopLabel);
 		this.getContentPane().add(queenLabel);
-		this.pack();
-		this.setVisible(true);
 		
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();

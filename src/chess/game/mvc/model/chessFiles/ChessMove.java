@@ -185,9 +185,6 @@ public class ChessMove extends GameMove {
 		if(checkPromotion(board)) {
 			ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", true);
 			
-			//https://stackoverflow.com/questions/5472868/how-to-pause-program-until-a-button-press
-			//TODO This needs to sleep or something similar until the piece is chosen.
-			
 			dialog.addWindowListener(new WindowAdapter() {
                 public void windowClosed(WindowEvent e) 
                 {
@@ -269,9 +266,6 @@ public class ChessMove extends GameMove {
 		//You can only get here if everything went right during the execution of the move.
 		if(checkPromotion(board)) {
 			ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", false);
-			
-			//https://stackoverflow.com/questions/5472868/how-to-pause-program-until-a-button-press
-			//TODO This needs to sleep or something similar until the piece is chosen.
 			
 			dialog.addWindowListener(new WindowAdapter() {
                 public void windowClosed(WindowEvent e) 

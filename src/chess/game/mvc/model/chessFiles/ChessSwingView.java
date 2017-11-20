@@ -50,7 +50,8 @@ public class ChessSwingView extends ChessFRBoardSwingView {
 			this.row = row;
 			this.col = col;
 			firstClick = false;
-			addMsg("Selected piece: (" + this.row + "," + this.col + ")");
+			//addMsg("Selected piece (" + this.row + "," + this.col + ")");
+			addMsg("Selected piece from ");
 			addMsg("Click on the destination...");
 		}
 		else if (activeBoard && !firstClick)
