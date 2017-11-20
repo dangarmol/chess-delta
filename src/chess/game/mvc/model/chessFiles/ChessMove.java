@@ -420,8 +420,14 @@ public class ChessMove extends GameMove {
 				if(this.colDes == 6) { //Short castling
 					if(board.getChessPosition(7, 7) != null && board.getChessPosition(7, 7) instanceof Rook) { //Check that there's a rook
 						if(!((Rook) board.getChessPosition(7, 7)).getCastle()) { //Check if the Rook can castle
-							if(checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check that there are no pieces inbetween
-								
+							if(checkPiecesInbetween(this.row, this.col, 7, 7)) { //Check that there are no pieces inbetween
+								if(!((King) this.getPiece()).getCheck()) { //Check that the king is not in check
+									//TODO Check that the king doesn't go through any check positions!
+									executeCheckedMove(board);
+									
+								} else {
+									throw new GameError("Cannot perform Castling, the King is in Check! (Error 008)");
+								}
 							} else {
 								throw new GameError("Cannot perform Castling, there are pieces inbetween. (Error 008)");
 							}
