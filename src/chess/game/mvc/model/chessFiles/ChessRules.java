@@ -13,6 +13,7 @@ import chess.game.mvc.model.genericGameFiles.GameRules;
 import chess.game.mvc.model.genericGameFiles.Pair;
 import chess.game.mvc.model.genericGameFiles.Piece;
 import chess.game.mvc.model.genericGameFiles.Game.State;
+import chess.game.mvc.model.genericGameFiles.GameError;
 
 public class ChessRules implements GameRules { //Should it be abstract?
 	
@@ -72,13 +73,6 @@ public class ChessRules implements GameRules { //Should it be abstract?
 		
 		if(currentPlayer != null) //If next player can move
 		{
-			for(int i = 0; i < pieces.size(); i++)
-			{
-				if(board.getPieceCount(pieces.get(i)) > 0)
-				{
-					playingPiecesCount++;
-				}
-			}
 			
 			if(playingPiecesCount == 1) //If only one type of pieces remain (even though the board is not full)
 			{
@@ -168,13 +162,15 @@ public class ChessRules implements GameRules { //Should it be abstract?
 	public Piece nextPlayer(Board board, List<Piece> playersPieces, Piece lastPlayer){
 		Piece nextPlayer;
 		
-		if(lastPlayer.getId() == "White")
+		if(lastPlayer == playersPieces.get(0))
 			nextPlayer = playersPieces.get(1);
-		else
+		else if (lastPlayer == playersPieces.get(1))
 			nextPlayer = playersPieces.get(0);
+		else
+			throw new GameError("Something went wrong while changing turns. Unrecognised player.");
 		
-		if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
-			return null; //Returns null if next player can't move!
+		/*if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
+			return null; //Returns null if next player can't move!*/ //TODO This should be implemented at a later time.
 		
 		return nextPlayer;
 	}
