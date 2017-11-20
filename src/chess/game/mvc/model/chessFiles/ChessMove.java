@@ -375,7 +375,27 @@ public class ChessMove extends GameMove {
 	}
 
 	public void executeQueenMove(ChessBoard board, List<Piece> pieces) {
-		
+		if(checkDiagonalMove() || checkHorizVertMove()) { //Checks that it's moving diagonally or horizontally but not in any other way.
+			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
+				if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
+						(!board.getChessPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
+					//Check that you're not trying to capture your own pieces.
+					throw new GameError("Invalid move, the destination is occupied by an ally piece, try again. (Error 006)");
+				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
+					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+				} else { //Everything correct, we can execute the move.
+					executeCheckedMove(board);
+				}
+			} else { //The destination position is empty.
+				if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
+					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+				} else { //We can proceed to the move.
+					executeCheckedMove(board);
+				}
+			}
+		} else { //It is not a vertical or horizontal move.
+			throw new GameError("Invalid move, try again. (Error 008)");
+		}
 	}
 	
 	public void executeKingMove(ChessBoard board, List<Piece> pieces) {
