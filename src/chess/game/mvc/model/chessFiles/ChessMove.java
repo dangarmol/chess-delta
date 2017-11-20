@@ -107,12 +107,12 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	public void disableEnPassant(boolean white) {
+	public void disableEnPassant(boolean isWhite) {
 		//TODO Disable En Passant for every Pawn from the colour passed by parameter.
 	}
 	
 	/**
-	 * Shows whether the current player is moving his own pieces.
+	 * Shows whether the current player is moving his own pieces or not.
 	 * @param board
 	 * @return
 	 */
@@ -123,12 +123,12 @@ public class ChessMove extends GameMove {
 	}
 	
 	//TODO Check arguments
-		/**
-		 * Due to the peculiar pattern of pawn movement, it is required to have two
-		 * different functions, since white pawns move upwards, and black ones move downwards.
-		 * @param board
-		 * @param pieces
-		 */
+	/**
+	 * Due to the peculiar pattern of pawn movement, it is required to have two
+	 * different functions, since white pawns move upwards, and black ones move downwards.
+	 * @param board
+	 * @param pieces
+	 */
 	public void executePawnMove(ChessBoard board, List<Piece> pieces) {
 		if(this.getPiece().getWhite())
 			executeWhitePawnMove(board, pieces);
@@ -227,7 +227,7 @@ public class ChessMove extends GameMove {
 					(board.getChessPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
 				//No need to check that destination is null, that's checked above.
 				if(this.colDes == this.col + 1) { //Capture to the right
-					if(!board.getChessPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is black
+					if(board.getChessPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is white
 							((Pawn) board.getChessPosition(this.row + 1, this.col)).getPassant()) { //and it can be captured En Passant for this turn.						
 						executeCheckedMove(board);
 						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
@@ -235,7 +235,7 @@ public class ChessMove extends GameMove {
 						throw new GameError("Invalid move, try again. (Error 001)");
 					}
 				} else if (this.colDes == this.col - 1) { //Capture to the left.
-					if(!board.getChessPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is black
+					if(board.getChessPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is white
 							((Pawn) board.getChessPosition(this.row, this.col - 1)).getPassant()) { //and it can be captured En Passant for this turn.
 						executeCheckedMove(board);
 						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
@@ -309,8 +309,30 @@ public class ChessMove extends GameMove {
 		board.setPosition(this.rowDes, this.colDes, p);
 	}
 
-	public void executeRookMove(ChessBoard board, List<Piece> pieces) {
-		
+	public void executeRookMove(ChessBoard board, List<Piece> pieces) { //TODO Needs to be checked.
+		if(this.col == this.colDes || this.row == this.rowDes) { //Check that it's moving either horizontally or vertically.
+			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
+				if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
+						(!board.getChessPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
+					//Check that you're not trying to capture your own pieces.
+					throw new GameError("Invalid move, the destination is occupied by an ally piece, try again. (Error 006)");
+				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
+					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+				} else { //Everything correct, we can execute the move.
+					executeCheckedMove(board);
+					((Rook) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This rook can't Castle since it moved.
+				}
+			} else { //The destination position is empty.
+				if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
+					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+				} else { //We can proceed to the move.
+					executeCheckedMove(board);
+					((Rook) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This rook can't Castle since it moved.
+				}
+			}
+		} else { //It is not a vertical or horizontal move.
+			throw new GameError("Invalid move, try again. (Error 008)");
+		}
 	}
 	
 	public void executeKnightMove(ChessBoard board, List<Piece> pieces) {
@@ -365,6 +387,8 @@ public class ChessMove extends GameMove {
 	//Check if there are any pieces between the positions selected (for bishops, rooks and queens)
 	//True means that the move can be performed, false means that there are pieces inbetween.
 	//The directions are shown on at the checkDirection() function above.
+	//
+	//Returns true if the movement can be performed, returns false if it can't be performed!!!
 	private boolean checkPiecesInbetween(int rowIni, int colIni, int rowEnd, int colEnd) {
 		int rowOffset, colOffset;
 		switch(checkDirection(rowIni, colIni, rowEnd, colEnd)) {
@@ -391,13 +415,13 @@ public class ChessMove extends GameMove {
 		int itCount = 0; //In case any error happens, this avoids an infinite loop.
 		int rowIt = rowIni, colIt = colIni;
 		
-		while(itCount < 10 && (rowIt != rowEnd && colIt != colEnd)) {
+		while(itCount < 10 && (rowIt != rowEnd || colIt != colEnd)) {
 			rowIt += rowOffset;
 			colIt += colOffset;
 			
 			if(rowIt == rowEnd && colIt == colEnd) break; //Destination position should not be checked so you can capture pieces.
 			
-			if(chessBoard.getPosition(row, col) != null) //If it found a piece on the way.
+			if(chessBoard.getPosition(rowIt, colIt) != null) //If it found a piece on the way.
 				return false;
 			
 			itCount++;
