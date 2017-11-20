@@ -42,9 +42,9 @@ public class ChessPawnPromotionDialog extends JDialog {
 		    @Override
 		    public void mouseClicked(MouseEvent e) {
 		    		if(isWhite)
-		    			chosenPiece = ChessPieceID.WHITE_ROOK;
+		    			chosenPiece = ChessPieceID.WHITE_ROOK_PAWN;
 		    		else
-		    			chosenPiece = ChessPieceID.BLACK_ROOK;
+		    			chosenPiece = ChessPieceID.BLACK_ROOK_PAWN;
 		    		closeDialog();            
 		    }
 		});

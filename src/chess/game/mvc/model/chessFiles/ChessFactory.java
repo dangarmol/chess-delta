@@ -81,11 +81,30 @@ public class ChessFactory implements GameFactory {
 	public List<Piece> createPieceTypes() {
 		List<Piece> pieces = new ArrayList<Piece>();
 		
-		pieces.add(ChessPieceID.WHITE_PAWN, new Pawn(true));
-		pieces.add(ChessPieceID.BLACK_PAWN, new Pawn(false));
+		pieces.add(ChessPieceID.WHITE_PAWN_A, new Pawn(true));
+		pieces.add(ChessPieceID.WHITE_PAWN_B, new Pawn(true));
+		pieces.add(ChessPieceID.WHITE_PAWN_C, new Pawn(true));
+		pieces.add(ChessPieceID.WHITE_PAWN_D, new Pawn(true));
+		pieces.add(ChessPieceID.WHITE_PAWN_E, new Pawn(true));
+		pieces.add(ChessPieceID.WHITE_PAWN_F, new Pawn(true));
+		pieces.add(ChessPieceID.WHITE_PAWN_G, new Pawn(true));
+		pieces.add(ChessPieceID.WHITE_PAWN_H, new Pawn(true));
+		pieces.add(ChessPieceID.BLACK_PAWN_A, new Pawn(false));
+		pieces.add(ChessPieceID.BLACK_PAWN_B, new Pawn(false));
+		pieces.add(ChessPieceID.BLACK_PAWN_C, new Pawn(false));
+		pieces.add(ChessPieceID.BLACK_PAWN_D, new Pawn(false));
+		pieces.add(ChessPieceID.BLACK_PAWN_E, new Pawn(false));
+		pieces.add(ChessPieceID.BLACK_PAWN_F, new Pawn(false));
+		pieces.add(ChessPieceID.BLACK_PAWN_G, new Pawn(false));
+		pieces.add(ChessPieceID.BLACK_PAWN_H, new Pawn(false));
 		
-		pieces.add(ChessPieceID.WHITE_ROOK, new Rook(true));
-		pieces.add(ChessPieceID.BLACK_ROOK, new Rook(false));
+		pieces.add(ChessPieceID.WHITE_ROOK_A, new Rook(true));
+		pieces.add(ChessPieceID.WHITE_ROOK_H, new Rook(true));
+		pieces.add(ChessPieceID.WHITE_ROOK_PAWN, new Rook(true, false));
+		
+		pieces.add(ChessPieceID.BLACK_ROOK_A, new Rook(false));		
+		pieces.add(ChessPieceID.BLACK_ROOK_H, new Rook(false));		
+		pieces.add(ChessPieceID.BLACK_ROOK_PAWN, new Rook(false, false));
 		
 		pieces.add(ChessPieceID.WHITE_KNIGHT, new Knight(true));
 		pieces.add(ChessPieceID.BLACK_KNIGHT, new Knight(false));

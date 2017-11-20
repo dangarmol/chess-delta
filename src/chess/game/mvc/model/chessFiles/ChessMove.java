@@ -196,7 +196,7 @@ public class ChessMove extends GameMove {
                 {
                     ChessPiece newPiece;
                     switch(dialog.getChosenPiece()) {
-                            case ChessPieceID.WHITE_ROOK:
+                            case ChessPieceID.WHITE_ROOK_PAWN:
                                     newPiece = new Rook(true, false);
                                     break;
                             case ChessPieceID.WHITE_KNIGHT:
@@ -283,7 +283,7 @@ public class ChessMove extends GameMove {
                 {
                     ChessPiece newPiece;
                     switch(dialog.getChosenPiece()) {
-                            case ChessPieceID.BLACK_ROOK:
+                            case ChessPieceID.BLACK_ROOK_PAWN:
                                     newPiece = new Rook(false, false);
                                     break;
                             case ChessPieceID.BLACK_KNIGHT:

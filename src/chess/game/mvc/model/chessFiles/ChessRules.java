@@ -34,28 +34,40 @@ public class ChessRules implements GameRules {
 		Board board = new ChessBoard();		
 		
 		//Sets the positions for every piece on their starting positions.
-		board.setPosition(0, 0, pieceTypes.get(ChessPieceID.BLACK_ROOK));
+		board.setPosition(0, 0, pieceTypes.get(ChessPieceID.BLACK_ROOK_A));
 		board.setPosition(0, 1, pieceTypes.get(ChessPieceID.BLACK_KNIGHT));
 		board.setPosition(0, 2, pieceTypes.get(ChessPieceID.BLACK_BISHOP));
 		board.setPosition(0, 3, pieceTypes.get(ChessPieceID.BLACK_QUEEN));
 		board.setPosition(0, 4, pieceTypes.get(ChessPieceID.BLACK_KING));
 		board.setPosition(0, 5, pieceTypes.get(ChessPieceID.BLACK_BISHOP));
 		board.setPosition(0, 6, pieceTypes.get(ChessPieceID.BLACK_KNIGHT));
-		board.setPosition(0, 7, pieceTypes.get(ChessPieceID.BLACK_ROOK));
+		board.setPosition(0, 7, pieceTypes.get(ChessPieceID.BLACK_ROOK_H));
 		
-		board.setPosition(7, 0, pieceTypes.get(ChessPieceID.WHITE_ROOK));
+		board.setPosition(7, 0, pieceTypes.get(ChessPieceID.WHITE_ROOK_A));
 		board.setPosition(7, 1, pieceTypes.get(ChessPieceID.WHITE_KNIGHT));
 		board.setPosition(7, 2, pieceTypes.get(ChessPieceID.WHITE_BISHOP));
 		board.setPosition(7, 3, pieceTypes.get(ChessPieceID.WHITE_QUEEN));
 		board.setPosition(7, 4, pieceTypes.get(ChessPieceID.WHITE_KING));
 		board.setPosition(7, 5, pieceTypes.get(ChessPieceID.WHITE_BISHOP));
 		board.setPosition(7, 6, pieceTypes.get(ChessPieceID.WHITE_KNIGHT));
-		board.setPosition(7, 7, pieceTypes.get(ChessPieceID.WHITE_ROOK));
+		board.setPosition(7, 7, pieceTypes.get(ChessPieceID.WHITE_ROOK_H));
 		
-		for(int i = 0; i < 8; i++) {
-			board.setPosition(1, i, pieceTypes.get(ChessPieceID.BLACK_PAWN));
-			board.setPosition(6, i, pieceTypes.get(ChessPieceID.WHITE_PAWN));
-		}
+		board.setPosition(1, 0, pieceTypes.get(ChessPieceID.BLACK_PAWN_A));
+		board.setPosition(6, 0, pieceTypes.get(ChessPieceID.WHITE_PAWN_A));
+		board.setPosition(1, 1, pieceTypes.get(ChessPieceID.BLACK_PAWN_B));
+		board.setPosition(6, 1, pieceTypes.get(ChessPieceID.WHITE_PAWN_B));
+		board.setPosition(1, 2, pieceTypes.get(ChessPieceID.BLACK_PAWN_C));
+		board.setPosition(6, 2, pieceTypes.get(ChessPieceID.WHITE_PAWN_C));
+		board.setPosition(1, 3, pieceTypes.get(ChessPieceID.BLACK_PAWN_D));
+		board.setPosition(6, 3, pieceTypes.get(ChessPieceID.WHITE_PAWN_D));
+		board.setPosition(1, 4, pieceTypes.get(ChessPieceID.BLACK_PAWN_E));
+		board.setPosition(6, 4, pieceTypes.get(ChessPieceID.WHITE_PAWN_E));
+		board.setPosition(1, 5, pieceTypes.get(ChessPieceID.BLACK_PAWN_F));
+		board.setPosition(6, 5, pieceTypes.get(ChessPieceID.WHITE_PAWN_F));
+		board.setPosition(1, 6, pieceTypes.get(ChessPieceID.BLACK_PAWN_G));
+		board.setPosition(6, 6, pieceTypes.get(ChessPieceID.WHITE_PAWN_G));
+		board.setPosition(1, 7, pieceTypes.get(ChessPieceID.BLACK_PAWN_H));
+		board.setPosition(6, 7, pieceTypes.get(ChessPieceID.WHITE_PAWN_H));
 		
 		return board;
 	}
