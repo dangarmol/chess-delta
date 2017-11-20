@@ -134,8 +134,8 @@ public class ChessMove extends GameMove {
 		//Check if this pawn is trying to capture a piece. (Diagonal move)
 		if(this.rowDes == this.row - 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
-				executeCaptureMove(board); //This already checks the kind of piece that is in the destination position
-				//and if it can be captured.
+				executeCaptureMove(board); //This already checks the kind of piece that is in the destination position and if it can be captured.
+				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 			} else if((board.getChessPosition(this.row, this.col + 1) instanceof Pawn) && (this.colDes == this.col + 1) || //There is a pawn on the right
 					(board.getChessPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
 				//No need to check that destination is null, that's checked above.
@@ -164,18 +164,24 @@ public class ChessMove extends GameMove {
 		} else if(this.col == this.colDes && this.row - 1 == this.rowDes) { //Check if it's making a simple move
 			if(board.getChessPosition(this.rowDes, this.colDes) == null) { //Working.
 				executeCheckedMove(board);
+				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 			} else {
 				throw new GameError("Invalid move, try again. (Error 005)");
 			}
 		} else if(this.col == this.colDes && this.row - 2 == this.rowDes) { //Check if it's making an opening move (Double).
 			//TODO Check En Passant.
-			if(board.getChessPosition(this.rowDes, this.colDes) != null) {
-				throw new GameError("Invalid move, the position is occupied, try again. (Error 006)");
-			} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) {
-				throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+			if(((Pawn) board.getChessPosition(this.row, this.col)).getFirstMove()) { //Checks if it's the pawn's first move.
+				if(board.getChessPosition(this.rowDes, this.colDes) != null) {
+					throw new GameError("Invalid move, the position is occupied, try again. (Error 006)");
+				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) {
+					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+				} else {
+					executeCheckedMove(board);
+					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
+					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
+				}
 			} else {
-				executeCheckedMove(board);
-				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
+				throw new GameError("Cannot make a double move with this Pawn.");
 			}
 		} else { //The move is not valid.
 			throw new GameError("Invalid move, try again. (Error 008)");
@@ -215,8 +221,8 @@ public class ChessMove extends GameMove {
 		//Check if this pawn is trying to capture a piece. (Diagonal move)
 		if(this.rowDes == this.row + 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
-				executeCaptureMove(board); //This already checks the kind of piece that is in the destination position
-				//and if it can be captured.
+				executeCaptureMove(board); //This already checks the kind of piece that is in the destination position and if it can be captured.
+				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 			} else if((board.getChessPosition(this.row, this.col + 1) instanceof Pawn) && (this.colDes == this.col + 1) || //There is a pawn on the right
 					(board.getChessPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
 				//No need to check that destination is null, that's checked above.
@@ -245,19 +251,24 @@ public class ChessMove extends GameMove {
 		} else if(this.col == this.colDes && this.row + 1 == this.rowDes) { //Check if it's making a simple move
 			if(board.getChessPosition(this.rowDes, this.colDes) == null) { //Working.
 				executeCheckedMove(board);
+				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 			} else {
 				throw new GameError("Invalid move, try again. (Error 005)");
 			}
 		} else if(this.col == this.colDes && this.row + 2 == this.rowDes) { //Check if it's making an opening move (Double).
 			//TODO Check En Passant.
-			if(board.getChessPosition(this.rowDes, this.colDes) != null) {
-				throw new GameError("Invalid move, the position is occupied, try again. (Error 006)");
-			} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) {
-				throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+			if(((Pawn) board.getChessPosition(this.row, this.col)).getFirstMove()) { //Checks if it's the pawn's first move.
+				if(board.getChessPosition(this.rowDes, this.colDes) != null) {
+					throw new GameError("Invalid move, the position is occupied, try again. (Error 006)");
+				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) {
+					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+				} else {
+					executeCheckedMove(board);
+					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
+					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
+				}
 			} else {
-				executeCheckedMove(board);
-
-				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
+				throw new GameError("Cannot make a double move with this Pawn.");
 			}
 		} else { //The move is not valid.
 			throw new GameError("Invalid move, try again. (Error 008)");

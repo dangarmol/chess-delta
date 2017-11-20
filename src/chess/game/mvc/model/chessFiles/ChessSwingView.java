@@ -2,6 +2,7 @@ package chess.game.mvc.model.chessFiles;
 
 import chess.game.mvc.controller.Controller;
 import chess.game.mvc.controller.Player;
+import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.GameObserver;
 import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
@@ -14,8 +15,8 @@ public class ChessSwingView extends ChessFRBoardSwingView {
 	private boolean activeBoard;
 	private int row;
 	private int col;
-	private int rowD;
-	private int colD;
+	private int rowDes;
+	private int colDes;
 	boolean firstClick = true;
 	
 	/**
@@ -40,29 +41,58 @@ public class ChessSwingView extends ChessFRBoardSwingView {
 		return firstClick;
 	}
 	
+	//Returns a string with the needed position (a1 to h8)
+	private String getFormattedPosition(int row, int col) {
+		String aux = "";
+		switch(col) {
+		case 0:
+			aux += "a";	break;
+		case 1:
+			aux += "b";	break;
+		case 2:
+			aux += "c";	break;
+		case 3:
+			aux += "d";	break;
+		case 4:
+			aux += "e";	break;
+		case 5:
+			aux += "f";	break;
+		case 6:
+			aux += "g";	break;
+		case 7:
+			aux += "h"; break;
+		default:
+			throw new GameError("Error writing formatted position.");
+		}
+		
+		aux += (8 - row);
+		
+		return aux;
+	}
+	
 	/**
 	 * Performs a move with the value of the click position
 	 */
 	@Override
-	protected void handleMouseClick(int row, int col, int mouseButton) {
+	protected void handleMouseClick(int clickedRow, int clickedCol, int mouseButton) {
 		if (activeBoard && firstClick && mouseButton == 1)
 		{
-			this.row = row;
-			this.col = col;
+			this.row = clickedRow;
+			this.col = clickedCol;
 			firstClick = false;
 			//addMsg("Selected piece (" + this.row + "," + this.col + ")");
-			addMsg("Selected piece from ");
+			addMsg("Selected piece from " + getFormattedPosition(this.row, this.col) + ".");
 			addMsg("Click on the destination...");
 		}
 		else if (activeBoard && !firstClick)
 		{
-			this.rowD = row;
-			this.colD = col;
+			this.rowDes = clickedRow;
+			this.colDes = clickedCol;
 			firstClick = true;
 			if(mouseButton == 1)
 			{
-				addMsg("Destination for the piece: (" + this.rowD + "," + this.colD + ")");
-				player.setMoveValue(this.row, this.col, this.rowD, this.colD);
+				addMsg("Destination for the piece: " + getFormattedPosition(this.rowDes, this.colDes) + ".");
+				player.setMoveValue(this.row, this.col, this.rowDes, this.colDes);
 				decideMakeManualMove(this.player);
 			}
 		}
