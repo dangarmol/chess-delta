@@ -399,7 +399,54 @@ public class ChessMove extends GameMove {
 	}
 	
 	public void executeKingMove(ChessBoard board, List<Piece> pieces) {
-	
+		if(Math.abs(this.row - this.rowDes) <= 1 && Math.abs(this.col - this.colDes) <= 1) {
+			//Check that it's moving only 1 tile away.
+			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
+				if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
+						(!board.getChessPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
+					//Check that you're not trying to capture your own pieces.
+					throw new GameError("Invalid move, the destination is occupied by an ally piece, try again. (Error 006)");
+				} else { //Everything correct, we can execute the move.
+					executeCheckedMove(board);
+					((King) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This King can't Castle since it just moved.
+				}
+			} else { //The destination position is empty.
+					executeCheckedMove(board);
+					((King) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This King can't Castle since it just moved.
+			}
+		} else if(this.getPiece().getWhite() && ((this.row == 7 && this.col == 4) &&
+				(this.rowDes == 7 && (this.colDes == 2 || this.colDes == 6)))) { //Trying to Castle white king.
+			if(((King) this.getPiece()).getCastle()) { //Check if the King can castle.
+				if(this.colDes == 6) { //Short castling
+					if(board.getChessPosition(7, 7) != null && board.getChessPosition(7, 7) instanceof Rook) { //Check that there's a rook
+						if(!((Rook) board.getChessPosition(7, 7)).getCastle()) { //Check if the Rook can castle
+							if(checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check that there are no pieces inbetween
+								
+							} else {
+								throw new GameError("Cannot perform Castling, there are pieces inbetween. (Error 008)");
+							}
+						} else {
+							throw new GameError("Rook cannot perform Castling. (Error 008)");
+						}
+					} else {
+						throw new GameError("Rook is missing for Castling. (Error 008)");
+					}
+				} else { //Long castling
+					if(board.getChessPosition(7, 0) != null && board.getChessPosition(7, 0) instanceof Rook) { //Check that there's a rook
+						
+					} else {
+						throw new GameError("Rook is missing for Castling. (Error 008)");
+					}
+				}
+			} else {
+				throw new GameError("This King cannot Castle anymore. (Error 008)");
+			}
+		} else if(!this.getPiece().getWhite() && ((this.row == 0 && this.col == 4) &&
+				(this.rowDes == 0 && (this.colDes == 2 || this.colDes == 6)))) { //Trying to Castle black king.
+			
+		} else { //Illegal move.
+			throw new GameError("Invalid move, try again. (Error 008)");
+		}
 	}
 	
 	//Checks if the movement is actually diagonal and not horizontal, vertical or anything else.
