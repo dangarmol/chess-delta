@@ -422,9 +422,13 @@ public class ChessMove extends GameMove {
 						if(!((Rook) board.getChessPosition(7, 7)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 7, 7)) { //Check that there are no pieces inbetween
 								if(!((King) this.getPiece()).getCheck()) { //Check that the king is not in check
-									//TODO Check that the king doesn't go through any check positions!
-									executeCheckedMove(board);
-									
+									if(true) { //TODO Check that the king doesn't go through any check positions!
+										executeCheckedMove(board); //Performs Castling...
+										board.setPosition(7, 5, board.getChessPosition(7, 7));
+										deleteMovedPiece(7, 7, board);
+									} else {
+										throw new GameError("Cannot perform Castling, the King would be in Check during the move! (Error 008)");
+									}
 								} else {
 									throw new GameError("Cannot perform Castling, the King is in Check! (Error 008)");
 								}
@@ -439,7 +443,25 @@ public class ChessMove extends GameMove {
 					}
 				} else { //Long castling
 					if(board.getChessPosition(7, 0) != null && board.getChessPosition(7, 0) instanceof Rook) { //Check that there's a rook
-						
+						if(!((Rook) board.getChessPosition(7, 0)).getCastle()) { //Check if the Rook can castle
+							if(checkPiecesInbetween(this.row, this.col, 7, 0)) { //Check that there are no pieces inbetween
+								if(!((King) this.getPiece()).getCheck()) { //Check that the king is not in check
+									if(true) { //TODO Check that the king doesn't go through any check positions!
+										executeCheckedMove(board); //Performs Castling...
+										board.setPosition(7, 3, board.getChessPosition(7, 0));
+										deleteMovedPiece(7, 0, board);
+									} else {
+										throw new GameError("Cannot perform Castling, the King would be in Check during the move! (Error 008)");
+									}
+								} else {
+									throw new GameError("Cannot perform Castling, the King is in Check! (Error 008)");
+								}
+							} else {
+								throw new GameError("Cannot perform Castling, there are pieces inbetween. (Error 008)");
+							}
+						} else {
+							throw new GameError("Rook cannot perform Castling. (Error 008)");
+						}
 					} else {
 						throw new GameError("Rook is missing for Castling. (Error 008)");
 					}
@@ -449,7 +471,59 @@ public class ChessMove extends GameMove {
 			}
 		} else if(!this.getPiece().getWhite() && ((this.row == 0 && this.col == 4) &&
 				(this.rowDes == 0 && (this.colDes == 2 || this.colDes == 6)))) { //Trying to Castle black king.
-			
+			if(((King) this.getPiece()).getCastle()) { //Check if the King can castle.
+				if(this.colDes == 6) { //Short castling
+					if(board.getChessPosition(0, 7) != null && board.getChessPosition(0, 7) instanceof Rook) { //Check that there's a rook
+						if(!((Rook) board.getChessPosition(0, 7)).getCastle()) { //Check if the Rook can castle
+							if(checkPiecesInbetween(this.row, this.col, 0, 7)) { //Check that there are no pieces inbetween
+								if(!((King) this.getPiece()).getCheck()) { //Check that the king is not in check
+									if(true) { //TODO Check that the king doesn't go through any check positions!
+										executeCheckedMove(board); //Performs Castling...
+										board.setPosition(0, 5, board.getChessPosition(0, 7));
+										deleteMovedPiece(0, 7, board);
+									} else {
+										throw new GameError("Cannot perform Castling, the King would be in Check during the move! (Error 008)");
+									}
+								} else {
+									throw new GameError("Cannot perform Castling, the King is in Check! (Error 008)");
+								}
+							} else {
+								throw new GameError("Cannot perform Castling, there are pieces inbetween. (Error 008)");
+							}
+						} else {
+							throw new GameError("Rook cannot perform Castling. (Error 008)");
+						}
+					} else {
+						throw new GameError("Rook is missing for Castling. (Error 008)");
+					}
+				} else { //Long castling
+					if(board.getChessPosition(0, 0) != null && board.getChessPosition(0, 0) instanceof Rook) { //Check that there's a rook
+						if(!((Rook) board.getChessPosition(0, 0)).getCastle()) { //Check if the Rook can castle
+							if(checkPiecesInbetween(this.row, this.col, 0, 0)) { //Check that there are no pieces inbetween
+								if(!((King) this.getPiece()).getCheck()) { //Check that the king is not in check
+									if(true) { //TODO Check that the king doesn't go through any check positions!
+										executeCheckedMove(board); //Performs Castling...
+										board.setPosition(0, 3, board.getChessPosition(0, 0));
+										deleteMovedPiece(0, 0, board);
+									} else {
+										throw new GameError("Cannot perform Castling, the King would be in Check during the move! (Error 008)");
+									}
+								} else {
+									throw new GameError("Cannot perform Castling, the King is in Check! (Error 008)");
+								}
+							} else {
+								throw new GameError("Cannot perform Castling, there are pieces inbetween. (Error 008)");
+							}
+						} else {
+							throw new GameError("Rook cannot perform Castling. (Error 008)");
+						}
+					} else {
+						throw new GameError("Rook is missing for Castling. (Error 008)");
+					}
+				}
+			} else {
+				throw new GameError("This King cannot Castle anymore. (Error 008)");
+			}
 		} else { //Illegal move.
 			throw new GameError("Invalid move, try again. (Error 008)");
 		}
