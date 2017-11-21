@@ -50,10 +50,9 @@ public class ChessMove extends GameMove {
 		//Check that the player moves his own piece
 		
 		this.chessBoard = (ChessBoard) board;
-		//https://stackoverflow.com/questions/907360/explanation-of-classcastexception-in-java
 		
 		if(this.row == this.rowDes && this.col == this.colDes)
-			throw new GameError("You cannot move to the same position you were in!!! (Error 014)"); //Works
+			throw new GameError("You cannot move to the same position you were in!!! (Error Code 001)");
 		
 		//board vs chessBoard issue?
 		if(checkTurn(chessBoard)) { //Checks that the player is trying to move his own piece.
@@ -70,10 +69,10 @@ public class ChessMove extends GameMove {
 			} else if (chessBoard.getPosition(this.row, this.col) instanceof King) {
 				executeKingMove(chessBoard, pieces);
 			} else {
-				throw new GameError("Piece type not recognised! This should be unreachable. (Error 013)");
+				throw new GameError("Piece type not recognised! This should be unreachable. (Error Code 002)");
 			}
 		} else {
-			throw new GameError("You can only move your own pieces!!! (Error 012)"); //Works properly
+			throw new GameError("You can only move your own pieces!!! (Error Code 003)"); //Works properly
 		}
 	}
 	
@@ -88,10 +87,10 @@ public class ChessMove extends GameMove {
 			if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
 					((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) {
 					//If the player tried to capture an ally piece.
-				throw new GameError("Destination position already occupied by an ally piece! (Error 011)");
+				throw new GameError("Destination position already occupied by an ally piece! (Error Code 004)");
 			} else { //If he's capturing an enemy piece.
 				if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) { //You can't capture the king!
-					throw new GameError("Checkmate? This point should be unreachable. (Error 010)");
+					throw new GameError("Checkmate? This point should be unreachable. (Error Code 005)");
 				} else {
 					executeCheckedMove(board);
 				}
@@ -324,7 +323,7 @@ public class ChessMove extends GameMove {
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
 					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
 				} else { //Everything correct, we can execute the move.
-					executeCheckedMove(board);
+					executeCaptureMove(board); 
 					((Rook) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This rook can't Castle since it moved.
 				}
 			} else { //The destination position is empty.
@@ -365,7 +364,7 @@ public class ChessMove extends GameMove {
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
 					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
 				} else { //Everything correct, we can execute the move.
-					executeCheckedMove(board);
+					executeCaptureMove(board);
 				}
 			} else { //The destination position is empty.
 				if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
@@ -389,7 +388,7 @@ public class ChessMove extends GameMove {
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
 					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
 				} else { //Everything correct, we can execute the move.
-					executeCheckedMove(board);
+					executeCaptureMove(board); 
 				}
 			} else { //The destination position is empty.
 				if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
@@ -412,7 +411,7 @@ public class ChessMove extends GameMove {
 					//Check that you're not trying to capture your own pieces.
 					throw new GameError("Invalid move, the destination is occupied by an ally piece, try again. (Error 006)");
 				} else { //Everything correct, we can execute the move.
-					executeCheckedMove(board);
+					executeCaptureMove(board); 
 					((King) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This King can't Castle since it just moved.
 				}
 			} else { //The destination position is empty.
