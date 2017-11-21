@@ -51,28 +51,32 @@ public class ChessMove extends GameMove {
 		
 		this.chessBoard = (ChessBoard) board;
 		
-		if(this.row == this.rowDes && this.col == this.colDes)
-			throw new GameError("You cannot move to the same position you were in!!! (Error Code 001)");
+		if(!checkTurn(chessBoard)) {//Checks that the player is trying to move his own piece.
+			String color = "";
+			if(this.getPiece().getWhite())
+				color = "WHITE";
+			else
+				color = "BLACK";
+			throw new GameError("You can only move your own pieces. It's the turn for " + color + ". Try again. (Error Code 001)"); //Works properly
+		}
 		
-		//board vs chessBoard issue?
-		if(checkTurn(chessBoard)) { //Checks that the player is trying to move his own piece.
-			if(chessBoard.getPosition(this.row, this.col) instanceof Pawn) {
-				executePawnMove(chessBoard, pieces);
-			} else if (chessBoard.getPosition(this.row, this.col) instanceof Rook) {
-				executeRookMove(chessBoard, pieces);
-			} else if (chessBoard.getPosition(this.row, this.col) instanceof Knight) {
-				executeKnightMove(chessBoard, pieces);
-			} else if (chessBoard.getPosition(this.row, this.col) instanceof Bishop) {
-				executeBishopMove(chessBoard, pieces);
-			} else if (chessBoard.getPosition(this.row, this.col) instanceof Queen) {
-				executeQueenMove(chessBoard, pieces);
-			} else if (chessBoard.getPosition(this.row, this.col) instanceof King) {
-				executeKingMove(chessBoard, pieces);
-			} else {
-				throw new GameError("Piece type not recognised! This should be unreachable. (Error Code 002)");
-			}
+		if(this.row == this.rowDes && this.col == this.colDes)
+			throw new GameError("You cannot move a piece to the same position. Try again. (Error Code 002)");
+			
+		if(chessBoard.getPosition(this.row, this.col) instanceof Pawn) {
+			executePawnMove(chessBoard, pieces);
+		} else if (chessBoard.getPosition(this.row, this.col) instanceof Rook) {
+			executeRookMove(chessBoard, pieces);
+		} else if (chessBoard.getPosition(this.row, this.col) instanceof Knight) {
+			executeKnightMove(chessBoard, pieces);
+		} else if (chessBoard.getPosition(this.row, this.col) instanceof Bishop) {
+			executeBishopMove(chessBoard, pieces);
+		} else if (chessBoard.getPosition(this.row, this.col) instanceof Queen) {
+			executeQueenMove(chessBoard, pieces);
+		} else if (chessBoard.getPosition(this.row, this.col) instanceof King) {
+			executeKingMove(chessBoard, pieces);
 		} else {
-			throw new GameError("You can only move your own pieces!!! (Error Code 003)"); //Works properly
+			throw new GameError("Piece type not recognised! This should be unreachable. (Error Code 003)");
 		}
 	}
 	
@@ -83,20 +87,16 @@ public class ChessMove extends GameMove {
 	}
 	
 	public void executeCaptureMove(ChessBoard board) {
-		try {
-			if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
-					((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) {
-					//If the player tried to capture an ally piece.
-				throw new GameError("Destination position already occupied by an ally piece! (Error Code 004)");
-			} else { //If he's capturing an enemy piece.
-				if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) { //You can't capture the king!
-					throw new GameError("Checkmate? This point should be unreachable. (Error Code 005)");
-				} else {
-					executeCheckedMove(board);
-				}
+		if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
+				((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) {
+				//If the player tried to capture an ally piece.
+			throw new GameError("Destination position already occupied by an ally piece! (Error Code 004)");
+		} else { //If he's capturing an enemy piece.
+			if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) { //You can't capture the king!
+				throw new GameError("Checkmate? This point should be unreachable. (Error Code 005)");
+			} else {
+				executeCheckedMove(board);
 			}
-		} catch (Exception e) {
-			throw new GameError("This method has probably been called in the wrong place. This should never be reached. (Error 009)");
 		}
 	}
 	
