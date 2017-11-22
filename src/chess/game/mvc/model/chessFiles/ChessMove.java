@@ -49,8 +49,12 @@ public class ChessMove extends GameMove {
 	
 	private static final long serialVersionUID = 273689252496184587L;
 	
+	public void execute(Board board, List<Piece> playersPieces) { //TODO This needs to be fixed.
+		throw new GameError("executeChessMove() should have been called instead.");
+	}
+	
 	//Checks if the move can be made and, if so, moves the piece to the specified position.
-	public void execute(Board board, List<Piece> pieces) {
+	public void executeChessMove(Board board, List<Piece> playersPieces, List<Piece> chessPieces) {
 		//Changed from this.getPiece() instanceof Rook
 		//this.getPiece() now returns the player that made the move.
 		//Check that the player moves his own piece
@@ -70,20 +74,22 @@ public class ChessMove extends GameMove {
 			throw new GameError("You cannot move a piece to the same position. Try again. (Error Code 002)");
 			
 		if(chessBoard.getPosition(this.row, this.col) instanceof Pawn) {
-			executePawnMove(chessBoard, pieces);
+			executePawnMove(chessBoard, chessPieces);
 		} else if (chessBoard.getPosition(this.row, this.col) instanceof Rook) {
-			executeRookMove(chessBoard, pieces);
+			executeRookMove(chessBoard, chessPieces);
 		} else if (chessBoard.getPosition(this.row, this.col) instanceof Knight) {
-			executeKnightMove(chessBoard, pieces);
+			executeKnightMove(chessBoard, chessPieces);
 		} else if (chessBoard.getPosition(this.row, this.col) instanceof Bishop) {
-			executeBishopMove(chessBoard, pieces);
+			executeBishopMove(chessBoard, chessPieces);
 		} else if (chessBoard.getPosition(this.row, this.col) instanceof Queen) {
-			executeQueenMove(chessBoard, pieces);
+			executeQueenMove(chessBoard, chessPieces);
 		} else if (chessBoard.getPosition(this.row, this.col) instanceof King) {
-			executeKingMove(chessBoard, pieces);
+			executeKingMove(chessBoard, chessPieces);
 		} else {
 			throw new GameError("Piece type not recognised! This should be unreachable. (Error Code 003)");
 		}
+		
+		disableEnPassant(true, chessPieces);
 	}
 	
 	//Returns the position of the king from the current player as an 2 digits integer.
