@@ -25,10 +25,10 @@ import chess.game.mvc.model.genericGameFiles.Piece;
  */
 public class ChessMove extends GameMove {
 
-	private int row;
-	private int col;
-	private int rowDes;
-	private int colDes;
+	protected int row;
+	protected int col;
+	protected int rowDes;
+	protected int colDes;
 	
 	private ChessPiece chessPiece;
 	private ChessBoard chessBoard;
@@ -57,9 +57,7 @@ public class ChessMove extends GameMove {
 		
 		this.chessBoard = (ChessBoard) board;
 		
-		ChessBoard boardBeforeMove = (ChessBoard) this.chessBoard.copyChessBoard(); //Keeps a copy of the current board before the move.
-		
-		if(!checkTurn(this.chessBoard)) {//Checks that the player is trying to move his own piece.
+		if(!checkTurn(chessBoard)) {//Checks that the player is trying to move his own piece.
 			String color = "";
 			if(this.getPiece().getWhite())
 				color = "WHITE";
@@ -71,31 +69,23 @@ public class ChessMove extends GameMove {
 		if(this.row == this.rowDes && this.col == this.colDes)
 			throw new GameError("You cannot move a piece to the same position. Try again. (Error Code 002)");
 			
-		if(this.chessBoard.getPosition(this.row, this.col) instanceof Pawn) {
-			executePawnMove(this.chessBoard, chessPieces);
-		} else if (this.chessBoard.getPosition(this.row, this.col) instanceof Rook) {
-			executeRookMove(this.chessBoard, chessPieces);
-		} else if (this.chessBoard.getPosition(this.row, this.col) instanceof Knight) {
-			executeKnightMove(this.chessBoard, chessPieces);
-		} else if (this.chessBoard.getPosition(this.row, this.col) instanceof Bishop) {
-			executeBishopMove(this.chessBoard, chessPieces);
-		} else if (this.chessBoard.getPosition(this.row, this.col) instanceof Queen) {
-			executeQueenMove(this.chessBoard, chessPieces);
-		} else if (this.chessBoard.getPosition(this.row, this.col) instanceof King) {
-			executeKingMove(this.chessBoard, chessPieces);
+		if(chessBoard.getPosition(this.row, this.col) instanceof Pawn) {
+			executePawnMove(chessBoard, chessPieces);
+		} else if (chessBoard.getPosition(this.row, this.col) instanceof Rook) {
+			executeRookMove(chessBoard, chessPieces);
+		} else if (chessBoard.getPosition(this.row, this.col) instanceof Knight) {
+			executeKnightMove(chessBoard, chessPieces);
+		} else if (chessBoard.getPosition(this.row, this.col) instanceof Bishop) {
+			executeBishopMove(chessBoard, chessPieces);
+		} else if (chessBoard.getPosition(this.row, this.col) instanceof Queen) {
+			executeQueenMove(chessBoard, chessPieces);
+		} else if (chessBoard.getPosition(this.row, this.col) instanceof King) {
+			executeKingMove(chessBoard, chessPieces);
 		} else {
 			throw new GameError("Piece type not recognised! This should be unreachable. (Error Code 003)");
 		}
 		
-		if(isKingInCheck(this.chessBoard, this.getPiece().getWhite())) { //If the King is in check after the move.
-			this.chessBoard = boardBeforeMove; //TODO Fix this, it doesn't work.
-			throw new GameError("You cannot perform that move, your King is in Check!!!");
-		}
-		
-		//If the code reaches this point, the move has been successfully executed.
-		
-		disableEnPassant(!this.getPiece().getWhite(), chessPieces); //Disable En passant for every pawn of the colour that is going
-		//to move, since it has been more than a move ago that he moved his pieces.
+		disableEnPassant(true, chessPieces);
 	}
 	
 	//Returns the position of the king from the current player as an 2 digits integer.
@@ -113,16 +103,14 @@ public class ChessMove extends GameMove {
 		}
 		return ChessConstants.UNKNOWN;
 	}
-
-	//Checks if the King for the colour passed by parameter is threatened by any piece.
-	public boolean isKingInCheck(ChessBoard board, boolean isWhite) { //TODO This needs to be added to the conditions for the moves.
+	
+	public boolean isKingInCheck(ChessBoard board, boolean isWhite) { //TODO This need to be added to the conditions for the moves.
 		int kingLocation = findKing(board, isWhite);
 		if(kingLocation == ChessConstants.UNKNOWN) {
 			throw new GameError("King not found, this should never happen.");
 		}
 		int kingRow = kingLocation / 10;
 		int kingCol = kingLocation % 10;
-		
 		//King can't be threatened by the other King. Since a King cannot move to a vulnerable position.
 		return checkHorizVertThreat(board, kingRow, kingCol) || checkDiagonalThreat(board, kingRow, kingCol) ||
 				checkKnightThreat(board, kingRow, kingCol) || checkPawnThreat(board, kingRow, kingCol);
@@ -178,9 +166,9 @@ public class ChessMove extends GameMove {
 		int rowOffSet = ChessConstants.NEGATIVE, colOffSet = ChessConstants.NEGATIVE;
 		int multiplier = 1;
 		int rowX, colY;
-		rowX = kingRow + rowOffSet * multiplier;
-		colY = kingCol + colOffSet * multiplier;
-		while(rowX >= ChessConstants.MIN_DIM && colY >= ChessConstants.MIN_DIM) { //NorthWest Direction
+		do { //NorthWest Direction
+			rowX = kingRow + rowOffSet * multiplier;
+			colY = kingCol + colOffSet * multiplier;
 			if(board.getChessPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
 				if(checkDiagonalAttacker(board, rowX, colY, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -188,14 +176,12 @@ public class ChessMove extends GameMove {
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
 			}
 			multiplier++;
-			rowX = kingRow + rowOffSet * multiplier;
-			colY = kingCol + colOffSet * multiplier;
-		}
+		} while(rowX >= ChessConstants.MIN_DIM && colY >= ChessConstants.MIN_DIM);
 		
 		multiplier = 1; rowOffSet = ChessConstants.NEGATIVE; colOffSet = ChessConstants.POSITIVE;
-		rowX = kingRow + rowOffSet * multiplier;
-		colY = kingCol + colOffSet * multiplier;
-		while(rowX >= ChessConstants.MIN_DIM && colY <= ChessConstants.MAX_DIM) { //NorthEast Direction
+		do { //NorthEast Direction
+			rowX = kingRow + rowOffSet * multiplier;
+			colY = kingCol + colOffSet * multiplier;
 			if(board.getChessPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
 				if(checkDiagonalAttacker(board, rowX, colY, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -203,14 +189,12 @@ public class ChessMove extends GameMove {
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
 			}
 			multiplier++;
-			rowX = kingRow + rowOffSet * multiplier;
-			colY = kingCol + colOffSet * multiplier;
-		}
+		} while(rowX >= ChessConstants.MIN_DIM && colY <= ChessConstants.MAX_DIM);
 		
 		multiplier = 1; rowOffSet = ChessConstants.POSITIVE; colOffSet = ChessConstants.POSITIVE;
-		rowX = kingRow + rowOffSet * multiplier;
-		colY = kingCol + colOffSet * multiplier;
-		while(rowX <= ChessConstants.MAX_DIM && colY <= ChessConstants.MAX_DIM) { //SouthEast Direction
+		do { //SouthEast Direction
+			rowX = kingRow + rowOffSet * multiplier;
+			colY = kingCol + colOffSet * multiplier;
 			if(board.getChessPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
 				if(checkDiagonalAttacker(board, rowX, colY, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -218,14 +202,10 @@ public class ChessMove extends GameMove {
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
 			}
 			multiplier++;
-			rowX = kingRow + rowOffSet * multiplier;
-			colY = kingCol + colOffSet * multiplier;
-		}
+		} while(rowX <= ChessConstants.MAX_DIM && colY <= ChessConstants.MAX_DIM);
 		
 		multiplier = 1; rowOffSet = ChessConstants.POSITIVE; colOffSet = ChessConstants.NEGATIVE;
-		rowX = kingRow + rowOffSet * multiplier;
-		colY = kingCol + colOffSet * multiplier;
-		while(rowX <= ChessConstants.MAX_DIM && colY >= ChessConstants.MIN_DIM) { //SouthWest Direction
+		do { //SouthWest Direction
 			rowX = kingRow + rowOffSet * multiplier;
 			colY = kingCol + colOffSet * multiplier;
 			if(board.getChessPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
@@ -235,9 +215,7 @@ public class ChessMove extends GameMove {
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and returns false, since none of the loops found a threat.
 			}
 			multiplier++;
-			rowX = kingRow + rowOffSet * multiplier;
-			colY = kingCol + colOffSet * multiplier;
-		}
+		} while(rowX <= ChessConstants.MAX_DIM && colY >= ChessConstants.MIN_DIM);
 		return false;
 	}
 	
@@ -325,15 +303,14 @@ public class ChessMove extends GameMove {
 	}
 
 	//Checks if the king is threatened by a Pawn.
-	//TODO Remake this function.
 	private boolean checkPawnThreat(ChessBoard board, int kingRow, int kingCol) {
 		if(board.getChessPosition(kingRow, kingCol).getWhite() && kingRow != ChessConstants.MIN_DIM) { //If the king is white and not on the top row (to avoid null pointers).
 			if(((kingCol + 1 <= ChessConstants.MAX_DIM) && board.getChessPosition(kingRow - 1, kingCol + 1) != null) || //Checks the range and then checks if the positions are empty.
 					(kingCol - 1 >= ChessConstants.MIN_DIM) && (board.getChessPosition(kingRow - 1, kingCol - 1) != null)) {
-				if((board.getChessPosition(kingRow - 1, kingCol + 1) != null && !board.getChessPosition(kingRow - 1, kingCol + 1).getWhite()) ||
-						(board.getChessPosition(kingRow - 1, kingCol - 1) != null && !board.getChessPosition(kingRow - 1, kingCol - 1).getWhite())) { //Checks if the pieces are black
-					if((board.getChessPosition(kingRow - 1, kingCol + 1) != null && board.getChessPosition(kingRow - 1, kingCol + 1) instanceof Pawn) || //Checks if it's a pawn
-							(board.getChessPosition(kingRow - 1, kingCol + 1) != null && board.getChessPosition(kingRow - 1, kingCol - 1) instanceof Pawn)) {
+				if(!board.getChessPosition(kingRow - 1, kingCol + 1).getWhite() || //Checks if the pieces are black
+						!board.getChessPosition(kingRow - 1, kingCol - 1).getWhite()) {
+					if(board.getChessPosition(kingRow - 1, kingCol + 1) instanceof Pawn || //Checks if it's a pawn
+							board.getChessPosition(kingRow - 1, kingCol - 1) instanceof Pawn) {
 						return true; //All the conditions were met
 					}
 				}
@@ -341,10 +318,10 @@ public class ChessMove extends GameMove {
 		} else if(!board.getChessPosition(kingRow, kingCol).getWhite() && kingRow != ChessConstants.MAX_DIM) { //If the king is black and not on the bottom row (to avoid null pointers).
 			if(((kingCol + 1 <= ChessConstants.MAX_DIM) && board.getChessPosition(kingRow + 1, kingCol + 1) != null) || //Checks the range and then checks if the positions are empty.
 					(kingCol - 1 >= ChessConstants.MIN_DIM) && (board.getChessPosition(kingRow + 1, kingCol - 1) != null)) {
-				if((board.getChessPosition(kingRow - 1, kingCol + 1) != null && board.getChessPosition(kingRow - 1, kingCol + 1).getWhite()) ||
-						(board.getChessPosition(kingRow - 1, kingCol - 1) != null && board.getChessPosition(kingRow - 1, kingCol - 1).getWhite())) { //Checks if the pieces are white
-					if((board.getChessPosition(kingRow - 1, kingCol + 1) != null && board.getChessPosition(kingRow + 1, kingCol + 1) instanceof Pawn) || //Checks if it's a pawn
-							(board.getChessPosition(kingRow - 1, kingCol + 1) != null && board.getChessPosition(kingRow + 1, kingCol - 1) instanceof Pawn)) {
+				if(board.getChessPosition(kingRow + 1, kingCol + 1).getWhite() || //Checks if the pieces are white
+						board.getChessPosition(kingRow + 1, kingCol - 1).getWhite()) {
+					if(board.getChessPosition(kingRow + 1, kingCol + 1) instanceof Pawn || //Checks if it's a pawn
+							board.getChessPosition(kingRow + 1, kingCol - 1) instanceof Pawn) {
 						return true; //All the conditions were met
 					}
 				}
@@ -375,14 +352,25 @@ public class ChessMove extends GameMove {
 	
 	//Disable En Passant for every Pawn from the colour passed by parameter.
 	public void disableEnPassant(boolean isWhite, List<Piece> chessPieces) {
-		for(int rowX = ChessConstants.MIN_DIM + 1; rowX < ChessConstants.MAX_DIM - 1; rowX++) { //Pawns can't be on the first or last row.
-			for(int colY = ChessConstants.MIN_DIM; colY < ChessConstants.MAX_DIM; colY++) {
-				if(this.chessBoard.getChessPosition(rowX, colY) != null &&
-						this.chessBoard.getChessPosition(rowX, colY) instanceof Pawn &&
-						this.chessBoard.getChessPosition(rowX, colY).getWhite() == isWhite) {
-					((Pawn) this.chessBoard.getChessPosition(rowX, colY)).setPassant(false);
-				}
-			}
+		//TODO Check if this works
+		if(isWhite) {
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_A)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_B)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_C)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_D)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_E)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_F)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_G)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_H)).setPassant(false);
+		} else {
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_A)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_B)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_C)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_D)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_E)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_F)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_G)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_H)).setPassant(false);
 		}
 	}
 	
@@ -391,7 +379,7 @@ public class ChessMove extends GameMove {
 		//this.getPiece() returns the piece to which the move belongs!
 		return ((this.getPiece().getWhite() && (board.getChessPosition(this.row, this.col)).getWhite()) ||
 				(!this.getPiece().getWhite() && !(board.getChessPosition(this.row, this.col)).getWhite()));
-	} //TODO This might crash after a move has been cancelled by an exception.
+	}
 	
 	//Due to the peculiar pattern of pawn movement, it is required to have two
 	//different functions, since white pawns move upwards, and black ones move downwards.
@@ -441,6 +429,7 @@ public class ChessMove extends GameMove {
 				throw new GameError("Invalid move, try again. (Error 005)");
 			}
 		} else if(this.col == this.colDes && this.row - 2 == this.rowDes) { //Check if it's making an opening move (Double).
+			//TODO Check En Passant.
 			if(((Pawn) board.getChessPosition(this.row, this.col)).getFirstMove()) { //Checks if it's the pawn's first move.
 				if(board.getChessPosition(this.rowDes, this.colDes) != null) {
 					throw new GameError("Invalid move, the position is occupied, try again. (Error 006)");
@@ -526,6 +515,7 @@ public class ChessMove extends GameMove {
 				throw new GameError("Invalid move, try again. (Error 005)");
 			}
 		} else if(this.col == this.colDes && this.row + 2 == this.rowDes) { //Check if it's making an opening move (Double).
+			//TODO Check En Passant.
 			if(((Pawn) board.getChessPosition(this.row, this.col)).getFirstMove()) { //Checks if it's the pawn's first move.
 				if(board.getChessPosition(this.rowDes, this.colDes) != null) {
 					throw new GameError("Invalid move, the position is occupied, try again. (Error 006)");
@@ -921,7 +911,7 @@ public class ChessMove extends GameMove {
 		if (getPiece() == null) {
 			return help();
 		} else {
-			return getPiece() + " player moves (" + row + "," + col + ") to ("  + rowDes + "," + colDes + ")";
+			return "Place a piece '" + getPiece() + "' at (" + row + "," + col + ")";
 		}
 	}
 	
@@ -932,7 +922,7 @@ public class ChessMove extends GameMove {
 
 	@Override
 	public GameMove fromString(Piece p, String str) {
-		//This is not needed in this game and should not be called.
+		// TODO Remove
 		return null;
 	}
 }

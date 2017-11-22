@@ -19,10 +19,4 @@ public class ChessBoard extends FiniteRectBoard {
 		}
 		return (ChessPiece) board[row][col];
 	}
-	
-	public ChessBoard copyChessBoard() {
-		ChessBoard newboard = new ChessBoard();
-		this.copyTo(newboard);
-		return newboard;
-	}
 }
