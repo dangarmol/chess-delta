@@ -399,7 +399,7 @@ public class ChessMove extends GameMove {
 				//No need to check that destination is null, that's checked above.
 				if(this.colDes == this.col + 1) { //Capture to the right
 					if(!board.getChessPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is black
-							((Pawn) board.getChessPosition(this.row + 1, this.col)).getPassant()) { //and it can be captured En Passant for this turn.						
+							((Pawn) board.getChessPosition(this.row, this.col + 1)).getPassant()) { //and it can be captured En Passant for this turn.						
 						executeCheckedMove(board);
 						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
 					} else { //Trying to capture either your own pawn or a pawn that can't be captured En Passant
@@ -485,7 +485,7 @@ public class ChessMove extends GameMove {
 				//No need to check that destination is null, that's checked above.
 				if(this.colDes == this.col + 1) { //Capture to the right
 					if(board.getChessPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is white
-							((Pawn) board.getChessPosition(this.row + 1, this.col)).getPassant()) { //and it can be captured En Passant for this turn.						
+							((Pawn) board.getChessPosition(this.row, this.col + 1)).getPassant()) { //and it can be captured En Passant for this turn.						
 						executeCheckedMove(board);
 						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
 					} else { //Trying to capture either your own pawn or a pawn that can't be captured En Passant
