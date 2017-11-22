@@ -116,7 +116,7 @@ public class FiniteRectBoard extends BasicBoard {
 		return cols;
 	}
 
-	private void copyTo(FiniteRectBoard newboard) {
+	protected void copyTo(FiniteRectBoard newboard) {
 
 		// ask the super class to copy its stuff first.
 		super.copyTo(newboard);
