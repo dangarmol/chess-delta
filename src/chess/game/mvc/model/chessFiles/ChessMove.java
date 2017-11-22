@@ -96,8 +96,8 @@ public class ChessMove extends GameMove {
 	//Left digit represents row and right digit represents col. King at (2, 5), would be returned as "25".
 	//Returns -1 if the king hasn't been found. An exception should be thrown if this happens.
 	private int findKing(ChessBoard board, boolean isWhite) {
-		for(int rowX = 0; rowX < 8; rowX++) {
-			for(int colY = 0; colY < 8; colY++) {
+		for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
+			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
 				if(board.getChessPosition(rowX, colY) != null) {
 					if(board.getChessPosition(rowX, colY) instanceof King && (board.getChessPosition(rowX, colY).getWhite() == isWhite)) {
 						return rowX * 10 + colY;
@@ -105,12 +105,12 @@ public class ChessMove extends GameMove {
 				}
 			}
 		}
-		return -1;
+		return ChessConstants.UNKNOWN;
 	}
 	
 	public boolean isKingInCheck(ChessBoard board, boolean isWhite) { //TODO This need to be added to the conditions for the moves.
 		int kingLocation = findKing(board, isWhite);
-		if(kingLocation == -1) {
+		if(kingLocation == ChessConstants.UNKNOWN) {
 			throw new GameError("King not found, this should never happen.");
 		}
 		int kingRow = kingLocation / 10;
@@ -122,7 +122,7 @@ public class ChessMove extends GameMove {
 	
 	//Checks if the king is threatened from any row or column, horizontally or vertically by either a Queen or a Rook.
 	private boolean checkHorizVertThreat(ChessBoard board, int kingRow, int kingCol) {
-		for(int rowX = kingRow; rowX <= 7; rowX++) { //South Direction
+		for(int rowX = kingRow; rowX <= ChessConstants.MAX_DIM; rowX++) { //South Direction
 			if(board.getChessPosition(rowX, kingCol) != null) { //If the position is empty, the loop keeps running.
 				if(checkHorizVertAttacker(board, rowX, kingCol, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -131,7 +131,7 @@ public class ChessMove extends GameMove {
 			}
 		}
 		
-		for(int rowX = kingRow; rowX >= 0; rowX--) { //North Direction
+		for(int rowX = kingRow; rowX >= ChessConstants.MIN_DIM; rowX--) { //North Direction
 			if(board.getChessPosition(rowX, kingCol) != null) { //If the position is empty, the loop keeps running.
 				if(checkHorizVertAttacker(board, rowX, kingCol, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -140,7 +140,7 @@ public class ChessMove extends GameMove {
 			}
 		}
 		
-		for(int colY = kingCol; colY <= 7; colY++) { //East Direction
+		for(int colY = kingCol; colY <= ChessConstants.MAX_DIM; colY++) { //East Direction
 			if(board.getChessPosition(kingRow, colY) != null) { //If the position is empty, the loop keeps running.
 				if(checkHorizVertAttacker(board, kingRow, colY, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -149,7 +149,7 @@ public class ChessMove extends GameMove {
 			}
 		}
 		
-		for(int colY = kingCol; colY >= 0; colY--) { //West Direction
+		for(int colY = kingCol; colY >= ChessConstants.MIN_DIM; colY--) { //West Direction
 			if(board.getChessPosition(kingRow, colY) != null) { //If the position is empty, the loop keeps running.
 				if(checkHorizVertAttacker(board, kingRow, colY, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -167,7 +167,7 @@ public class ChessMove extends GameMove {
 	
 	//Checks if the king is threatened from any diagonal by either a Queen or a Bishop.
 	private boolean checkDiagonalThreat(ChessBoard board, int kingRow, int kingCol) {
-		int rowOffSet = -1, colOffSet = -1;
+		int rowOffSet = ChessConstants.NEGATIVE, colOffSet = ChessConstants.NEGATIVE;
 		int multiplier = 1;
 		int rowX, colY;
 		do { //NorthWest Direction
@@ -180,9 +180,9 @@ public class ChessMove extends GameMove {
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
 			}
 			multiplier++;
-		} while(rowX >= 0 && colY >= 0);
+		} while(rowX >= ChessConstants.MIN_DIM && colY >= ChessConstants.MIN_DIM);
 		
-		multiplier = 1; rowOffSet = -1; colOffSet = 1;
+		multiplier = 1; rowOffSet = ChessConstants.NEGATIVE; colOffSet = ChessConstants.POSITIVE;
 		do { //NorthEast Direction
 			rowX = kingRow + rowOffSet * multiplier;
 			colY = kingCol + colOffSet * multiplier;
@@ -193,9 +193,9 @@ public class ChessMove extends GameMove {
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
 			}
 			multiplier++;
-		} while(rowX >= 0 && colY <= 7);
+		} while(rowX >= ChessConstants.MIN_DIM && colY <= ChessConstants.MAX_DIM);
 		
-		multiplier = 1; rowOffSet = 1; colOffSet = 1;
+		multiplier = 1; rowOffSet = ChessConstants.POSITIVE; colOffSet = ChessConstants.POSITIVE;
 		do { //SouthEast Direction
 			rowX = kingRow + rowOffSet * multiplier;
 			colY = kingCol + colOffSet * multiplier;
@@ -206,9 +206,9 @@ public class ChessMove extends GameMove {
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
 			}
 			multiplier++;
-		} while(rowX <= 7 && colY <= 7);
+		} while(rowX <= ChessConstants.MAX_DIM && colY <= ChessConstants.MAX_DIM);
 		
-		multiplier = 1; rowOffSet = 1; colOffSet = -1;
+		multiplier = 1; rowOffSet = ChessConstants.POSITIVE; colOffSet = ChessConstants.NEGATIVE;
 		do { //SouthWest Direction
 			rowX = kingRow + rowOffSet * multiplier;
 			colY = kingCol + colOffSet * multiplier;
@@ -219,7 +219,7 @@ public class ChessMove extends GameMove {
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and returns false, since none of the loops found a threat.
 			}
 			multiplier++;
-		} while(rowX <= 7 && colY >= 0);
+		} while(rowX <= ChessConstants.MAX_DIM && colY >= ChessConstants.MIN_DIM);
 		return false;
 	}
 	
@@ -231,8 +231,8 @@ public class ChessMove extends GameMove {
 	private boolean checkKnightThreat(ChessBoard board, int kingRow, int kingCol) {
 		boolean isWhiteKing = board.getChessPosition(kingRow, kingCol).getWhite();
 		
-		if(kingRow - 2 >= 0) { //Check if going 2 rows up is within the board range.
-			if(kingCol - 1 >= 0) { //Check if going 1 column left is within the board range
+		if(kingRow - 2 >= ChessConstants.MIN_DIM) { //Check if going 2 rows up is within the board range.
+			if(kingCol - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 column left is within the board range
 				if(board.getChessPosition(kingRow - 2, kingCol - 1) != null &&
 						board.getChessPosition(kingRow - 2, kingCol - 1) instanceof Knight &&
 						board.getChessPosition(kingRow - 2, kingCol - 1).getWhite() != isWhiteKing) {
@@ -240,7 +240,7 @@ public class ChessMove extends GameMove {
 				}
 			}
 			
-			if(kingCol + 1 <= 7) { //Check if going 1 column right is within the board range
+			if(kingCol + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 column right is within the board range
 				if(board.getChessPosition(kingRow - 2, kingCol + 1) != null &&
 						board.getChessPosition(kingRow - 2, kingCol + 1) instanceof Knight &&
 						board.getChessPosition(kingRow - 2, kingCol + 1).getWhite() != isWhiteKing) {
@@ -249,8 +249,8 @@ public class ChessMove extends GameMove {
 			}
 		}
 		
-		if(kingRow + 2 <= 7) { //Check if going 2 rows down is within the board range.
-			if(kingCol - 1 >= 0) { //Check if going 1 column left is within the board range
+		if(kingRow + 2 <= ChessConstants.MAX_DIM) { //Check if going 2 rows down is within the board range.
+			if(kingCol - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 column left is within the board range
 				if(board.getChessPosition(kingRow + 2, kingCol - 1) != null &&
 						board.getChessPosition(kingRow + 2, kingCol - 1) instanceof Knight &&
 						board.getChessPosition(kingRow + 2, kingCol - 1).getWhite() != isWhiteKing) {
@@ -258,7 +258,7 @@ public class ChessMove extends GameMove {
 				}
 			}
 			
-			if(kingCol + 1 <= 7) { //Check if going 1 column right is within the board range
+			if(kingCol + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 column right is within the board range
 				if(board.getChessPosition(kingRow + 2, kingCol + 1) != null &&
 						board.getChessPosition(kingRow + 2, kingCol + 1) instanceof Knight &&
 						board.getChessPosition(kingRow + 2, kingCol + 1).getWhite() != isWhiteKing) {
@@ -267,8 +267,8 @@ public class ChessMove extends GameMove {
 			}
 		}
 		
-		if(kingCol - 2 >= 0) { //Check if going 2 columns left is within the board range.
-			if(kingRow - 1 >= 0) { //Check if going 1 row up is within the board range
+		if(kingCol - 2 >= ChessConstants.MIN_DIM) { //Check if going 2 columns left is within the board range.
+			if(kingRow - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 row up is within the board range
 				if(board.getChessPosition(kingRow - 1, kingCol - 2) != null &&
 						board.getChessPosition(kingRow - 1, kingCol - 2) instanceof Knight &&
 						board.getChessPosition(kingRow - 1, kingCol - 2).getWhite() != isWhiteKing) {
@@ -276,7 +276,7 @@ public class ChessMove extends GameMove {
 				}
 			}
 			
-			if(kingRow + 1 <= 7) { //Check if going 1 row down is within the board range
+			if(kingRow + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 row down is within the board range
 				if(board.getChessPosition(kingRow + 1, kingCol - 2) != null &&
 						board.getChessPosition(kingRow + 1, kingCol - 2) instanceof Knight &&
 						board.getChessPosition(kingRow + 1, kingCol - 2).getWhite() != isWhiteKing) {
@@ -285,8 +285,8 @@ public class ChessMove extends GameMove {
 			}
 		}
 		
-		if(kingCol + 2 <= 7) { //Check if going 2 columns right is within the board range.
-			if(kingRow - 1 >= 0) { //Check if going 1 row up is within the board range
+		if(kingCol + 2 <= ChessConstants.MAX_DIM) { //Check if going 2 columns right is within the board range.
+			if(kingRow - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 row up is within the board range
 				if(board.getChessPosition(kingRow - 1, kingCol + 2) != null &&
 						board.getChessPosition(kingRow - 1, kingCol + 2) instanceof Knight &&
 						board.getChessPosition(kingRow - 1, kingCol + 2).getWhite() != isWhiteKing) {
@@ -294,7 +294,7 @@ public class ChessMove extends GameMove {
 				}
 			}
 			
-			if(kingRow + 1 <= 7) { //Check if going 1 row down is within the board range
+			if(kingRow + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 row down is within the board range
 				if(board.getChessPosition(kingRow + 1, kingCol + 2) != null &&
 						board.getChessPosition(kingRow + 1, kingCol + 2) instanceof Knight &&
 						board.getChessPosition(kingRow + 1, kingCol + 2).getWhite() != isWhiteKing) {
@@ -308,9 +308,9 @@ public class ChessMove extends GameMove {
 
 	//Checks if the king is threatened by a Pawn.
 	private boolean checkPawnThreat(ChessBoard board, int kingRow, int kingCol) {
-		if(board.getChessPosition(kingRow, kingCol).getWhite() && kingRow != 0) { //If the king is white and not on the top row (to avoid null pointers).
-			if(((kingCol + 1 <= 7) && board.getChessPosition(kingRow - 1, kingCol + 1) != null) || //Checks the range and then checks if the positions are empty.
-					(kingCol - 1 >= 0) && (board.getChessPosition(kingRow - 1, kingCol - 1) != null)) {
+		if(board.getChessPosition(kingRow, kingCol).getWhite() && kingRow != ChessConstants.MIN_DIM) { //If the king is white and not on the top row (to avoid null pointers).
+			if(((kingCol + 1 <= ChessConstants.MAX_DIM) && board.getChessPosition(kingRow - 1, kingCol + 1) != null) || //Checks the range and then checks if the positions are empty.
+					(kingCol - 1 >= ChessConstants.MIN_DIM) && (board.getChessPosition(kingRow - 1, kingCol - 1) != null)) {
 				if(!board.getChessPosition(kingRow - 1, kingCol + 1).getWhite() || //Checks if the pieces are black
 						!board.getChessPosition(kingRow - 1, kingCol - 1).getWhite()) {
 					if(board.getChessPosition(kingRow - 1, kingCol + 1) instanceof Pawn || //Checks if it's a pawn
@@ -319,9 +319,9 @@ public class ChessMove extends GameMove {
 					}
 				}
 			}
-		} else if(!board.getChessPosition(kingRow, kingCol).getWhite() && kingRow != 7) { //If the king is black and not on the bottom row (to avoid null pointers).
-			if(((kingCol + 1 <= 7) && board.getChessPosition(kingRow + 1, kingCol + 1) != null) || //Checks the range and then checks if the positions are empty.
-					(kingCol - 1 >= 0) && (board.getChessPosition(kingRow + 1, kingCol - 1) != null)) {
+		} else if(!board.getChessPosition(kingRow, kingCol).getWhite() && kingRow != ChessConstants.MAX_DIM) { //If the king is black and not on the bottom row (to avoid null pointers).
+			if(((kingCol + 1 <= ChessConstants.MAX_DIM) && board.getChessPosition(kingRow + 1, kingCol + 1) != null) || //Checks the range and then checks if the positions are empty.
+					(kingCol - 1 >= ChessConstants.MIN_DIM) && (board.getChessPosition(kingRow + 1, kingCol - 1) != null)) {
 				if(board.getChessPosition(kingRow + 1, kingCol + 1).getWhite() || //Checks if the pieces are white
 						board.getChessPosition(kingRow + 1, kingCol - 1).getWhite()) {
 					if(board.getChessPosition(kingRow + 1, kingCol + 1) instanceof Pawn || //Checks if it's a pawn
@@ -567,8 +567,8 @@ public class ChessMove extends GameMove {
 	}
 	
 	private boolean checkPromotion(ChessBoard board) { //This function should only be called from within the Pawn movement function for it to work properly.
-		return (board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.rowDes == 0) || //If it's white and has reached the top
-				(!board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.rowDes == 7); //If it's black and has reached the bottom
+		return (board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.rowDes == ChessConstants.MIN_DIM) || //If it's white and has reached the top
+				(!board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.rowDes == ChessConstants.MAX_DIM); //If it's black and has reached the bottom
 	}
 	
 	private void executePromotion(ChessBoard board, ChessPiece p) { //The piece must be properly created in another function. Usually executeWhite/BlackPawnMove().
@@ -814,27 +814,27 @@ public class ChessMove extends GameMove {
 	 * 		6 5 4
 	 */
 	private int checkDirection(int rowIni, int colIni, int rowEnd, int colEnd) {
-		if(rowIni == rowEnd) { //It's either 3 or 7
+		if(rowIni == rowEnd) { //It's either E or W
 			if(colIni > colEnd) {
-				return 7;
+				return ChessConstants.W;
 			} else { //colIni < colEnd (colIni always != colEnd at this point!) since both parameters can't be equal!
-				return 3;
+				return ChessConstants.E;
 			}
-		} else if (rowIni > rowEnd) { //It's either 0, 1 or 2
+		} else if (rowIni > rowEnd) { //It's either NW, N or NE
 			if(colIni == colEnd) {
-				return 1;
+				return ChessConstants.N;
 			} else if(colIni > colEnd) {
-				return 0;
+				return ChessConstants.NW;
 			} else { //colIni < colEnd
-				return 2;
+				return ChessConstants.NE;
 			}
-		} else { //rowIni < rowEnd //It's either 4, 5 or 6
+		} else { //rowIni < rowEnd //It's either SW, S or SE
 			if(colIni == colEnd) {
-				return 5;
+				return ChessConstants.S;
 			} else if(colIni > colEnd) {
-				return 6;
+				return ChessConstants.SW;
 			} else { //colIni < colEnd
-				return 4;
+				return ChessConstants.SE;
 			}
 		}
 	}
@@ -847,22 +847,22 @@ public class ChessMove extends GameMove {
 	private boolean checkPiecesInbetween(int rowIni, int colIni, int rowEnd, int colEnd) {
 		int rowOffset, colOffset;
 		switch(checkDirection(rowIni, colIni, rowEnd, colEnd)) {
-			case 0:
-				rowOffset = -1; colOffset = -1; break;
-			case 1:
-				rowOffset = -1; colOffset = 0; break;
-			case 2:
-				rowOffset = -1; colOffset = 1; break;
-			case 3:
-				rowOffset = 0; colOffset = 1; break;
-			case 4:
-				rowOffset = 1; colOffset = 1; break;
-			case 5:
-				rowOffset = 1; colOffset = 0; break;
-			case 6:
-				rowOffset = 1; colOffset = -1; break;
-			case 7:
-				rowOffset = 0; colOffset = -1; break;
+			case ChessConstants.NW:
+				rowOffset = ChessConstants.NEGATIVE; colOffset = ChessConstants.NEGATIVE; break;
+			case ChessConstants.N:
+				rowOffset = ChessConstants.NEGATIVE; colOffset = ChessConstants.NEUTRAL; break;
+			case ChessConstants.NE:
+				rowOffset = ChessConstants.NEGATIVE; colOffset = ChessConstants.POSITIVE; break;
+			case ChessConstants.E:
+				rowOffset = ChessConstants.NEUTRAL; colOffset = ChessConstants.POSITIVE; break;
+			case ChessConstants.SE:
+				rowOffset = ChessConstants.POSITIVE; colOffset = ChessConstants.POSITIVE; break;
+			case ChessConstants.S:
+				rowOffset = ChessConstants.POSITIVE; colOffset = ChessConstants.NEUTRAL; break;
+			case ChessConstants.SW:
+				rowOffset = ChessConstants.POSITIVE; colOffset = ChessConstants.NEGATIVE; break;
+			case ChessConstants.W:
+				rowOffset = ChessConstants.NEUTRAL; colOffset = ChessConstants.NEGATIVE; break;
 			default:
 				throw new GameError("Invalid move direction, this should be unreachable. (Error 016)");
 		}
@@ -870,7 +870,7 @@ public class ChessMove extends GameMove {
 		int itCount = 0; //In case any error happens, this avoids an infinite loop.
 		int rowIt = rowIni, colIt = colIni;
 		
-		while(itCount < 10 && (rowIt != rowEnd || colIt != colEnd)) {
+		while(itCount < ChessConstants.ITER_LIMIT && (rowIt != rowEnd || colIt != colEnd)) {
 			rowIt += rowOffset;
 			colIt += colOffset;
 			
@@ -882,7 +882,7 @@ public class ChessMove extends GameMove {
 			itCount++;
 		}
 		
-		if(itCount >= 10) 
+		if(itCount >= ChessConstants.ITER_LIMIT) 
 			throw new GameError("Move direction bugged. This should never happen. (Error 017)");
 		
 		return true;

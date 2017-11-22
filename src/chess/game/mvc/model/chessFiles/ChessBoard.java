@@ -6,6 +6,8 @@ import chess.game.mvc.model.genericGameFiles.GameError;
 
 public class ChessBoard extends FiniteRectBoard {
 
+	private static final long serialVersionUID = -8595352893288103075L;
+
 	public ChessBoard() {
 		super(8, 8);
 	}
