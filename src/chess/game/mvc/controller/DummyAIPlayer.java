@@ -66,14 +66,14 @@ public class DummyAIPlayer extends Player {
 	}
 
 	@Override
-	public GameMove requestMove(Piece p, Board board, List<Piece> pieces, GameRules rules) {
+	public GameMove requestMove(Piece piece, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
 		// if the thread is interrupted it will come back from sleep immediatly,
 		// with the interruption flag on
 		Utils.sleep(delay);
 		if (Thread.interrupted()) {
 			return null;
 		} else {
-			return player.requestMove(p, board, pieces, rules);
+			return player.requestMove(piece, board, playersPieces, pieceTypes, rules);
 		}
 	}
 

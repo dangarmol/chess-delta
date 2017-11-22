@@ -93,7 +93,7 @@ public abstract class GameMove implements java.io.Serializable {
 	 *            <p>
 	 *            Lista de fichas de todos los jugadores
 	 */
-	public abstract void execute(Board board, List<Piece> pieces);
+	public abstract void execute(Board board, List<Piece> playersPieces, List<Piece> piecesList);
 
 	/**
 	 * An abstract method for generating a game move from a string. The string

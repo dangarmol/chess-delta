@@ -49,12 +49,8 @@ public class ChessMove extends GameMove {
 	
 	private static final long serialVersionUID = 273689252496184587L;
 	
-	public void execute(Board board, List<Piece> playersPieces) { //TODO This needs to be fixed.
-		throw new GameError("executeChessMove() should have been called instead.");
-	}
-	
 	//Checks if the move can be made and, if so, moves the piece to the specified position.
-	public void executeChessMove(Board board, List<Piece> playersPieces, List<Piece> chessPieces) {
+	public void execute(Board board, List<Piece> playersPieces, List<Piece> chessPieces) {
 		//Changed from this.getPiece() instanceof Rook
 		//this.getPiece() now returns the player that made the move.
 		//Check that the player moves his own piece

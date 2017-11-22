@@ -38,8 +38,8 @@ public class AIPlayer extends Player {
 	}
 
 	@Override
-	public GameMove requestMove(Piece p, Board board, List<Piece> pieces, GameRules rules) {
-		return alg.getMove(p, board, pieces, rules);
+	public GameMove requestMove(Piece p, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
+		return alg.getMove(p, board, playersPieces, pieceTypes, rules);
 	}
 
 }

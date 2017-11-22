@@ -60,7 +60,7 @@ public class ConsolePlayer extends Player {
 	}
 
 	@Override
-	public GameMove requestMove(Piece p, Board board, List<Piece> pieces, GameRules rules) {
+	public GameMove requestMove(Piece piece, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
 
 		// print a text describing all available moves.
 		//
@@ -76,7 +76,7 @@ public class ConsolePlayer extends Player {
 
 		// the fir GameMove that succeeds to parse the user's input is returned
 		for (GameMove m : availableMoves) {
-			GameMove newMove = m.fromString(p, cmd);
+			GameMove newMove = m.fromString(piece, cmd);
 			if (newMove != null) {
 				return newMove;
 			}

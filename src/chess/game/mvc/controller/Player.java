@@ -61,6 +61,6 @@ public abstract class Player implements java.io.Serializable {
 	 *         <p>
 	 *         Un movimiento proporcionado por este jugador.
 	 */
-	public abstract GameMove requestMove(Piece p, Board board, List<Piece> pieces, GameRules rules);
+	public abstract GameMove requestMove(Piece p, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules);
 
 }

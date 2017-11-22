@@ -43,5 +43,5 @@ public interface AIAlgorithm extends Serializable {
 	 *         <p>
 	 *         (Mejor) movimiento calculado por el algoritmo.
 	 */
-	GameMove getMove(Piece p, Board board, List<Piece> pieces, GameRules rules);
+	GameMove getMove(Piece p, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules);
 }

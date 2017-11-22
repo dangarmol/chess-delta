@@ -40,9 +40,9 @@ public class MinMax implements AIAlgorithm {
 	}
 
 	@Override
-	public GameMove getMove(Piece p, Board board, List<Piece> pieces, GameRules rules) {
+	public GameMove getMove(Piece p, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
 		try {
-			Pair<GameMove, Double> m = minmax(depth, -Double.MAX_VALUE, Double.MAX_VALUE, p, p, board, pieces, rules);
+			Pair<GameMove, Double> m = minmax(depth, -Double.MAX_VALUE, Double.MAX_VALUE, p, p, board, playersPieces, pieceTypes, rules);
 			return m.getFirst();
 		} catch (Exception e) {
 			return null;
@@ -50,13 +50,13 @@ public class MinMax implements AIAlgorithm {
 	}
 
 	private Pair<GameMove, Double> minmax(int d, Double alpha, Double beta, Piece p, Piece turn, Board board,
-			List<Piece> pieces, GameRules rules) throws InterruptedException {
+			List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) throws InterruptedException {
 
 		if (Thread.interrupted()) {
 			throw new InterruptedException();
 		}
 
-		Pair<State, Piece> r = rules.updateState(board, pieces, turn);
+		Pair<State, Piece> r = rules.updateState(board, playersPieces, turn);
 
 		switch (r.getFirst()) {
 		case Won:
@@ -72,32 +72,32 @@ public class MinMax implements AIAlgorithm {
 		}
 
 		if (d < 1) {
-			return new Pair<GameMove, Double>(null, rules.evaluate(board, pieces, turn, p));
+			return new Pair<GameMove, Double>(null, rules.evaluate(board, playersPieces, turn, p));
 		}
 
-		List<GameMove> moves = rules.validMoves(board, pieces, turn);
+		List<GameMove> moves = rules.validMoves(board, playersPieces, turn);
 		assert (moves.size() > 0);
 
 		// max is p, min are all other players -- just trying to generalize to
 		// more than two players, don't know if it makes sense!
 		//
 		if (p.equals(turn)) {
-			return max(d, alpha, beta, p, turn, board, pieces, rules, moves);
+			return max(d, alpha, beta, p, turn, board, playersPieces, pieceTypes, rules, moves);
 		} else {
-			return min(d, alpha, beta, p, turn, board, pieces, rules, moves);
+			return min(d, alpha, beta, p, turn, board, playersPieces, pieceTypes, rules, moves);
 		}
 	}
 
 	private Pair<GameMove, Double> max(int d, Double alpha, Double beta, Piece p, Piece turn, Board board,
-			List<Piece> pieces, GameRules rules, List<GameMove> moves) throws InterruptedException {
+			List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules, List<GameMove> moves) throws InterruptedException {
 
 		GameMove selectedMove = null;
 
 		for (GameMove m : moves) {
 			Board b = board.copy();
-			m.execute(b, pieces);
-			Piece nextTurn = rules.nextPlayer(b, pieces, turn);
-			Pair<GameMove, Double> res = minmax(d - 1, alpha, beta, p, nextTurn, b, pieces, rules);
+			m.execute(b, playersPieces, pieceTypes);
+			Piece nextTurn = rules.nextPlayer(b, playersPieces, turn);
+			Pair<GameMove, Double> res = minmax(d - 1, alpha, beta, p, nextTurn, b, playersPieces, pieceTypes, rules);
 			if (res.getSecond() > alpha) {
 				alpha = res.getSecond();
 				selectedMove = m;
@@ -111,15 +111,15 @@ public class MinMax implements AIAlgorithm {
 	}
 
 	private Pair<GameMove, Double> min(int d, Double alpha, Double beta, Piece p, Piece turn, Board board,
-			List<Piece> pieces, GameRules rules, List<GameMove> moves) throws InterruptedException {
+			List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules, List<GameMove> moves) throws InterruptedException {
 
 		GameMove selectedMove = null;
 
 		for (GameMove m : moves) {
 			Board b = board.copy();
-			m.execute(b, pieces);
-			Piece nextTurn = rules.nextPlayer(b, pieces, turn);
-			Pair<GameMove, Double> res = minmax(d - 1, alpha, beta, p, nextTurn, b, pieces, rules);
+			m.execute(b, playersPieces, pieceTypes);
+			Piece nextTurn = rules.nextPlayer(b, playersPieces, turn);
+			Pair<GameMove, Double> res = minmax(d - 1, alpha, beta, p, nextTurn, b, playersPieces, pieceTypes, rules);
 			if (res.getSecond() < beta) {
 				beta = res.getSecond();
 				selectedMove = m;

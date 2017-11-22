@@ -26,7 +26,7 @@ public class ChessSwingPlayer extends Player {
 	 * Returns a game move
 	 */
 	@Override
-	public GameMove requestMove(Piece p, Board board, List<Piece> pieces, GameRules rules) {
+	public GameMove requestMove(Piece p, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
 		return createMove(row, col, rowD, colD, p);
 	}
 

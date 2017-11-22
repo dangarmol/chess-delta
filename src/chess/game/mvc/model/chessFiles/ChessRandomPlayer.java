@@ -15,8 +15,8 @@ public class ChessRandomPlayer extends Player { //TODO Rename to ChessDummyPlaye
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public GameMove requestMove(Piece piece, Board board, List<Piece> allPieces, GameRules rules) {
-		List<GameMove> moves = rules.validMoves(board, allPieces, piece);
+	public GameMove requestMove(Piece piece, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
+		List<GameMove> moves = rules.validMoves(board, playersPieces, piece);
 		
 		if(moves.isEmpty()){
 			throw new GameError("Player is stuck and can't move");

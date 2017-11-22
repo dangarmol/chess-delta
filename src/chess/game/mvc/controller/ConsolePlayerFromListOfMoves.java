@@ -48,10 +48,10 @@ public class ConsolePlayerFromListOfMoves extends Player {
 	}
 
 	@Override
-	public GameMove requestMove(Piece p, Board board, List<Piece> pieces, GameRules rules) {
+	public GameMove requestMove(Piece piece, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
 
 		// generate the valid moves:
-		List<GameMove> availableMoves = rules.validMoves(board, pieces, p);
+		List<GameMove> availableMoves = rules.validMoves(board, playersPieces, piece);
 
 		// check if the game support generating valid moves
 		if (availableMoves == null) {

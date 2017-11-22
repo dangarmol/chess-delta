@@ -66,7 +66,7 @@ public class Game implements Observable<GameObserver> {
 	 * <p>
 	 * Version de solo lectura de {@link #pieces}.
 	 */
-	private List<Piece> roPieces;
+	private List<Piece> roPlayersPieces;
 	
 	/**
 	 * The type of pieces the game may have. It is possible that this is not used
@@ -215,7 +215,7 @@ public class Game implements Observable<GameObserver> {
 			// keep a copy of the piece types
 			this.pieceTypes = pieceTypes;
 			// and a read-only copy of the same
-			this.roPieces = Collections.unmodifiableList(this.pieces);
+			this.roPlayersPieces = Collections.unmodifiableList(this.pieces);
 			// set the initial player
 			this.turn = rules.initialPlayer(board, pieces);
 			// mark the game as started
@@ -281,7 +281,7 @@ public class Game implements Observable<GameObserver> {
 	 *         Version de solo lectura de la lista de fichas de los jugadores
 	 */
 	public List<Piece> getPlayersPieces() {
-		return roPieces;
+		return roPlayersPieces;
 	}
 
 	/**
@@ -344,7 +344,7 @@ public class Game implements Observable<GameObserver> {
 		GameMove m = null;
 		boolean errors = false;
 		try {
-			m = player.requestMove(turn, roBoard, roPieces, rules);
+			m = player.requestMove(turn, roBoard, roPlayersPieces, pieceTypes, rules);
 			if (m == null) {
 				throw new GameError("Player couldn't generate a valid mode!");
 			}
@@ -414,7 +414,7 @@ public class Game implements Observable<GameObserver> {
 		if (!errors) {
 			try {
 				// execute the move
-				move.execute(this.board, this.roPieces);
+				move.execute(this.board, this.roPlayersPieces, this.pieceTypes);
 				// no exceptions? notify that the move has finished correctly
 				notifyEndMove(true);
 			} catch (GameError e) {
@@ -469,10 +469,10 @@ public class Game implements Observable<GameObserver> {
 	private void notifyGameStart(GameObserver observer) {
 		if (observer == null) {
 			for (GameObserver o : observers) {
-				o.onGameStart(roBoard, rules.gameDesc(), roPieces, turn);
+				o.onGameStart(roBoard, rules.gameDesc(), roPlayersPieces, turn);
 			}
 		} else {
-			observer.onGameStart(roBoard, rules.gameDesc(), roPieces, turn);
+			observer.onGameStart(roBoard, rules.gameDesc(), roPlayersPieces, turn);
 		}
 	}
 
