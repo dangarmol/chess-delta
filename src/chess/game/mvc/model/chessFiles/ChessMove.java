@@ -70,17 +70,17 @@ public class ChessMove extends GameMove {
 			throw new GameError("You cannot move a piece to the same position. Try again. (Error Code 002)");
 			
 		if(chessBoard.getPosition(this.row, this.col) instanceof Pawn) {
-			executePawnMove(chessBoard);
+			executePawnMove(chessBoard, pieces);
 		} else if (chessBoard.getPosition(this.row, this.col) instanceof Rook) {
-			executeRookMove(chessBoard);
+			executeRookMove(chessBoard, pieces);
 		} else if (chessBoard.getPosition(this.row, this.col) instanceof Knight) {
-			executeKnightMove(chessBoard);
+			executeKnightMove(chessBoard, pieces);
 		} else if (chessBoard.getPosition(this.row, this.col) instanceof Bishop) {
-			executeBishopMove(chessBoard);
+			executeBishopMove(chessBoard, pieces);
 		} else if (chessBoard.getPosition(this.row, this.col) instanceof Queen) {
-			executeQueenMove(chessBoard);
+			executeQueenMove(chessBoard, pieces);
 		} else if (chessBoard.getPosition(this.row, this.col) instanceof King) {
-			executeKingMove(chessBoard);
+			executeKingMove(chessBoard, pieces);
 		} else {
 			throw new GameError("Piece type not recognised! This should be unreachable. (Error Code 003)");
 		}
@@ -348,27 +348,47 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	public void disableEnPassant(boolean isWhite) {
-		//TODO Disable En Passant for every Pawn from the colour passed by parameter. Most likely, this shouldn't be here.
+	//Disable En Passant for every Pawn from the colour passed by parameter.
+	public void disableEnPassant(boolean isWhite, List<Piece> chessPieces) {
+		//TODO Check if this works
+		if(isWhite) {
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_A)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_B)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_C)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_D)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_E)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_F)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_G)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.WHITE_PAWN_H)).setPassant(false);
+		} else {
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_A)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_B)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_C)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_D)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_E)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_F)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_G)).setPassant(false);
+			((Pawn) chessPieces.get(ChessPieceID.BLACK_PAWN_H)).setPassant(false);
+		}
 	}
 	
-	//Shows whether the current player is moving his own pieces or not.
+	//Shows whether the current player is moving his own pieces or trying to move the opponent's ones.
 	public boolean checkTurn(ChessBoard board) {
-		//this.getPiece() returns the piece to which the current move belongs!
+		//this.getPiece() returns the piece to which the move belongs!
 		return ((this.getPiece().getWhite() && (board.getChessPosition(this.row, this.col)).getWhite()) ||
 				(!this.getPiece().getWhite() && !(board.getChessPosition(this.row, this.col)).getWhite()));
 	}
 	
 	//Due to the peculiar pattern of pawn movement, it is required to have two
 	//different functions, since white pawns move upwards, and black ones move downwards.
-	public void executePawnMove(ChessBoard board) {
+	public void executePawnMove(ChessBoard board, List<Piece> pieces) {
 		if(this.getPiece().getWhite())
-			executeWhitePawnMove(board);
+			executeWhitePawnMove(board, pieces);
 		else
-			executeBlackPawnMove(board);
+			executeBlackPawnMove(board, pieces);
 	}
 	
-	private void executeWhitePawnMove(ChessBoard board) {
+	private void executeWhitePawnMove(ChessBoard board, List<Piece> pieces) {
 		//Check if this pawn is trying to capture a piece. (Diagonal move)
 		if(this.rowDes == this.row - 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
@@ -454,7 +474,7 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	private void executeBlackPawnMove(ChessBoard board) {
+	private void executeBlackPawnMove(ChessBoard board, List<Piece> pieces) {
 		//Check if this pawn is trying to capture a piece. (Diagonal move)
 		if(this.rowDes == this.row + 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
@@ -475,7 +495,7 @@ public class ChessMove extends GameMove {
 					if(board.getChessPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is white
 							((Pawn) board.getChessPosition(this.row, this.col - 1)).getPassant()) { //and it can be captured En Passant for this turn.
 						executeCheckedMove(board);
-						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
+						board.setPosition(this.row, this.col - 1, null); //Deletes the captured piece
 					} else { //Trying to capture own piece En Passant
 						throw new GameError("Invalid move, try again. (Error 002)");
 					}
@@ -549,7 +569,7 @@ public class ChessMove extends GameMove {
 		board.setPosition(this.rowDes, this.colDes, p);
 	}
 
-	public void executeRookMove(ChessBoard board) {
+	public void executeRookMove(ChessBoard board, List<Piece> pieces) {
 		if(checkHorizVertMove()) { //Check that it's moving either horizontally or vertically.
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
 				if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
@@ -575,7 +595,7 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	public void executeKnightMove(ChessBoard board) {
+	public void executeKnightMove(ChessBoard board, List<Piece> pieces) {
 		if(((this.colDes == this.col + 1 || this.colDes == this.col - 1) &&
 			(this.rowDes == this.row + 2 || this.rowDes == this.row - 2)) ||
 			((this.rowDes == this.row + 1 || this.rowDes == this.row - 1) &&
@@ -590,7 +610,7 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	public void executeBishopMove(ChessBoard board) {
+	public void executeBishopMove(ChessBoard board, List<Piece> pieces) {
 		if(checkDiagonalMove()) { //Checks that it's moving diagonally.
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
 				if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
@@ -614,7 +634,7 @@ public class ChessMove extends GameMove {
 		}
 	}
 
-	public void executeQueenMove(ChessBoard board) {
+	public void executeQueenMove(ChessBoard board, List<Piece> pieces) {
 		if(checkDiagonalMove() || checkHorizVertMove()) { //Checks that it's moving diagonally or horizontally but not in any other way.
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
 				if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
@@ -638,7 +658,7 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	public void executeKingMove(ChessBoard board) {
+	public void executeKingMove(ChessBoard board, List<Piece> pieces) {
 		if(Math.abs(this.row - this.rowDes) <= 1 && Math.abs(this.col - this.colDes) <= 1) {
 			//Check that it's moving only 1 tile away.
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
@@ -900,7 +920,7 @@ public class ChessMove extends GameMove {
 
 	@Override
 	public GameMove fromString(Piece p, String str) {
-		//Not used for this game.
+		// TODO Remove
 		return null;
 	}
 }
