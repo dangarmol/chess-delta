@@ -33,8 +33,6 @@ public class ChessMove extends GameMove {
 	private ChessPiece chessPiece;
 	private ChessBoard chessBoard;
 	
-	private boolean kingInCheck;
-	
 	/** Default constructor.
 	 *
 	 **/
@@ -224,8 +222,82 @@ public class ChessMove extends GameMove {
 				(!board.getChessPosition(rowX, colY).getWhite() == isWhiteKing); //And that the king is not the same color as the piece.
 	}
 
-	private boolean checkKnightThreat(ChessBoard board, int kingRow, int kingCol) { //TODO Create this function.
-		return false;
+	private boolean checkKnightThreat(ChessBoard board, int kingRow, int kingCol) {
+		boolean isWhiteKing = board.getChessPosition(kingRow, kingCol).getWhite();
+		
+		if(kingRow - 2 >= 0) { //Check if going 2 rows up is within the board range.
+			if(kingCol - 1 >= 0) { //Check if going 1 column left is within the board range
+				if(board.getChessPosition(kingRow - 2, kingCol - 1) != null &&
+						board.getChessPosition(kingRow - 2, kingCol - 1) instanceof Knight &&
+						board.getChessPosition(kingRow - 2, kingCol - 1).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+			
+			if(kingCol + 1 <= 7) { //Check if going 1 column right is within the board range
+				if(board.getChessPosition(kingRow - 2, kingCol + 1) != null &&
+						board.getChessPosition(kingRow - 2, kingCol + 1) instanceof Knight &&
+						board.getChessPosition(kingRow - 2, kingCol + 1).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+		}
+		
+		if(kingRow + 2 <= 7) { //Check if going 2 rows down is within the board range.
+			if(kingCol - 1 >= 0) { //Check if going 1 column left is within the board range
+				if(board.getChessPosition(kingRow + 2, kingCol - 1) != null &&
+						board.getChessPosition(kingRow + 2, kingCol - 1) instanceof Knight &&
+						board.getChessPosition(kingRow + 2, kingCol - 1).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+			
+			if(kingCol + 1 <= 7) { //Check if going 1 column right is within the board range
+				if(board.getChessPosition(kingRow + 2, kingCol + 1) != null &&
+						board.getChessPosition(kingRow + 2, kingCol + 1) instanceof Knight &&
+						board.getChessPosition(kingRow + 2, kingCol + 1).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+		}
+		
+		if(kingCol - 2 >= 0) { //Check if going 2 columns left is within the board range.
+			if(kingRow - 1 >= 0) { //Check if going 1 row up is within the board range
+				if(board.getChessPosition(kingRow - 1, kingCol - 2) != null &&
+						board.getChessPosition(kingRow - 1, kingCol - 2) instanceof Knight &&
+						board.getChessPosition(kingRow - 1, kingCol - 2).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+			
+			if(kingRow + 1 <= 7) { //Check if going 1 row down is within the board range
+				if(board.getChessPosition(kingRow + 1, kingCol - 2) != null &&
+						board.getChessPosition(kingRow + 1, kingCol - 2) instanceof Knight &&
+						board.getChessPosition(kingRow + 1, kingCol - 2).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+		}
+		
+		if(kingCol + 2 <= 7) { //Check if going 2 columns right is within the board range.
+			if(kingRow - 1 >= 0) { //Check if going 1 row up is within the board range
+				if(board.getChessPosition(kingRow - 1, kingCol + 2) != null &&
+						board.getChessPosition(kingRow - 1, kingCol + 2) instanceof Knight &&
+						board.getChessPosition(kingRow - 1, kingCol + 2).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+			
+			if(kingRow + 1 <= 7) { //Check if going 1 row down is within the board range
+				if(board.getChessPosition(kingRow + 1, kingCol + 2) != null &&
+						board.getChessPosition(kingRow + 1, kingCol + 2) instanceof Knight &&
+						board.getChessPosition(kingRow + 1, kingCol + 2).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+		}
+		
+		return false; //If none of the above conditions were met at some point
 	}
 
 	//Checks if the king is threatened by a Pawn.
