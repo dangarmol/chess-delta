@@ -30,6 +30,8 @@ public class ChessMove extends GameMove {
 	private int rowDes;
 	private int colDes;
 	
+	private boolean testMove;
+	
 	private ChessPiece chessPiece;
 	private ChessBoard chessBoard;
 	
@@ -42,6 +44,7 @@ public class ChessMove extends GameMove {
 		this.rowDes = rowDes;
 		this.colDes = colDes;
 		this.chessPiece = (ChessPiece) p;
+		this.testMove = false;
 	}
 	
 	private static final long serialVersionUID = 273689252496184587L;
@@ -98,17 +101,20 @@ public class ChessMove extends GameMove {
 		
 		//If the code reaches this point, the move has been successfully executed.
 		
-		disableEnPassant(!this.getPiece().getWhite()); //Disable En passant for every pawn of the colour that is going
+		if(!this.testMove) disableEnPassant(!this.getPiece().getWhite()); //Disable En passant for every pawn of the colour that is going
 		//to move next turn, since it has been more than a move ago that he moved his pieces.
 	}
 	
 	//Used by ChessRules to get the list of valid moves.
 	public boolean isMoveLegal(ChessBoard testBoard) {
 		try { //TODO Check Pawn promotion here!!
-			if (this.colDes > 7 || this.rowDes > 7 || this.colDes < 0 || this.rowDes < 0) //First checks the range of the move.
+			if (this.colDes > ChessConstants.MAX_DIM || this.rowDes > ChessConstants.MAX_DIM ||
+					this.colDes < ChessConstants.MIN_DIM || this.rowDes < ChessConstants.MIN_DIM) //First checks the range of the move.
 				return false;
 			
+			this.testMove = true;
 			this.executeFakeMove(testBoard);
+			this.testMove = false;
 		} catch(Exception e) {
 			return false;
 		}
@@ -430,11 +436,13 @@ public class ChessMove extends GameMove {
 	
 	//Simply executes a move that has been previously checked and is legal.
 	private void executeCheckedMove(ChessBoard board) { 
-		board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
-		deleteMovedPiece(this.row, this.col, board);
+		if(!this.testMove) {
+			board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
+			deleteMovedPiece(this.row, this.col, board);
+		}
 	}
 	
-	private void executeTestMove(ChessBoard board, int row, int col, int rowDes, int colDes) { 
+	private void executeCastlingTestMove(ChessBoard board, int row, int col, int rowDes, int colDes) { 
 		board.setPosition(rowDes, colDes, board.getChessPosition(row, col));
 		deleteMovedPiece(row, col, board);
 	}
@@ -461,7 +469,7 @@ public class ChessMove extends GameMove {
 				if(this.chessBoard.getChessPosition(rowX, colY) != null &&
 						this.chessBoard.getChessPosition(rowX, colY) instanceof Pawn &&
 						this.chessBoard.getChessPosition(rowX, colY).getWhite() == isWhite) {
-					((Pawn) this.chessBoard.getChessPosition(rowX, colY)).setPassant(false);
+					if(!this.testMove) ((Pawn) this.chessBoard.getChessPosition(rowX, colY)).setPassant(false);
 				}
 			}
 		}
@@ -472,7 +480,7 @@ public class ChessMove extends GameMove {
 		//this.getPiece() returns the piece to which the move belongs!
 		return ((this.getPiece().getWhite() && (board.getChessPosition(this.row, this.col)).getWhite()) ||
 				(!this.getPiece().getWhite() && !(board.getChessPosition(this.row, this.col)).getWhite()));
-	}
+	} //TODO Check moving King to the same position. This sometimes fails in Checkmate for instance.
 	
 	//Due to the peculiar pattern of pawn movement, it is required to have two
 	//different functions, since white pawns move upwards, and black ones move downwards.
@@ -488,7 +496,7 @@ public class ChessMove extends GameMove {
 		if(this.rowDes == this.row - 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
 				executeCaptureMove(board); //This already checks the kind of piece that is in the destination position and if it can be captured.
-				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
+				if(!this.testMove) ((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 			} else if((board.getChessPosition(this.row, this.col + 1) instanceof Pawn) && (this.colDes == this.col + 1) || //There is a pawn on the right
 					(board.getChessPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
 				//No need to check that destination is null, that's checked above.
@@ -496,7 +504,7 @@ public class ChessMove extends GameMove {
 					if(!board.getChessPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is black
 							((Pawn) board.getChessPosition(this.row, this.col + 1)).getPassant()) { //and it can be captured En Passant for this turn.						
 						executeCheckedMove(board);
-						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
+						if(!this.testMove) board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
 					} else { //Trying to capture either your own pawn or a pawn that can't be captured En Passant
 						throw new GameError("Invalid Pawn move, try again.");
 					}
@@ -504,7 +512,7 @@ public class ChessMove extends GameMove {
 					if(!board.getChessPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is black
 							((Pawn) board.getChessPosition(this.row, this.col - 1)).getPassant()) { //and it can be captured En Passant for this turn.
 						executeCheckedMove(board);
-						board.setPosition(this.row, this.col - 1, null); //Deletes the captured piece
+						if(!this.testMove) board.setPosition(this.row, this.col - 1, null); //Deletes the captured piece
 					} else { //Trying to capture own piece En Passant
 						throw new GameError("Invalid Pawn move, try again.");
 					}
@@ -517,7 +525,7 @@ public class ChessMove extends GameMove {
 		} else if(this.col == this.colDes && this.row - 1 == this.rowDes) { //Check if it's making a simple move
 			if(board.getChessPosition(this.rowDes, this.colDes) == null) { //Working.
 				executeCheckedMove(board);
-				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
+				if(!this.testMove) ((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 			} else {
 				throw new GameError("Invalid Pawn move, try again.");
 			}
@@ -529,8 +537,8 @@ public class ChessMove extends GameMove {
 					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else {
 					executeCheckedMove(board);
-					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
-					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
+					if(!this.testMove) ((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
+					if(!this.testMove) ((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 				}
 			} else {
 				throw new GameError("This Pawn can't perform an opening move.");
@@ -540,7 +548,7 @@ public class ChessMove extends GameMove {
 		}
 		
 		//You can only get here if everything went right during the execution of the move.
-		if(checkPromotion(board)) {
+		if(!this.testMove && checkPromotion(board)) {
 			ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", true);
 			
 			dialog.addWindowListener(new WindowAdapter() {
@@ -573,7 +581,7 @@ public class ChessMove extends GameMove {
 		if(this.rowDes == this.row + 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			if(board.getChessPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
 				executeCaptureMove(board); //This already checks the kind of piece that is in the destination position and if it can be captured.
-				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
+				if(!this.testMove) ((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 			} else if((board.getChessPosition(this.row, this.col + 1) instanceof Pawn) && (this.colDes == this.col + 1) || //There is a pawn on the right
 					(board.getChessPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
 				//No need to check that destination is null, that's checked above.
@@ -581,7 +589,7 @@ public class ChessMove extends GameMove {
 					if(board.getChessPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is white
 							((Pawn) board.getChessPosition(this.row, this.col + 1)).getPassant()) { //and it can be captured En Passant for this turn.						
 						executeCheckedMove(board);
-						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
+						if(!this.testMove) board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
 					} else { //Trying to capture either your own pawn or a pawn that can't be captured En Passant
 						throw new GameError("Invalid Pawn move, try again.");
 					}
@@ -589,7 +597,7 @@ public class ChessMove extends GameMove {
 					if(board.getChessPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is white
 							((Pawn) board.getChessPosition(this.row, this.col - 1)).getPassant()) { //and it can be captured En Passant for this turn.
 						executeCheckedMove(board);
-						board.setPosition(this.row, this.col - 1, null); //Deletes the captured piece
+						if(!this.testMove) board.setPosition(this.row, this.col - 1, null); //Deletes the captured piece
 					} else { //Trying to capture own piece En Passant
 						throw new GameError("Invalid Pawn move, try again.");
 					}
@@ -602,7 +610,7 @@ public class ChessMove extends GameMove {
 		} else if(this.col == this.colDes && this.row + 1 == this.rowDes) { //Check if it's making a simple move
 			if(board.getChessPosition(this.rowDes, this.colDes) == null) { //Working.
 				executeCheckedMove(board);
-				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
+				if(!this.testMove) ((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 			} else {
 				throw new GameError("Invalid Pawn move, try again.");
 			}
@@ -614,8 +622,8 @@ public class ChessMove extends GameMove {
 					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else {
 					executeCheckedMove(board);
-					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
-					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
+					if(!this.testMove) ((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
+					if(!this.testMove) ((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 				}
 			} else {
 				throw new GameError("This Pawn can't perform an opening move.");
@@ -625,7 +633,7 @@ public class ChessMove extends GameMove {
 		}
 		
 		//You can only get here if everything went right during the execution of the move.
-		if(checkPromotion(board)) {
+		if(!this.testMove && checkPromotion(board)) {
 			ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", false);
 			
 			dialog.addWindowListener(new WindowAdapter() {
@@ -673,14 +681,14 @@ public class ChessMove extends GameMove {
 					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //Everything correct, we can execute the move.
 					executeCaptureMove(board); 
-					((Rook) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This rook can't Castle since it moved.
+					if(!this.testMove) ((Rook) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This rook can't Castle since it moved.
 				}
 			} else { //The destination position is empty.
 				if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
 					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //We can proceed to the move.
 					executeCheckedMove(board);
-					((Rook) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This rook can't Castle since it moved.
+					if(!this.testMove) ((Rook) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This rook can't Castle since it moved.
 				}
 			}
 		} else { //It is not a vertical or horizontal move.
@@ -761,11 +769,11 @@ public class ChessMove extends GameMove {
 					throw new GameError("Invalid move, the destination position is occupied by an ally piece, try again.");
 				} else { //Everything correct, we can execute the move.
 					executeCaptureMove(board); 
-					((King) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This King can't Castle since it just moved.
+					if(!this.testMove) ((King) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This King can't Castle since it just moved.
 				}
 			} else { //The destination position is empty.
 					executeCheckedMove(board);
-					((King) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This King can't Castle since it just moved.
+					if(!this.testMove) ((King) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This King can't Castle since it just moved.
 			}
 		} else if(board.getChessPosition(this.row, this.col).getWhite() && ((this.row == 7 && this.col == 4) &&
 				(this.rowDes == 7 && (this.colDes == 2 || this.colDes == 6)))) { //Trying to Castle white king.
@@ -777,16 +785,16 @@ public class ChessMove extends GameMove {
 								if(!((King) board.getChessPosition(this.row, this.col)).getCheck()) { //Check that the king is not in check
 									ChessBoard testBoard = board.copyChessBoard(); //Duplicate the board
 									boolean abortMovement = false;
-									executeTestMove(testBoard, this.row, this.col, 7, 5); //Move to the first position it would go through
+									executeCastlingTestMove(testBoard, this.row, this.col, 7, 5); //Move to the first position it would go through
 									if(isKingInCheck(testBoard, this.getPiece().getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
-									executeTestMove(testBoard, 7, 5, 7, 6); //Move to the next position
+									executeCastlingTestMove(testBoard, 7, 5, 7, 6); //Move to the next position
 									if(isKingInCheck(testBoard, this.getPiece().getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
-										board.setPosition(7, 5, board.getChessPosition(7, 7));
-										deleteMovedPiece(7, 7, board);
+										if(!this.testMove) board.setPosition(7, 5, board.getChessPosition(7, 7));
+										if(!this.testMove) deleteMovedPiece(7, 7, board);
 									} else {
 										throw new GameError("Cannot perform Castling, the King would be in Check during the move!");
 									}
@@ -809,16 +817,16 @@ public class ChessMove extends GameMove {
 								if(!((King) board.getChessPosition(this.row, this.col)).getCheck()) { //Check that the king is not in check
 									ChessBoard testBoard = board.copyChessBoard(); //Duplicate the board
 									boolean abortMovement = false;
-									executeTestMove(testBoard, this.row, this.col, 7, 3); //Move to the first position it would go through
+									executeCastlingTestMove(testBoard, this.row, this.col, 7, 3); //Move to the first position it would go through
 									if(isKingInCheck(testBoard, this.getPiece().getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
-									executeTestMove(testBoard, 7, 3, 7, 2); //Move to the next position
+									executeCastlingTestMove(testBoard, 7, 3, 7, 2); //Move to the next position
 									if(isKingInCheck(testBoard, this.getPiece().getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
-										board.setPosition(7, 3, board.getChessPosition(7, 0));
-										deleteMovedPiece(7, 0, board);
+										if(!this.testMove) board.setPosition(7, 3, board.getChessPosition(7, 0));
+										if(!this.testMove) deleteMovedPiece(7, 0, board);
 									} else {
 										throw new GameError("Cannot perform Castling, the King would be in Check during the move!");
 									}
@@ -848,16 +856,16 @@ public class ChessMove extends GameMove {
 								if(!((King) board.getChessPosition(this.row, this.col)).getCheck()) { //Check that the king is not in check
 									ChessBoard testBoard = board.copyChessBoard(); //Duplicate the board
 									boolean abortMovement = false;
-									executeTestMove(testBoard, this.row, this.col, 0, 5); //Move to the first position it would go through
+									executeCastlingTestMove(testBoard, this.row, this.col, 0, 5); //Move to the first position it would go through
 									if(isKingInCheck(testBoard, this.getPiece().getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
-									executeTestMove(testBoard, 0, 5, 0, 6); //Move to the next position
+									executeCastlingTestMove(testBoard, 0, 5, 0, 6); //Move to the next position
 									if(isKingInCheck(testBoard, this.getPiece().getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
-										board.setPosition(0, 5, board.getChessPosition(0, 7));
-										deleteMovedPiece(0, 7, board);
+										if(!this.testMove) board.setPosition(0, 5, board.getChessPosition(0, 7));
+										if(!this.testMove) deleteMovedPiece(0, 7, board);
 									} else {
 										throw new GameError("Cannot perform Castling, the King would be in Check during the move!");
 									}
@@ -880,16 +888,16 @@ public class ChessMove extends GameMove {
 								if(!((King) board.getChessPosition(this.row, this.col)).getCheck()) { //Check that the king is not in check
 									ChessBoard testBoard = board.copyChessBoard(); //Duplicate the board
 									boolean abortMovement = false;
-									executeTestMove(testBoard, this.row, this.col, 0, 3); //Move to the first position it would go through
+									executeCastlingTestMove(testBoard, this.row, this.col, 0, 3); //Move to the first position it would go through
 									if(isKingInCheck(testBoard, this.getPiece().getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
-									executeTestMove(testBoard, 0, 3, 0, 2); //Move to the next position
+									executeCastlingTestMove(testBoard, 0, 3, 0, 2); //Move to the next position
 									if(isKingInCheck(testBoard, this.getPiece().getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
-										board.setPosition(0, 3, board.getChessPosition(0, 0));
-										deleteMovedPiece(0, 0, board);
+										if(!this.testMove) board.setPosition(0, 3, board.getChessPosition(0, 0));
+										if(!this.testMove) deleteMovedPiece(0, 0, board);
 									} else {
 										throw new GameError("Cannot perform Castling, the King would be in Check during the move!");
 									}
@@ -1012,7 +1020,7 @@ public class ChessMove extends GameMove {
 		board.setPosition(row, col, null);
 	}
 	
-	private void revertBoard(ChessBoard current, ChessBoard before) {
+	public void revertBoard(ChessBoard current, ChessBoard before) {
 		for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
 			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
 				if(before.getChessPosition(rowX, colY) == null) { //If the cell was empty...
@@ -1057,5 +1065,21 @@ public class ChessMove extends GameMove {
 	public GameMove fromString(Piece p, String str) {
 		//This is not needed in this game and should not be called.
 		return null;
+	}
+
+	public int getRow() {
+		return this.row;
+	}
+	
+	public int getCol() {
+		return this.col;
+	}
+	
+	public int getRowDes() {
+		return this.rowDes;
+	}
+	
+	public int getColDes() {
+		return this.colDes;
 	}
 }

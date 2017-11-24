@@ -17,4 +17,9 @@ public class Bishop extends ChessPiece {
 	public Bishop(String id, boolean isWhite) {
 		super(id, isWhite);
 	}
+	
+	@Override
+	public Bishop copyPiece() {
+		return new Bishop(this.getId(), this.getWhite());
+	}
 }

@@ -20,6 +20,12 @@ public class Pawn extends ChessPiece {
 		this.canPassant = false;
 		this.firstMove = true;
 	}
+	
+	public Pawn(String id, boolean isWhite, boolean canPassant, boolean firstMove) {
+		super(id, isWhite);
+		this.canPassant = canPassant;
+		this.firstMove = firstMove;
+	}
 
 	public Pawn(String id, boolean isWhite) {
 		super(id, isWhite);
@@ -41,5 +47,10 @@ public class Pawn extends ChessPiece {
 	
 	public void setFirstMove(boolean firstMove) {
 		this.firstMove = firstMove;
+	}
+	
+	@Override
+	public Pawn copyPiece() {
+		return new Pawn(this.getId(), this.getWhite(), this.canPassant, this.firstMove);
 	}
 }

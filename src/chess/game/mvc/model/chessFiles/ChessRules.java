@@ -160,8 +160,8 @@ public class ChessRules implements GameRules {
 		boolean isWhiteTurn = ((ChessPiece) turn).getWhite();
 		ChessBoard testBoard = originalBoard.copyChessBoard();
 		List<GameMove> legalMoves = new ArrayList<GameMove>(); //Every single possible move on the board is saved here
-		for (int rowX = ChessConstants.MIN_DIM; rowX < ChessConstants.MAX_DIM; rowX++) { //Exploring rows and cols.
-			for (int colY = ChessConstants.MIN_DIM; colY < ChessConstants.MAX_DIM; colY++) {
+		for (int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) { //Exploring rows and cols.
+			for (int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
 				if(originalBoard.getChessPosition(rowX, colY) != null && //If the position is not empty...
 					originalBoard.getChessPosition(rowX, colY).getWhite() == isWhiteTurn){ //...and it is from the current turn.
 					if(originalBoard.getChessPosition(rowX, colY) instanceof Pawn) {
@@ -186,12 +186,10 @@ public class ChessRules implements GameRules {
 		return legalMoves;
 	}
 	
-	//This should work, check anyway.
+	//TODO This should work, check anyway. Also check if isMoveLegal works as it should.
 	private void checkAndAdd(ChessMove testMove, ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves) {
-		if(testMove.isMoveLegal(testBoard)) {
+		if(testMove.isMoveLegal(testBoard))
 			legalMoves.add(testMove);
-			testBoard = originalBoard.copyChessBoard();
-		}
 	}
 	
 	private void addHorizVertMoves(ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
@@ -222,11 +220,48 @@ public class ChessRules implements GameRules {
 	}
 	
 	private void addDiagonalMoves(ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
+		int rowDes = rowX - 1, colDes = colY - 1;
+		while(rowDes >= ChessConstants.MIN_DIM && colDes >= ChessConstants.MIN_DIM) { //NorthWest direction
+			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
+			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			rowDes--;
+			colDes--;
+		}
 		
+		rowDes = rowX - 1; colDes = colY + 1;
+		while(rowDes >= ChessConstants.MIN_DIM && colDes <= ChessConstants.MAX_DIM) { //NorthEast direction
+			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
+			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			rowDes--;
+			colDes++;
+		}
+		
+		rowDes = rowX + 1; colDes = colY + 1;
+		while(colDes <= ChessConstants.MAX_DIM && rowDes <= ChessConstants.MAX_DIM) { //SouthEast direction
+			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
+			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			colDes++;
+			rowDes++;
+		}
+		
+		rowDes = rowX + 1; colDes = colY - 1;
+		while(colDes >= ChessConstants.MIN_DIM && rowDes <= ChessConstants.MAX_DIM) { //SouthWest direction
+			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
+			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			colDes--;
+			rowDes++;
+		}
 	}
 	
 	private void addKnightMoves(ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
-		
+		this.checkAndAdd(new ChessMove(rowX, colY, rowX - 2, colY - 1, turn), testBoard, originalBoard, legalMoves); //2 up 1 left
+		this.checkAndAdd(new ChessMove(rowX, colY, rowX - 2, colY + 1, turn), testBoard, originalBoard, legalMoves); //2 up 1 right
+		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 2, colY - 1, turn), testBoard, originalBoard, legalMoves); //2 down 1 left
+		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 2, colY + 1, turn), testBoard, originalBoard, legalMoves); //2 down 1 right
+		this.checkAndAdd(new ChessMove(rowX, colY, rowX - 1, colY - 2, turn), testBoard, originalBoard, legalMoves); //2 left 1 up
+		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 1, colY - 2, turn), testBoard, originalBoard, legalMoves); //2 left 1 down
+		this.checkAndAdd(new ChessMove(rowX, colY, rowX - 1, colY + 2, turn), testBoard, originalBoard, legalMoves); //2 right 1 up
+		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 1, colY + 2, turn), testBoard, originalBoard, legalMoves); //2 right 1 down
 	}
 	
 	private void addPawnMoves(ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
@@ -252,7 +287,7 @@ public class ChessRules implements GameRules {
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 1, colY - 1, turn), testBoard, originalBoard, legalMoves); //SW move
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 1, colY, turn), testBoard, originalBoard, legalMoves); //S move
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 1, colY + 1, turn), testBoard, originalBoard, legalMoves); //SE move
-	}
+	} //TODO Add Castling moves here!
 
 	@Override
 	public Piece nextPlayer(Board board, List<Piece> playersPieces, Piece lastPlayer){
@@ -265,9 +300,10 @@ public class ChessRules implements GameRules {
 		else
 			throw new GameError("Something went wrong while changing turns. Unrecognised player. This should be unreachable.");
 		
-		/*if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
-			return null; //Returns null if next player can't move!*/ //TODO This should be implemented at a later time.
-		
+		if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
+			return null; //Returns null if next player can't move!
+
+		//int moveNum = validMoves(board, playersPieces, nextPlayer).size(); //TODO This already works. Check edge cases.
 		return nextPlayer;
 	}
 

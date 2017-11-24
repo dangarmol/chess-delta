@@ -17,4 +17,9 @@ public class Knight extends ChessPiece {
 	public Knight(String id, boolean isWhite) {
 		super(id, isWhite);
 	}
+	
+	@Override
+	public Knight copyPiece() {
+		return new Knight(this.getId(), this.getWhite());
+	}
 }

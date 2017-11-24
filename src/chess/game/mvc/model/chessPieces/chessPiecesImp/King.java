@@ -20,6 +20,12 @@ public class King extends ChessPiece {
 		this.canCastle = true;
 		this.inCheck = false;
 	}
+	
+	public King(String id, boolean isWhite, boolean canCastle, boolean inCheck) {
+		super(id, isWhite);
+		this.canCastle = canCastle;
+		this.inCheck = inCheck;
+	}
 
 	public King(String id, boolean isWhite) {
 		super(id, isWhite);
@@ -40,5 +46,10 @@ public class King extends ChessPiece {
 	
 	public void setCheck(boolean inCheck) {
 		this.inCheck = inCheck;
+	}
+	
+	@Override
+	public King copyPiece() {
+		return new King(this.getId(), this.getWhite(), this.canCastle, this.inCheck);
 	}
 }

@@ -29,4 +29,8 @@ public class ChessPiece extends Piece {
 	public boolean getWhite() {
 		return this.isWhite;
 	}
+
+	public ChessPiece copyPiece() { //Not going to be used
+		return new ChessPiece(this.getId(), this.isWhite);
+	}
 }

@@ -22,6 +22,11 @@ public class Rook extends ChessPiece {
 		super(isWhite);
 		this.canCastle = canCastle;
 	}
+	
+	public Rook(String id, boolean isWhite, boolean canCastle) {
+		super(id, isWhite);
+		this.canCastle = canCastle;
+	}
 
 	public Rook(String id, boolean isWhite) {
 		super(id, isWhite);
@@ -34,5 +39,10 @@ public class Rook extends ChessPiece {
 	
 	public void setCastle(boolean canCastle) {
 		this.canCastle = canCastle;
+	}
+	
+	@Override
+	public Rook copyPiece() {
+		return new Rook(this.getId(), this.getWhite(), this.canCastle);
 	}
 }
