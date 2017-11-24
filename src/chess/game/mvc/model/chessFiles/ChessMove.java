@@ -33,9 +33,6 @@ public class ChessMove extends GameMove {
 	private ChessPiece chessPiece;
 	private ChessBoard chessBoard;
 	
-	/** Default constructor.
-	 *
-	 **/
 	public ChessMove() {}
 	
 	public ChessMove(int row, int col,int rowDes, int colDes, Piece p) {
@@ -60,7 +57,7 @@ public class ChessMove extends GameMove {
 		ChessBoard originalBoard = this.chessBoard.copyChessBoard();
 		
 		if(this.chessBoard.getChessPosition(this.row, this.col) == null)
-			throw new GameError("You need to select a piece to perform the move!");
+			throw new GameError("You need to select one of your pieces to perform the move!");
 		
 		if(!checkTurn(this.chessBoard)) {//Checks that the player is trying to move his own piece.
 			String color = "";
@@ -68,11 +65,11 @@ public class ChessMove extends GameMove {
 				color = "WHITE";
 			else
 				color = "BLACK";
-			throw new GameError("You can only move your own pieces. It's the turn for " + color + ". Try again. (Error Code 001)"); //Works properly
+			throw new GameError("You can only move your own pieces. It's the turn for " + color + ". Try again."); //Works properly
 		}
 		
 		if(this.row == this.rowDes && this.col == this.colDes)
-			throw new GameError("You cannot move a piece to the same position. Try again. (Error Code 002)");
+			throw new GameError("You cannot move a piece to the same position it was before. Try again.");
 			
 		if(this.chessBoard.getPosition(this.row, this.col) instanceof Pawn) {
 			executePawnMove(this.chessBoard);
@@ -87,14 +84,14 @@ public class ChessMove extends GameMove {
 		} else if (this.chessBoard.getPosition(this.row, this.col) instanceof King) {
 			executeKingMove(this.chessBoard);
 		} else {
-			throw new GameError("Piece type not recognised! This should be unreachable. (Error Code 003)");
+			throw new GameError("Piece type not recognised! This should be unreachable.");
 		}
 		
-		if(isKingInCheck(this.chessBoard, this.getPiece().getWhite())) { //If the King is in check after the move.
+		if(isKingInCheck(this.chessBoard, this.getPiece().getWhite())) { //If the King is in Check
 			revertBoard(this.chessBoard, originalBoard);
-			if(isKingInCheck(originalBoard, this.getPiece().getWhite())) { //If the King was in check before the move.
+			if(isKingInCheck(originalBoard, this.getPiece().getWhite())) { //If the King was in Check before the move.
 				throw new GameError("You cannot perform that move, your King is in Check!!!");
-			} else {
+			} else { //If the King would be in check after the move.
 				throw new GameError("You cannot perform that move, your King would be in Check after that!!!");
 			}
 		}
@@ -125,7 +122,7 @@ public class ChessMove extends GameMove {
 	public boolean isKingInCheck(ChessBoard board, boolean isWhite) {
 		int kingLocation = findKing(board, isWhite);
 		if(kingLocation == ChessConstants.UNKNOWN) {
-			throw new GameError("King not found, this should never happen.");
+			throw new GameError("Internal error. King not found, this should never happen.");
 		}
 		int kingRow = kingLocation / 10;
 		int kingCol = kingLocation % 10;
@@ -386,10 +383,10 @@ public class ChessMove extends GameMove {
 		if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
 				((!board.getChessPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) {
 				//If the player tried to capture an ally piece.
-			throw new GameError("Destination position already occupied by an ally piece! (Error Code 004)");
+			throw new GameError("Destination position already occupied by an ally piece!");
 		} else { //If he's capturing an enemy piece.
 			if(board.getChessPosition(this.rowDes, this.colDes) instanceof King) { //You can't capture the king!
-				throw new GameError("Checkmate? This point should be unreachable. (Error Code 005)");
+				throw new GameError("Checkmate? This point should be unreachable.");
 			} else {
 				executeCheckedMove(board);
 			}
@@ -440,7 +437,7 @@ public class ChessMove extends GameMove {
 						executeCheckedMove(board);
 						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
 					} else { //Trying to capture either your own pawn or a pawn that can't be captured En Passant
-						throw new GameError("Invalid move, try again. (Error 001)");
+						throw new GameError("Invalid Pawn move, try again.");
 					}
 				} else if (this.colDes == this.col - 1) { //Capture to the left.
 					if(!board.getChessPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is black
@@ -448,37 +445,37 @@ public class ChessMove extends GameMove {
 						executeCheckedMove(board);
 						board.setPosition(this.row, this.col - 1, null); //Deletes the captured piece
 					} else { //Trying to capture own piece En Passant
-						throw new GameError("Invalid move, try again. (Error 002)");
+						throw new GameError("Invalid Pawn move, try again.");
 					}
 				} else { //Unrecognised En Passant move (not left nor right?)
-					throw new GameError("Invalid move, try again. (Error 003)");
+					throw new GameError("Invalid Pawn move, try again.");
 				}
 			} else { //Pawn invalid diagonal move.
-				throw new GameError("Invalid move, try again. (Error 004)");
+				throw new GameError("Invalid Pawn move, try again.");
 			}
 		} else if(this.col == this.colDes && this.row - 1 == this.rowDes) { //Check if it's making a simple move
 			if(board.getChessPosition(this.rowDes, this.colDes) == null) { //Working.
 				executeCheckedMove(board);
 				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 			} else {
-				throw new GameError("Invalid move, try again. (Error 005)");
+				throw new GameError("Invalid Pawn move, try again.");
 			}
 		} else if(this.col == this.colDes && this.row - 2 == this.rowDes) { //Check if it's making an opening move (Double).
 			if(((Pawn) board.getChessPosition(this.row, this.col)).getFirstMove()) { //Checks if it's the pawn's first move.
 				if(board.getChessPosition(this.rowDes, this.colDes) != null) {
-					throw new GameError("Invalid move, the position is occupied, try again. (Error 006)");
+					throw new GameError("Invalid move, the destination position is occupied, try again.");
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) {
-					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else {
 					executeCheckedMove(board);
 					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
 					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 				}
 			} else {
-				throw new GameError("Cannot make a double move with this Pawn.");
+				throw new GameError("This Pawn can't perform an opening move.");
 			}
 		} else { //The move is not valid.
-			throw new GameError("Invalid move, try again. (Error 008)");
+			throw new GameError("Invalid Pawn move, try again.");
 		}
 		
 		//You can only get here if everything went right during the execution of the move.
@@ -525,7 +522,7 @@ public class ChessMove extends GameMove {
 						executeCheckedMove(board);
 						board.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
 					} else { //Trying to capture either your own pawn or a pawn that can't be captured En Passant
-						throw new GameError("Invalid move, try again. (Error 001)");
+						throw new GameError("Invalid Pawn move, try again.");
 					}
 				} else if (this.colDes == this.col - 1) { //Capture to the left.
 					if(board.getChessPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is white
@@ -533,37 +530,37 @@ public class ChessMove extends GameMove {
 						executeCheckedMove(board);
 						board.setPosition(this.row, this.col - 1, null); //Deletes the captured piece
 					} else { //Trying to capture own piece En Passant
-						throw new GameError("Invalid move, try again. (Error 002)");
+						throw new GameError("Invalid Pawn move, try again.");
 					}
 				} else { //Unrecognised En Passant move (not left nor right?)
-					throw new GameError("Invalid move, try again. (Error 003)");
+					throw new GameError("Invalid Pawn move, try again.");
 				}
 			} else { //Pawn invalid diagonal move.
-				throw new GameError("Invalid move, try again. (Error 004)");
+				throw new GameError("Invalid Pawn move, try again.");
 			}
 		} else if(this.col == this.colDes && this.row + 1 == this.rowDes) { //Check if it's making a simple move
 			if(board.getChessPosition(this.rowDes, this.colDes) == null) { //Working.
 				executeCheckedMove(board);
 				((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 			} else {
-				throw new GameError("Invalid move, try again. (Error 005)");
+				throw new GameError("Invalid Pawn move, try again.");
 			}
 		} else if(this.col == this.colDes && this.row + 2 == this.rowDes) { //Check if it's making an opening move (Double).
 			if(((Pawn) board.getChessPosition(this.row, this.col)).getFirstMove()) { //Checks if it's the pawn's first move.
 				if(board.getChessPosition(this.rowDes, this.colDes) != null) {
-					throw new GameError("Invalid move, the position is occupied, try again. (Error 006)");
+					throw new GameError("Invalid move, the destination position is occupied, try again.");
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) {
-					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else {
 					executeCheckedMove(board);
 					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setPassant(true); //This pawn can be captured En Passant in the next move.
 					((Pawn) board.getChessPosition(this.rowDes, this.colDes)).setFirstMove(false);
 				}
 			} else {
-				throw new GameError("Cannot make a double move with this Pawn.");
+				throw new GameError("This Pawn can't perform an opening move.");
 			}
 		} else { //The move is not valid.
-			throw new GameError("Invalid move, try again. (Error 008)");
+			throw new GameError("Invalid Pawn move, try again.");
 		}
 		
 		//You can only get here if everything went right during the execution of the move.
@@ -610,23 +607,23 @@ public class ChessMove extends GameMove {
 				if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
 						(!board.getChessPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
 					//Check that you're not trying to capture your own pieces.
-					throw new GameError("Invalid move, the destination is occupied by an ally piece, try again. (Error 006)");
+					throw new GameError("Invalid move, the destination is occupied by an ally piece, try again.");
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
-					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //Everything correct, we can execute the move.
 					executeCaptureMove(board); 
 					((Rook) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This rook can't Castle since it moved.
 				}
 			} else { //The destination position is empty.
 				if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
-					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //We can proceed to the move.
 					executeCheckedMove(board);
 					((Rook) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This rook can't Castle since it moved.
 				}
 			}
 		} else { //It is not a vertical or horizontal move.
-			throw new GameError("Invalid move, try again. (Error 008)");
+			throw new GameError("Invalid move, try again.");
 		}
 	}
 	
@@ -641,7 +638,7 @@ public class ChessMove extends GameMove {
 				executeCaptureMove(board);
 			}
 		} else { //The movement is illegal.
-			throw new GameError("Invalid movement, try again. (Error 015)");
+			throw new GameError("Invalid movement, try again.");
 		}
 	}
 	
@@ -651,21 +648,21 @@ public class ChessMove extends GameMove {
 				if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
 						(!board.getChessPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
 					//Check that you're not trying to capture your own pieces.
-					throw new GameError("Invalid move, the destination is occupied by an ally piece, try again. (Error 006)");
+					throw new GameError("Invalid move, the destination position is occupied by an ally piece, try again.");
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
-					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //Everything correct, we can execute the move.
 					executeCaptureMove(board);
 				}
 			} else { //The destination position is empty.
 				if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
-					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //We can proceed to the move.
 					executeCheckedMove(board);
 				}
 			}
 		} else { //It is not a vertical or horizontal move.
-			throw new GameError("Invalid move, try again. (Error 008)");
+			throw new GameError("Invalid move, try again.");
 		}
 	}
 
@@ -675,21 +672,21 @@ public class ChessMove extends GameMove {
 				if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
 						(!board.getChessPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
 					//Check that you're not trying to capture your own pieces.
-					throw new GameError("Invalid move, the destination is occupied by an ally piece, try again. (Error 006)");
+					throw new GameError("Invalid move, the destination position is occupied by an ally piece, try again.");
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
-					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //Everything correct, we can execute the move.
 					executeCaptureMove(board); 
 				}
 			} else { //The destination position is empty.
 				if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
-					throw new GameError("Invalid move, you can't skip through other pieces, try again. (Error 007)");
+					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //We can proceed to the move.
 					executeCheckedMove(board);
 				}
 			}
 		} else { //It is not a vertical or horizontal move.
-			throw new GameError("Invalid move, try again. (Error 008)");
+			throw new GameError("Invalid move, try again.");
 		}
 	}
 	
@@ -700,7 +697,7 @@ public class ChessMove extends GameMove {
 				if((board.getChessPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
 						(!board.getChessPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
 					//Check that you're not trying to capture your own pieces.
-					throw new GameError("Invalid move, the destination is occupied by an ally piece, try again. (Error 006)");
+					throw new GameError("Invalid move, the destination position is occupied by an ally piece, try again.");
 				} else { //Everything correct, we can execute the move.
 					executeCaptureMove(board); 
 					((King) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This King can't Castle since it just moved.
@@ -730,19 +727,19 @@ public class ChessMove extends GameMove {
 										board.setPosition(7, 5, board.getChessPosition(7, 7));
 										deleteMovedPiece(7, 7, board);
 									} else {
-										throw new GameError("Cannot perform Castling, the King would be in Check during the move! (Error 008)");
+										throw new GameError("Cannot perform Castling, the King would be in Check during the move!");
 									}
 								} else {
-									throw new GameError("Cannot perform Castling, the King is in Check! (Error 008)");
+									throw new GameError("Cannot perform Castling, the King is in Check!");
 								}
 							} else {
-								throw new GameError("Cannot perform Castling, there are pieces inbetween. (Error 008)");
+								throw new GameError("Cannot perform Castling, there are pieces inbetween.");
 							}
 						} else {
-							throw new GameError("Rook cannot perform Castling. (Error 008)");
+							throw new GameError("Rook cannot perform Castling.");
 						}
 					} else {
-						throw new GameError("Rook is missing for Castling. (Error 008)");
+						throw new GameError("Rook is missing for Castling.");
 					}
 				} else { //Long castling
 					if(board.getChessPosition(7, 0) != null && board.getChessPosition(7, 0) instanceof Rook) { //Check that there's a rook
@@ -762,23 +759,23 @@ public class ChessMove extends GameMove {
 										board.setPosition(7, 3, board.getChessPosition(7, 0));
 										deleteMovedPiece(7, 0, board);
 									} else {
-										throw new GameError("Cannot perform Castling, the King would be in Check during the move! (Error 008)");
+										throw new GameError("Cannot perform Castling, the King would be in Check during the move!");
 									}
 								} else {
-									throw new GameError("Cannot perform Castling, the King is in Check! (Error 008)");
+									throw new GameError("Cannot perform Castling, the King is in Check!");
 								}
 							} else {
-								throw new GameError("Cannot perform Castling, there are pieces inbetween. (Error 008)");
+								throw new GameError("Cannot perform Castling, there are pieces inbetween.");
 							}
 						} else {
-							throw new GameError("Rook cannot perform Castling. (Error 008)");
+							throw new GameError("Rook cannot perform Castling.");
 						}
 					} else {
-						throw new GameError("Rook is missing for Castling. (Error 008)");
+						throw new GameError("Rook is missing for Castling.");
 					}
 				}
 			} else {
-				throw new GameError("This King cannot Castle anymore. (Error 008)");
+				throw new GameError("This King cannot Castle anymore.");
 			}
 		} else if(!board.getChessPosition(this.row, this.col).getWhite() && ((this.row == 0 && this.col == 4) &&
 				(this.rowDes == 0 && (this.colDes == 2 || this.colDes == 6)))) { //Trying to Castle black king.
@@ -801,19 +798,19 @@ public class ChessMove extends GameMove {
 										board.setPosition(0, 5, board.getChessPosition(0, 7));
 										deleteMovedPiece(0, 7, board);
 									} else {
-										throw new GameError("Cannot perform Castling, the King would be in Check during the move! (Error 008)");
+										throw new GameError("Cannot perform Castling, the King would be in Check during the move!");
 									}
 								} else {
-									throw new GameError("Cannot perform Castling, the King is in Check! (Error 008)");
+									throw new GameError("Cannot perform Castling, the King is in Check!");
 								}
 							} else {
-								throw new GameError("Cannot perform Castling, there are pieces inbetween. (Error 008)");
+								throw new GameError("Cannot perform Castling, there are pieces inbetween.");
 							}
 						} else {
-							throw new GameError("Rook cannot perform Castling. (Error 008)");
+							throw new GameError("Rook cannot perform Castling.");
 						}
 					} else {
-						throw new GameError("Rook is missing for Castling. (Error 008)");
+						throw new GameError("Rook is missing for Castling.");
 					}
 				} else { //Long castling
 					if(board.getChessPosition(0, 0) != null && board.getChessPosition(0, 0) instanceof Rook) { //Check that there's a rook
@@ -833,23 +830,23 @@ public class ChessMove extends GameMove {
 										board.setPosition(0, 3, board.getChessPosition(0, 0));
 										deleteMovedPiece(0, 0, board);
 									} else {
-										throw new GameError("Cannot perform Castling, the King would be in Check during the move! (Error 008)");
+										throw new GameError("Cannot perform Castling, the King would be in Check during the move!");
 									}
 								} else {
-									throw new GameError("Cannot perform Castling, the King is in Check! (Error 008)");
+									throw new GameError("Cannot perform Castling, the King is in Check!");
 								}
 							} else {
-								throw new GameError("Cannot perform Castling, there are pieces inbetween. (Error 008)");
+								throw new GameError("Cannot perform Castling, there are pieces inbetween.");
 							}
 						} else {
-							throw new GameError("Rook cannot perform Castling. (Error 008)");
+							throw new GameError("Rook cannot perform Castling.");
 						}
 					} else {
-						throw new GameError("Rook is missing for Castling. (Error 008)");
+						throw new GameError("Rook is missing for Castling.");
 					}
 				}
 			} else {
-				throw new GameError("This King cannot Castle anymore. (Error 008)");
+				throw new GameError("This King cannot Castle anymore.");
 			}
 		} else { //Illegal move.
 			throw new GameError("Invalid move, try again. (Error 008)");
@@ -925,7 +922,7 @@ public class ChessMove extends GameMove {
 			case ChessConstants.W:
 				rowOffset = ChessConstants.NEUTRAL; colOffset = ChessConstants.NEGATIVE; break;
 			default:
-				throw new GameError("Invalid move direction, this should be unreachable. (Error 016)");
+				throw new GameError("Internal error. Invalid move direction, this should be unreachable.");
 		}
 		
 		int itCount = 0; //In case any error happens, this avoids an infinite loop.
@@ -944,18 +941,14 @@ public class ChessMove extends GameMove {
 		}
 		
 		if(itCount >= ChessConstants.ITER_LIMIT) 
-			throw new GameError("Move direction bugged. This should never happen. (Error 017)");
+			throw new GameError("Internal error. Move direction bugged. This should never happen.");
 		
 		return true;
 	} //If returned false, throw an exception from the suitable function.
 	
 	//Deletes a piece (used after copying it to a new cell)
-	private void deleteMovedPiece(int row, int col, Board board) { //Working properly.
-		if(board.getPosition(row, col) == null) {
-			throw new GameError("Tried to delete an empty cell, there might be an error in the code. (Error 018)");
-		} else {
-			board.setPosition(row, col, null);
-		}
+	private void deleteMovedPiece(int row, int col, Board board) {
+		board.setPosition(row, col, null);
 	}
 	
 	private void revertBoard(ChessBoard current, ChessBoard before) {

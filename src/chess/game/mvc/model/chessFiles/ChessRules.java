@@ -174,10 +174,10 @@ public class ChessRules implements GameRules {
 	public Piece nextPlayer(Board board, List<Piece> playersPieces, Piece lastPlayer){
 		Piece nextPlayer;
 		
-		if(lastPlayer == playersPieces.get(0))
-			nextPlayer = playersPieces.get(1);
-		else if (lastPlayer == playersPieces.get(1))
-			nextPlayer = playersPieces.get(0);
+		if(lastPlayer == playersPieces.get(ChessConstants.WHITE_ID))
+			nextPlayer = playersPieces.get(ChessConstants.BLACK_ID);
+		else if (lastPlayer == playersPieces.get(ChessConstants.BLACK_ID))
+			nextPlayer = playersPieces.get(ChessConstants.WHITE_ID);
 		else
 			throw new GameError("Something went wrong while changing turns. Unrecognised player. This should be unreachable.");
 		
