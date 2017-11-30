@@ -188,8 +188,11 @@ public class ChessRules implements GameRules {
 	
 	//TODO This should work, check anyway. Also check if isMoveLegal works as it should.
 	private void checkAndAdd(ChessMove testMove, ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves) {
-		if(testMove.isMoveLegal(testBoard))
+		if(testMove.isMoveLegal(testBoard)) {
+			//System.out.println("Move: " + testMove);
 			legalMoves.add(testMove);
+			//System.out.println("List: " + legalMoves);
+		}
 	}
 	
 	private void addHorizVertMoves(ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
@@ -287,7 +290,10 @@ public class ChessRules implements GameRules {
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 1, colY - 1, turn), testBoard, originalBoard, legalMoves); //SW move
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 1, colY, turn), testBoard, originalBoard, legalMoves); //S move
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 1, colY + 1, turn), testBoard, originalBoard, legalMoves); //SE move
-	} //TODO Add Castling moves here!
+		
+		this.checkAndAdd(new ChessMove(rowX, colY, rowX, colY + 2, turn), testBoard, originalBoard, legalMoves); //Short Castling
+		this.checkAndAdd(new ChessMove(rowX, colY, rowX, colY - 2, turn), testBoard, originalBoard, legalMoves); //Long Castling
+	}
 
 	@Override
 	public Piece nextPlayer(Board board, List<Piece> playersPieces, Piece lastPlayer){
@@ -300,10 +306,13 @@ public class ChessRules implements GameRules {
 		else
 			throw new GameError("Something went wrong while changing turns. Unrecognised player. This should be unreachable.");
 		
+		//System.out.println("Final List: " + validMoves(board, playersPieces, nextPlayer));
+		//TODO This makes game crash. Changes turn to null wheneven King is in Check!
 		if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
 			return null; //Returns null if next player can't move!
 
-		//int moveNum = validMoves(board, playersPieces, nextPlayer).size(); //TODO This already works. Check edge cases.
+		//int moveNum = validMoves(board, playersPieces, nextPlayer).size(); //TODO Check this.
+		//System.out.println(moveNum + " possible moves for " + nextPlayer);
 		return nextPlayer;
 	}
 
