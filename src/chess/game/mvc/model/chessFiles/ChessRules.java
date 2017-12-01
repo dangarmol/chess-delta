@@ -155,7 +155,7 @@ public class ChessRules implements GameRules {
 	}
 	
 	@Override
-	public List<GameMove> validMoves(Board board, List<Piece> playersPieces, Piece turn) { //TODO This needs to be created.
+	public List<GameMove> validMoves(Board board, List<Piece> playersPieces, Piece turn) { //TODO CHECK THIS FUNCTION.
 		ChessBoard originalBoard = (ChessBoard) board;
 		boolean isWhiteTurn = ((ChessPiece) turn).getWhite();
 		ChessBoard testBoard = originalBoard.copyChessBoard();
@@ -189,9 +189,10 @@ public class ChessRules implements GameRules {
 	//TODO This should work, check anyway. Also check if isMoveLegal works as it should.
 	private void checkAndAdd(ChessMove testMove, ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves) {
 		if(testMove.isMoveLegal(testBoard)) {
-			//System.out.println("Move: " + testMove);
+			System.out.println("Move: " + testMove);
+			testMove.revertBoard(testBoard, originalBoard);
 			legalMoves.add(testMove);
-			//System.out.println("List: " + legalMoves);
+			System.out.println("List: " + legalMoves);
 		}
 	}
 	
@@ -307,12 +308,12 @@ public class ChessRules implements GameRules {
 			throw new GameError("Something went wrong while changing turns. Unrecognised player. This should be unreachable.");
 		
 		//System.out.println("Final List: " + validMoves(board, playersPieces, nextPlayer));
-		//TODO This makes game crash. Changes turn to null wheneven King is in Check!
 		if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
 			return null; //Returns null if next player can't move!
+		//TODO Vertical check not detected! North Direction from white Queen.
 
-		//int moveNum = validMoves(board, playersPieces, nextPlayer).size(); //TODO Check this.
-		//System.out.println(moveNum + " possible moves for " + nextPlayer);
+		int moveNum = validMoves(board, playersPieces, nextPlayer).size();
+		System.out.println(moveNum + " possible moves for " + nextPlayer);
 		return nextPlayer;
 	}
 

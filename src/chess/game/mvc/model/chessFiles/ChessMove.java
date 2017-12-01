@@ -124,7 +124,7 @@ public class ChessMove extends GameMove {
 	//Used by the function above to test if a move is valid or not.
 	//Similar to execute, but faster to run.
 	private void executeFakeMove(ChessBoard testBoard) {
-		this.chessBoard = testBoard;
+		this.chessBoard = testBoard.copyChessBoard();
 		
 		if(this.chessBoard.getChessPosition(this.row, this.col) == null)
 			throw new GameError("You need to select one of your pieces to perform the move!");
@@ -194,7 +194,7 @@ public class ChessMove extends GameMove {
 	
 	//Checks if the king is threatened from any row or column, horizontally or vertically by either a Queen or a Rook.
 	private boolean checkHorizVertThreat(ChessBoard board, int kingRow, int kingCol) {
-		for(int rowX = kingRow; rowX <= ChessConstants.MAX_DIM; rowX++) { //South Direction
+		for(int rowX = kingRow + 1; rowX <= ChessConstants.MAX_DIM; rowX++) { //South Direction
 			if(board.getChessPosition(rowX, kingCol) != null) { //If the position is empty, the loop keeps running.
 				if(checkHorizVertAttacker(board, rowX, kingCol, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -203,7 +203,7 @@ public class ChessMove extends GameMove {
 			}
 		}
 		
-		for(int rowX = kingRow; rowX >= ChessConstants.MIN_DIM; rowX--) { //North Direction
+		for(int rowX = kingRow - 1; rowX >= ChessConstants.MIN_DIM; rowX--) { //North Direction
 			if(board.getChessPosition(rowX, kingCol) != null) { //If the position is empty, the loop keeps running.
 				if(checkHorizVertAttacker(board, rowX, kingCol, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -212,7 +212,7 @@ public class ChessMove extends GameMove {
 			}
 		}
 		
-		for(int colY = kingCol; colY <= ChessConstants.MAX_DIM; colY++) { //East Direction
+		for(int colY = kingCol + 1; colY <= ChessConstants.MAX_DIM; colY++) { //East Direction
 			if(board.getChessPosition(kingRow, colY) != null) { //If the position is empty, the loop keeps running.
 				if(checkHorizVertAttacker(board, kingRow, colY, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -221,7 +221,7 @@ public class ChessMove extends GameMove {
 			}
 		}
 		
-		for(int colY = kingCol; colY >= ChessConstants.MIN_DIM; colY--) { //West Direction
+		for(int colY = kingCol - 1; colY >= ChessConstants.MIN_DIM; colY--) { //West Direction
 			if(board.getChessPosition(kingRow, colY) != null) { //If the position is empty, the loop keeps running.
 				if(checkHorizVertAttacker(board, kingRow, colY, board.getChessPosition(kingRow, kingCol).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
@@ -471,7 +471,7 @@ public class ChessMove extends GameMove {
 		//this.getPiece() returns the piece to which the move belongs!
 		return ((this.getPiece().getWhite() && (board.getChessPosition(this.row, this.col)).getWhite()) ||
 				(!this.getPiece().getWhite() && !(board.getChessPosition(this.row, this.col)).getWhite()));
-	} //TODO This function fails when King is in check as the turn gets to null and it shouldn't.
+	}
 	
 	//Due to the peculiar pattern of pawn movement, it is required to have two
 	//different functions, since white pawns move upwards, and black ones move downwards.
