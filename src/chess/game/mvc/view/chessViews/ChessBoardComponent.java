@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -38,7 +39,7 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 	
 	//Path must end in either "/" on Linux/MacOS or "\" on Windows
 	//public static final String piecesPath = "/Users/Daniel/Google Drive/University and School/2017-2018 Hertfordshire/TFG/Chess Repository Workspace/Chess TFG/img/";
-	public static final String piecesPath = "img/";
+	public static final String piecesPath = "./img/";
 	
 	private BufferedImage whitePawn;
 	private BufferedImage whiteRook;
@@ -94,7 +95,6 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 			this.blackKing = ImageIO.read(new File(piecesPath + "BlackKing.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
-			//"Chess piece files not found!! Check the path and try again!" TODO
 		}
 	}
 
