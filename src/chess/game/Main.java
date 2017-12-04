@@ -162,7 +162,7 @@ public class Main {
      * 
      */
     public static void startGame() {
-    	gameFactory = new ChessFactoryExtended();
+	    	gameFactory = new ChessFactoryExtended();
         Game g = new Game(gameFactory.gameRules());
         Controller c = null;
         pieces = gameFactory.createDefaultPieces();
@@ -182,8 +182,16 @@ public class Main {
                 gameFactory.createSwingView(g, c, p, gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));
             }
         }
-        
-    	c.start();
+	        
+	    	c.start();
+    }
+    
+    public static boolean isMultiviews() {
+        return multiviews;
+    }
+    
+    public static void setMultiviews(boolean isMultiviews) {
+        multiviews = isMultiviews;
     }
     
     /**
@@ -200,13 +208,5 @@ public class Main {
      */
     public static void main(String[] args) {
         startGame(); //TODO Create Menu before this
-    }
-    
-    public static boolean isMultiviews() {
-        return multiviews;
-    }
-    
-    public static void setMultiviews(boolean isMultiviews) {
-        multiviews = isMultiviews;
     }
 }
