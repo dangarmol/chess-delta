@@ -80,82 +80,41 @@ public class ChessRules implements GameRules {
 	
 	@Override
 	public Pair<State, Piece> updateState(Board board, List<Piece> pieces, Piece lastPlayer) {
-		//TODO This is the next function to modify.
+		Pair<State, Piece> gameState = this.gameInPlayResult; //gameInPlayResult = IF GAME IS NOT FINISHED, STILL IN PLAY
 		
-		Pair<State, Piece> gameState;
-		boolean noValidMovesAnyPiece = false;
-		int playingPiecesCount = 0; //Counter for the active players (still have pieces on board)
-		
-		Piece currentPlayer = nextPlayer(board, pieces, lastPlayer);
-		gameState = gameInPlayResult; //gameInPlayResult = IF GAME IS NOT FINISHED, STILL IN PLAY
-		
-		if(currentPlayer != null) //If next player can move
-		{
-			
-			if(playingPiecesCount == 1) //If only one type of pieces remain (even though the board is not full)
-			{
-				gameState = new Pair<State, Piece>(State.Won, currentPlayer);
-			}
-			
-			if(lastPlayer == currentPlayer)
-			{
-				//stuckCounter++; //This is only used in an extreme case where obstacles block most pieces except
-				//for one that gets stuck moving alternatively between 2 positions, it is a rare case, but it
-				//happened while testing the game (it is not really probable and can be removed in most cases)
-				//IT WILL END THE GAME AFTER 10 REPEATS
-			}
-			else if(lastPlayer != currentPlayer)
-			{
-				//stuckCounter = 0;
-			}
-		}
-		else
-		{
-			noValidMovesAnyPiece = true; //Noone can move (an extreme case where noone can move but board is not full yet)
-		}
-		
-		if(board.isFull() || noValidMovesAnyPiece /*|| stuckCounter >= 10*/)
-		{
-			//If board is full, noone can move, or a piece got stuck, it checks the winner of the game.
-			//gameState = checkWinnerFullBoard(board, pieces);
+		if(nextPlayer(board, pieces, lastPlayer) == null) { //If next player can't move, someone has either won or there's a Checkmate!
+			//There must be a Checkmate or Stalemate
+			gameState = checkWinnerEndGame(board, pieces, lastPlayer);
 		}
 		
 		return gameState;
 	}
 	
-	private Pair<State, Piece> checkWinnerFullBoard(Board board, List<Piece> pieces)
-	{
-		Pair<State, Piece> winner = null;
-		int currentCounter, highest = 0, winnerIndex = 0;
-		boolean thereIsWinner = true; //There is a winner, if 2 players end up even, the game finishes as a Draw.
+	//This function must only be called if the game has ended for a player not being able to move. Not in any other case!!
+	//This could only be called after either Checkmate or Stalemate!!
+	private Pair<State, Piece> checkWinnerEndGame(Board board, List<Piece> pieces, Piece lastPlayer) {
+		ChessPiece lastChessPlayer = (ChessPiece) lastPlayer;
 
-		for(int index = 0; index < pieces.size(); index++)
-		{
-			currentCounter = board.getPieceCount(pieces.get(index));
-			if (currentCounter > highest)
-			{
-				thereIsWinner = true;
-				highest = currentCounter;
-				winnerIndex = index;
+		//TODO This needs to be changed. It MUST NOT be like this in the final version. Should not create a move to make this.
+		//We could make the method Static, but I doubt it is the optimal solution.
+		ChessMove chessMove = new ChessMove();
+		if(chessMove.isKingInCheck((ChessBoard) board, !lastChessPlayer.getWhite())) { //Checks if the King from the player that hasn't made the last move is in Check. (It would be Checkmate)
+			//If there is a Checkmate
+			if(lastChessPlayer.getWhite()) {
+				//If the last one to move was White
+				return new Pair<State, Piece>(State.Won, pieces.get(ChessConstants.WHITE_ID)); //White wins!
+			} else {
+				//If the last one to move was Black
+				return new Pair<State, Piece>(State.Won, pieces.get(ChessConstants.BLACK_ID)); //Black wins!
 			}
-			else if (currentCounter == highest)
-			{
-				thereIsWinner = false;
-				winner = new Pair<State, Piece>(State.Draw, null);
-				//In this case, two players have the greatest amount of pieces.
-			}
+		} else {
+			//If there is a Stalemate
+			return new Pair<State, Piece>(State.Draw, null); //There is a Draw
 		}
-		
-		if(thereIsWinner)
-		{
-			winner = new Pair<State, Piece>(State.Won, pieces.get(winnerIndex));
-		}
-		
-		return winner;
 	}
 	
 	@Override
-	public List<GameMove> validMoves(Board board, List<Piece> playersPieces, Piece turn) { //TODO CHECK THIS FUNCTION.
+	public List<GameMove> validMoves(Board board, List<Piece> playersPieces, Piece turn) {
 		ChessBoard originalBoard = (ChessBoard) board;
 		boolean isWhiteTurn = ((ChessPiece) turn).getWhite();
 		ChessBoard testBoard = originalBoard.copyChessBoard();
@@ -186,13 +145,12 @@ public class ChessRules implements GameRules {
 		return legalMoves;
 	}
 	
-	//TODO This should work, check anyway. Also check if isMoveLegal works as it should.
 	private void checkAndAdd(ChessMove testMove, ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves) {
 		if(testMove.isMoveLegal(testBoard)) {
-			System.out.println("Move: " + testMove);
+			//System.out.println("Move: " + testMove);
 			testMove.revertBoard(testBoard, originalBoard);
 			legalMoves.add(testMove);
-			System.out.println("List: " + legalMoves);
+			//System.out.println("List: " + legalMoves);
 		}
 	}
 	
@@ -310,10 +268,9 @@ public class ChessRules implements GameRules {
 		//System.out.println("Final List: " + validMoves(board, playersPieces, nextPlayer));
 		if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
 			return null; //Returns null if next player can't move!
-		//TODO Vertical check not detected! North Direction from white Queen.
 
-		int moveNum = validMoves(board, playersPieces, nextPlayer).size();
-		System.out.println(moveNum + " possible moves for " + nextPlayer);
+		//int moveNum = validMoves(board, playersPieces, nextPlayer).size();
+		//System.out.println(moveNum + " possible moves for " + nextPlayer);
 		return nextPlayer;
 	}
 

@@ -18,4 +18,6 @@ public class ChessConstants {
 	public static final int SW = 6;
 	public static final int W = 7;
 	public static final int ITER_LIMIT = 10;
+	public static final boolean WHITE = true;
+	public static final boolean BLACK = false;
 }

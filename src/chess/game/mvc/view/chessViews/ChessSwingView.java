@@ -591,15 +591,12 @@ public abstract class ChessSwingView extends JFrame implements GameObserver { //
 	protected void handleOnGameOver(Board board, State state, Piece winner) {
 		this.board = board;
 		redrawBoard();
-		if(state == State.Won)
-		{
+		if(state == State.Won) {
 			addMsg(winner.toString() + " won the game!");
-			JOptionPane.showMessageDialog(new JFrame(), winner.toString() + " is the winner!!!", "Match result", JOptionPane.INFORMATION_MESSAGE);
-		}
-		else if (state == State.Draw)
-		{
-			addMsg("Ha habido un empate :(");
-			JOptionPane.showMessageDialog(new JFrame(), "The game finished with a draw", "Match result", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(new JFrame(), winner.toString() + " player wins the match!!!", "Match result", JOptionPane.INFORMATION_MESSAGE);
+		} else if (state == State.Draw) {
+			addMsg("The match finished with a draw.");
+			JOptionPane.showMessageDialog(new JFrame(), "The match finished with a draw.", "Match result", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
