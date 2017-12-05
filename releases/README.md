@@ -1,4 +1,4 @@
-# Disclaimer
+# Important
 
 All of the versions here contained are likely to have errors, bugs and/or limited capabilities.
 This is only an Alpha version of the software, and should therefore only be used for testing purposes.
