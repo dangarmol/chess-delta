@@ -1,4 +1,4 @@
-### PLEASE REPORT ANY BUGS FOUND OR UNCAUGHT EXCEPTIONS TO dangar13@ucm.es OR POST THEM AT THE ISSUES TAB.
+### PLEASE REPORT ANY BUGS FOUND AND UNCAUGHT EXCEPTIONS TO dangar13@ucm.es OR POST THEM AT THE ISSUES TAB.
 
 #### Alpha v1.0:
 > It is already possible to play a 1 vs 1 match for two human players on the same computer, following the rules.
