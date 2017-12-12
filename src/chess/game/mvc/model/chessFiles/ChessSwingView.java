@@ -62,7 +62,7 @@ public class ChessSwingView extends ChessFRBoardSwingView {
 		case 7:
 			aux += "h"; break;
 		default:
-			throw new GameError("Error writing formatted position.");
+			throw new GameError("Error writing formatted position. This should never be reached.");
 		}
 		
 		aux += (8 - row);

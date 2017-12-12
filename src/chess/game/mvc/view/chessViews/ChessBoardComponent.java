@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import chess.game.mvc.model.chessFiles.ChessConstants;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.King;
@@ -134,23 +135,25 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 			 */
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//TODO Check offset on mouse position click!
 				
-				//System.out.println("Mouse Button "+e.getButton()+" Clicked at " + "(" + e.getX() + ","
-				//		+ e.getY() + ")");
-				int col = (e.getX() / _CELL_WIDTH); //TODO This should be changed to fix the mouse offset on cells.
-				int row = (e.getY() / _CELL_HEIGHT); 
+				//System.out.println("Mouse Button " + e.getButton() + " Clicked at " + "(" + e.getX() + "," + e.getY() + ")");
+				int col = ((e.getX() - 19) / _CELL_WIDTH);
+				int row = ((e.getY() - 16) / _CELL_HEIGHT); 
 				int mouseButton = 0; 
 				if (SwingUtilities.isLeftMouseButton(e)) {
-					mouseButton = 1; 
+					mouseButton = 1;
 				} else if (SwingUtilities.isMiddleMouseButton(e)) {
-					mouseButton = 2; 
+					mouseButton = 2;
 				} else if (SwingUtilities.isRightMouseButton(e)) {
 					mouseButton = 3;
 				} else {
 					return;
 				}
-				ChessBoardComponent.this.mouseClicked(row, col, mouseButton);
+				
+				if(e.getX() >= 19 && e.getY() >= 16) {
+					//The click is only detected if the player clicked inside the chess board and not on the edges of the board.
+					ChessBoardComponent.this.mouseClicked(row, col, mouseButton);
+				}
 			}
 		});
 		
@@ -195,6 +198,7 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 		g.drawString("h", 16 + 7 * _CELL_WIDTH + (_CELL_WIDTH / 2), 12);
 		
 		for (int row = 1; row <= 8; row++) {
+			//Draws numbers on borders.
 			g.drawString(String.valueOf(9 - row), 6, 21 + (row - 1) * _CELL_HEIGHT + (_CELL_HEIGHT / 2));
 		}
 	}
