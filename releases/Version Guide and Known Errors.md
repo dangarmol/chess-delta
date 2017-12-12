@@ -8,3 +8,10 @@
 
 -----------------------------------------------------------------------------
 
+#### Alpha v1.1:
+> It is already possible to play a 1 vs 1 match for two human players on the same computer, following the rules.
+> Some bugfixes from Alpha v1.0
+
++ Clicking on the edge of a cell already works properly.
++ Other minor bugs fixed.
+- Side panel still needs to be modified.

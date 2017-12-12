@@ -35,11 +35,6 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 	private int _CELL_HEIGHT = 50;
 	private int _CELL_WIDTH = 50;
 
-	//Java properties file where you can store the current path
-	//Also convert the whole project into a runnable JAR file
-	
-	//Path must end in either "/" on Linux/MacOS or "\" on Windows
-	//public static final String piecesPath = "/Users/Daniel/Google Drive/University and School/2017-2018 Hertfordshire/TFG/Chess Repository Workspace/Chess TFG/img/";
 	public static final String piecesPath = "./img/";
 	
 	private BufferedImage whitePawn;
@@ -263,7 +258,7 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 					g.drawImage(this.blackKing, x, y, _CELL_WIDTH, _CELL_HEIGHT, this);
 				}
 			} else {
-				throw new GameError("Piece type not recognised!");
+				throw new GameError("Piece type not recognised! This point should never be reached!");
 			}
 		}
 	}
