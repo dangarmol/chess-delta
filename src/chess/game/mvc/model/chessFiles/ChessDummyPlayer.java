@@ -10,7 +10,7 @@ import chess.game.mvc.model.genericGameFiles.GameMove;
 import chess.game.mvc.model.genericGameFiles.GameRules;
 import chess.game.mvc.model.genericGameFiles.Piece;
 
-public class ChessRandomPlayer extends Player { //TODO Rename to ChessDummyPlayer
+public class ChessDummyPlayer extends Player {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,6 @@ public class ChessRandomPlayer extends Player { //TODO Rename to ChessDummyPlaye
 		}
 		
 		return moves.get(Utils.randomInt(moves.size()));
-
 	}
 
 	/**

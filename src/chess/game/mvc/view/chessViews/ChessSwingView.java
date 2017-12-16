@@ -673,8 +673,10 @@ public abstract class ChessSwingView extends JFrame implements GameObserver { //
 		}
 		
 		if(playerModes.get(turn) == PlayerMode.AI) {
+			addMsg("AI Player is thinking...");
 			intelligentMove();
 		} else if(playerModes.get(turn) == PlayerMode.RANDOM) {
+			addMsg("AI Player is thinking...");
 			randomMove();
 		}
 	}

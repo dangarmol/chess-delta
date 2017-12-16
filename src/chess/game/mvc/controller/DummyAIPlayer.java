@@ -69,7 +69,8 @@ public class DummyAIPlayer extends Player {
 	public GameMove requestMove(Piece piece, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
 		// if the thread is interrupted it will come back from sleep immediatly,
 		// with the interruption flag on
-		Utils.sleep(delay);
+		
+		Utils.sleep(delay); //TODO Fix delay here. It doesn't seem to be applied properly.
 		if (Thread.interrupted()) {
 			return null;
 		} else {

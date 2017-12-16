@@ -47,7 +47,7 @@ public class ChessFactory implements GameFactory {
 	
 	@Override
 	public Player createRandomPlayer() {
-		return new ChessRandomPlayer();
+		return new ChessDummyPlayer();
 	}
 
 	@Override

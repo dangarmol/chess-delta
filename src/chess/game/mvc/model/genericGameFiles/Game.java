@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import chess.game.mvc.controller.Player;
+import chess.game.mvc.model.chessFiles.ChessBoard;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 
 /**
@@ -344,7 +345,11 @@ public class Game implements Observable<GameObserver> {
 		GameMove m = null;
 		boolean errors = false;
 		try {
-			m = player.requestMove(turn, roBoard, roPlayersPieces, pieceTypes, rules);
+			if(board instanceof ChessBoard)
+				m = player.requestMove(turn, ((ChessBoard) board).copyChessBoard(), roPlayersPieces, pieceTypes, rules);
+			else
+				m = player.requestMove(turn, roBoard, roPlayersPieces, pieceTypes, rules);
+			
 			if (m == null) {
 				throw new GameError("Player couldn't generate a valid mode!");
 			}
