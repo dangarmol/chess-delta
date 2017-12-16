@@ -47,7 +47,7 @@ public class Main {
      * Modos de juego.
      */
     enum PlayerMode {
-        MANUAL("m", "Manual"), RANDOM("r", "Random"), AI("a", "Automatics");
+        MANUAL("m", "Manual"), RANDOM("r", "Dummy AI"), AI("a", "Intelligent AI");
         
         private String id;
         private String desc;

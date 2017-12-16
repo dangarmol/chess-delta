@@ -18,7 +18,7 @@ public class ChessDummyPlayer extends Player {
 	public GameMove requestMove(Piece piece, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
 		List<GameMove> moves = rules.validMoves(board, playersPieces, piece);
 		
-		if(moves.isEmpty()){
+		if(moves.isEmpty()){ //TODO This should also check if the match is finished. Sometimes when 2 AI players play against each other and one checkmates the other, this throws and exception. Find out why. It doesn't happen with Human vs Computer.
 			throw new GameError("Player is stuck and can't move");
 		}
 		

@@ -80,9 +80,9 @@ public abstract class ChessSwingView extends JFrame implements GameObserver { //
 	 *
 	 */
 	enum PlayerMode {
-		MANUAL("Manual", "Manual"),
-		RANDOM("Random", "Random"),
-		AI("Automatic", "Automatic");
+		MANUAL("m", "Manual"),
+		RANDOM("r", "Dummy AI"),
+		AI("a", "Intelligent AI");
 
 		private String id;
 		private String desc;
@@ -429,13 +429,10 @@ public abstract class ChessSwingView extends JFrame implements GameObserver { //
 			public Component prepareRenderer(TableCellRenderer renderer, int row, int col){ 
 				Component comp = super.prepareRenderer(renderer, row, col);
 				comp.setBackground(pieceColors.get(pieces.get(row)));
-				if(pieceColors.get(pieces.get(row)) == Color.BLACK || pieceColors.get(pieces.get(row)) == Color.blue)
-				{
-					comp.setForeground(Color.white);
-				}
-				else
-				{
-					comp.setForeground(Color.black);
+				if(pieceColors.get(pieces.get(row)) == Color.BLACK || pieceColors.get(pieces.get(row)) == Color.BLUE) {
+					comp.setForeground(Color.WHITE);
+				} else {
+					comp.setForeground(Color.BLACK);
 				}
 				return comp;
 			}
