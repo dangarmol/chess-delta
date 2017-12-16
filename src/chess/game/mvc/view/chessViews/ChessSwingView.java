@@ -80,9 +80,9 @@ public abstract class ChessSwingView extends JFrame implements GameObserver { //
 	 *
 	 */
 	enum PlayerMode {
-		MANUAL("m", "Manual"),
-		RANDOM("r", "Dummy AI"),
-		AI("a", "Intelligent AI");
+		MANUAL("Manual", "Manual"),
+		RANDOM("Dummy AI", "Dummy AI"),
+		AI("Intelligent AI", "Intelligent AI");
 
 		private String id;
 		private String desc;

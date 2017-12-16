@@ -188,8 +188,29 @@ public class ChessMove extends GameMove {
 		int kingCol = kingLocation % 10;
 		
 		//King can't be threatened by the other King. Since a King cannot move to a vulnerable position.
+		//True means King is in check, False mean King is not in check.
 		return checkHorizVertThreat(board, kingRow, kingCol) || checkDiagonalThreat(board, kingRow, kingCol) ||
-				checkKnightThreat(board, kingRow, kingCol) || checkPawnThreat(board, kingRow, kingCol);
+				checkKnightThreat(board, kingRow, kingCol) || checkPawnThreat(board, kingRow, kingCol) ||
+				checkKingsCollision(board, kingRow, kingCol);
+	}
+	
+	//Checks if the King would move to a position threatened by the enemy King.
+	private boolean checkKingsCollision(ChessBoard board, int kingRow, int kingCol) {
+		for(int rowX = kingRow - 1; rowX <= kingRow + 1; rowX++) {
+			for(int colY = kingCol - 1; colY <= kingCol + 1; colY++) {
+				if(rowX >= ChessConstants.MIN_DIM && rowX <= ChessConstants.MAX_DIM &&
+						colY >= ChessConstants.MIN_DIM && colY <= ChessConstants.MAX_DIM) { //Can't check outside the board!
+					if(rowX != kingRow || colY != kingCol) { //To avoid checking the position where the current king is.
+						if(board.getChessPosition(rowX, colY) != null) {
+							if(board.getChessPosition(rowX, colY) instanceof King) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 	//Checks if the king is threatened from any row or column, horizontally or vertically by either a Queen or a Rook.
