@@ -14,4 +14,4 @@
 
 + Clicking on the edge of a cell already works properly.
 + Other minor bugs fixed.
-- Side panel still needs to be modified.
++ Side panel still needs to be modified.
