@@ -189,13 +189,8 @@ public class Game implements Observable<GameObserver> {
 		// We cannot start a game that is not in Starting state. In this case
 		// you should use restart() instead.
 		if (state != State.Starting) {
-			notifyError(new GameError("Game alreay started"));
+			notifyError(new GameError("Game already started"));
 		}
-
-		// check that number of players is OK //TODO Remove
-		/*if (pieces.size() < rules.minPlayers() || pieces.size() > rules.maxPlayers()) {
-			notifyError(new GameError("Too many or too few players: " + pieces.size()));
-		}*/
 
 		// check for duplicate player names
 		Set<Piece> tmpPieces = new HashSet<Piece>();
@@ -351,7 +346,8 @@ public class Game implements Observable<GameObserver> {
 				m = player.requestMove(turn, roBoard, roPlayersPieces, pieceTypes, rules);
 			
 			if (m == null) {
-				throw new GameError("Player couldn't generate a valid mode!");
+				if(state == State.InPlay && turn != null) //TODO Check this
+					rules.updateState(board, pieceTypes, turn);
 			}
 		} catch (GameError e) {
 			notifyError(e);
@@ -405,13 +401,6 @@ public class Game implements Observable<GameObserver> {
 			notifyError(new GameError("Game is not in play"));
 			errors = true;
 		}
-
-		// the move must correspond to the current player
-		/*if (!move.getPiece().equals(turn)) { //TODO Modify this
-		//if (((ChessPiece) move.getPiece()).getWhite() != (turn.getId() == "White")) { 
-			notifyError(new GameError("It is not turn of " + move.getPiece()));
-			errors = true;
-		}*/
 
 		notifyStartMove(); // we are about to execute a move
 

@@ -82,8 +82,8 @@ public class ChessRules implements GameRules {
 	public Pair<State, Piece> updateState(Board board, List<Piece> pieces, Piece lastPlayer) {
 		Pair<State, Piece> gameState = this.gameInPlayResult; //gameInPlayResult = IF GAME IS NOT FINISHED, STILL IN PLAY
 		
-		if(nextPlayer(board, pieces, lastPlayer) == null) { //If next player can't move, someone has either won or there's a Checkmate!
-			//There must be a Checkmate or Stalemate
+		if(nextPlayer(board, pieces, lastPlayer) == null) { //If next player can't move, someone has won or there's a Checkmate!
+			//There must be a Checkmate or Stalemate, therefore we check the end of the game.
 			gameState = checkWinnerEndGame(board, pieces, lastPlayer);
 		}
 		
@@ -95,7 +95,7 @@ public class ChessRules implements GameRules {
 	private Pair<State, Piece> checkWinnerEndGame(Board board, List<Piece> pieces, Piece lastPlayer) {
 		ChessPiece lastChessPlayer = (ChessPiece) lastPlayer;
 
-		//TODO This needs to be changed. It MUST NOT be like this in the final version. Should not create a move to make this.
+		//TODO This needs to be changed. It SHOULD NOT be like this in the final version. Should not create a move to make this.
 		//We could make the method Static, but I doubt it is the optimal solution.
 		ChessMove chessMove = new ChessMove();
 		if(chessMove.isKingInCheck((ChessBoard) board, !lastChessPlayer.getWhite())) { //Checks if the King from the player that hasn't made the last move is in Check. (It would be Checkmate)
@@ -147,10 +147,8 @@ public class ChessRules implements GameRules {
 	
 	private void checkAndAdd(ChessMove testMove, ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves) {
 		if(testMove.isMoveLegal(testBoard)) {
-			//System.out.println("Move: " + testMove);
 			testMove.revertBoard(testBoard, originalBoard);
 			legalMoves.add(testMove);
-			//System.out.println("List: " + legalMoves);
 		}
 	}
 	
@@ -265,12 +263,9 @@ public class ChessRules implements GameRules {
 		else
 			throw new GameError("Something went wrong while changing turns. Unrecognised player. This should be unreachable.");
 		
-		//System.out.println("Final List: " + validMoves(board, playersPieces, nextPlayer));
 		if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
 			return null; //Returns null if next player can't move!
 
-		//int moveNum = validMoves(board, playersPieces, nextPlayer).size();
-		//System.out.println(moveNum + " possible moves for " + nextPlayer);
 		return nextPlayer;
 	}
 
