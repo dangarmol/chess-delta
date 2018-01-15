@@ -9,7 +9,7 @@ import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
 
 @SuppressWarnings("serial")
-public abstract class ChessFRBoardSwingView extends ChessSwingView { //Crea el tablero
+public abstract class ChessFRBoardSwingView extends ChessWindowSwingView { //Crea el tablero
 	/**
 	 * Constructor
 	 * @param g

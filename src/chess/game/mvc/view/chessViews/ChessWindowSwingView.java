@@ -33,6 +33,8 @@ import javax.swing.table.TableCellRenderer;
 import chess.game.Main;
 import chess.game.mvc.controller.Controller;
 import chess.game.mvc.controller.Player;
+import chess.game.mvc.model.chessFiles.ChessConstants;
+import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameError;
@@ -42,7 +44,7 @@ import chess.game.mvc.model.genericGameFiles.Piece;
 import chess.game.mvc.model.genericGameFiles.Game.State;
 
 @SuppressWarnings("serial")
-public abstract class ChessSwingView extends JFrame implements GameObserver { //Hace la ventana y el pane
+public abstract class ChessWindowSwingView extends JFrame implements GameObserver { //Hace la ventana y el pane
 	
 	protected Controller ctrl; //Controller
 	protected Observable<GameObserver> game; //Game
@@ -58,7 +60,8 @@ public abstract class ChessSwingView extends JFrame implements GameObserver { //
 	
 	private Map<Piece, Color> pieceColors;
 	private Map<Piece, PlayerMode> playerModes;
-
+	public static boolean islastMoveAI;
+	
 	private JPanel backgroundPane;
 	private JPanel boardPanel;
 	private JPanel sidebarPanel;
@@ -114,7 +117,7 @@ public abstract class ChessSwingView extends JFrame implements GameObserver { //
 	 * @param randPlayer
 	 * @param aiPlayer
 	 */
-	public ChessSwingView(Observable<GameObserver> g, Controller c, Piece localPiece, Player randPlayer, Player aiPlayer) {
+	public ChessWindowSwingView(Observable<GameObserver> g, Controller c, Piece localPiece, Player randPlayer, Player aiPlayer) {
 		this.game = g;
 		this.ctrl = c;
 		this.localPiece = localPiece;
@@ -254,12 +257,17 @@ public abstract class ChessSwingView extends JFrame implements GameObserver { //
 		statusArea.append(msg + "\n");
 	}
 	
+	public static boolean isChessPlayerAI() { //TODO Check if this works
+		return islastMoveAI;
+	}
+	
 	/**
 	 * Makes a manual move
 	 * @param manualPlayer
 	 */
 	final protected void decideMakeManualMove(Player manualPlayer) {
 		try {
+			islastMoveAI = false;
 			ctrl.makeMove(manualPlayer);
 		} catch (GameError e) {
 			System.out.println(e.getMessage());
@@ -270,6 +278,7 @@ public abstract class ChessSwingView extends JFrame implements GameObserver { //
 	 * Make an auto move
 	 */
 	final protected void decideMakeAutomaticMove() {
+		islastMoveAI = true;
 		if(playerModes.get(turn) == PlayerMode.AI)
 		{
 			intelligentMove();

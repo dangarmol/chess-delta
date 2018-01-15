@@ -2,27 +2,13 @@ package chess.game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
-import chess.game.mvc.controller.ConsoleCtrl;
-import chess.game.mvc.controller.ConsoleCtrlMVC;
 import chess.game.mvc.controller.Controller;
 import chess.game.mvc.controller.GameFactory;
-import chess.game.mvc.controller.Player;
-import chess.game.mvc.model.chessFiles.ChessFactory;
+import chess.game.mvc.model.chessFiles.ChessConstants;
 import chess.game.mvc.model.chessFiles.ChessFactoryExtended;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
 import chess.game.mvc.model.genericGameFiles.Game;
-import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.Piece;
 
 /**

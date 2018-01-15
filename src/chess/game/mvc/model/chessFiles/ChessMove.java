@@ -4,6 +4,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
+import chess.game.Main;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
@@ -16,6 +17,7 @@ import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.GameMove;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.view.chessViews.ChessWindowSwingView;
 
 /**
  * Although this class is completely full of comments, just don't touch any algorithm nor try to change anything unless you're sure
@@ -561,30 +563,36 @@ public class ChessMove extends GameMove {
 		
 		//You can only get here if everything went right during the execution of the move.
 		if(!this.testMove && !isKingInCheck(board, this.getPiece().getWhite()) && checkPromotion(board)) {
-			ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", true);
-			
-			dialog.addWindowListener(new WindowAdapter() {
-                public void windowClosed(WindowEvent e) {
-                    ChessPiece newPiece;
-                    switch(dialog.getChosenPiece()) {
-                            case ChessPieceID.WHITE_ROOK_PAWN:
-                                    newPiece = new Rook(true, false);
-                                    break;
-                            case ChessPieceID.WHITE_KNIGHT:
-                                    newPiece = new Knight(true);
-                                    break;
-                            case ChessPieceID.WHITE_BISHOP:
-                                    newPiece = new Bishop(true);
-                                    break;
-                            case ChessPieceID.WHITE_QUEEN:
-                                    newPiece = new Queen(true);
-                                    break;
-                            default:
-                                    throw new GameError("Invalid piece for promotion chosen.");
-                    }
-                    executePromotion(board, newPiece);
-                }
-            });
+			if(!ChessWindowSwingView.isChessPlayerAI()) {
+				ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", true);
+				
+				dialog.addWindowListener(new WindowAdapter() {
+	                public void windowClosed(WindowEvent e) {
+	                    ChessPiece newPiece;
+	                    switch(dialog.getChosenPiece()) {
+	                            case ChessPieceID.WHITE_ROOK_PAWN:
+	                                    newPiece = new Rook(true, false);
+	                                    break;
+	                            case ChessPieceID.WHITE_KNIGHT:
+	                                    newPiece = new Knight(true);
+	                                    break;
+	                            case ChessPieceID.WHITE_BISHOP:
+	                                    newPiece = new Bishop(true);
+	                                    break;
+	                            case ChessPieceID.WHITE_QUEEN:
+	                                    newPiece = new Queen(true);
+	                                    break;
+	                            default:
+	                                    throw new GameError("Invalid piece for promotion chosen.");
+	                    }
+	                    executePromotion(board, newPiece);
+	                }
+	            });
+			} else {
+				executePromotion(board, new Queen(true)); //Always promotes to Queen because of piece value maximisation heuristics
+			}
+		} else if(this.testMove) {
+			executePromotion(board, new Queen(true)); //Always promotes to Queen because of piece value maximisation heuristics
 		}
 	}
 	
@@ -646,30 +654,36 @@ public class ChessMove extends GameMove {
 		
 		//You can only get here if everything went right during the execution of the move.
 		if(!this.testMove && !isKingInCheck(board, this.getPiece().getWhite()) && checkPromotion(board)) {
-			ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", false);
-			
-			dialog.addWindowListener(new WindowAdapter() {
-                public void windowClosed(WindowEvent e)  {
-                    ChessPiece newPiece;
-                    switch(dialog.getChosenPiece()) {
-                            case ChessPieceID.BLACK_ROOK_PAWN:
-                                    newPiece = new Rook(false, false);
-                                    break;
-                            case ChessPieceID.BLACK_KNIGHT:
-                                    newPiece = new Knight(false);
-                                    break;
-                            case ChessPieceID.BLACK_BISHOP:
-                                    newPiece = new Bishop(false);
-                                    break;
-                            case ChessPieceID.BLACK_QUEEN:
-                                    newPiece = new Queen(false);
-                                    break;
-                            default:
-                                    throw new GameError("Invalid piece for promotion chosen.");
-                    }
-                    executePromotion(board, newPiece);
-                }
-            });
+			if(!ChessWindowSwingView.isChessPlayerAI()) {
+				ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", false);
+				
+				dialog.addWindowListener(new WindowAdapter() {
+	                public void windowClosed(WindowEvent e)  {
+	                    ChessPiece newPiece;
+	                    switch(dialog.getChosenPiece()) {
+	                            case ChessPieceID.BLACK_ROOK_PAWN:
+	                                    newPiece = new Rook(false, false);
+	                                    break;
+	                            case ChessPieceID.BLACK_KNIGHT:
+	                                    newPiece = new Knight(false);
+	                                    break;
+	                            case ChessPieceID.BLACK_BISHOP:
+	                                    newPiece = new Bishop(false);
+	                                    break;
+	                            case ChessPieceID.BLACK_QUEEN:
+	                                    newPiece = new Queen(false);
+	                                    break;
+	                            default:
+	                                    throw new GameError("Invalid piece for promotion chosen.");
+	                    }
+	                    executePromotion(board, newPiece);
+	                }
+	            });
+			} else {
+				executePromotion(board, new Queen(false)); //Always promotes to Queen because of piece value maximisation heuristics
+			}
+		} else if(this.testMove) {
+			executePromotion(board, new Queen(false)); //Always promotes to Queen because of piece value maximisation heuristics
 		}
 	}
 	

@@ -47,7 +47,7 @@ public class ConsoleCtrlMVC extends ConsoleCtrl {
 				} catch (GameError e) {
 				}
 			} else {
-				System.err.println("Uknown command: " + line);
+				System.err.println("Unknown command: " + line);
 				System.err.flush();
 			}
 		}

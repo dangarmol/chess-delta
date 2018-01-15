@@ -19,10 +19,10 @@ public class ChessPieceID {
 	public static final int BLACK_PAWN_H = 15;
 	public static final int WHITE_ROOK_A = 16;
 	public static final int WHITE_ROOK_H = 17;
-	public static final int WHITE_ROOK_PAWN = 18; //Needed in case a rook is created from a pawn, not to break the Castling mechanics.
+	public static final int WHITE_ROOK_PAWN = 18; //Needed in case a rook is created by pawn promotion, not to break the Castling mechanics.
 	public static final int BLACK_ROOK_A = 19;
 	public static final int BLACK_ROOK_H = 20;
-	public static final int BLACK_ROOK_PAWN = 21; //Needed in case a rook is created from a pawn, not to break the Castling mechanics.
+	public static final int BLACK_ROOK_PAWN = 21; //Needed in case a rook is created by pawn promotion, not to break the Castling mechanics.
 	public static final int WHITE_KNIGHT = 22;
 	public static final int BLACK_KNIGHT = 23;
 	public static final int WHITE_BISHOP = 24;
