@@ -5,6 +5,7 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 
 import chess.game.Main;
+import chess.game.mvc.controller.Controller;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
@@ -563,7 +564,7 @@ public class ChessMove extends GameMove {
 		
 		//You can only get here if everything went right during the execution of the move.
 		if(!this.testMove && !isKingInCheck(board, this.getPiece().getWhite()) && checkPromotion(board)) {
-			if(!ChessWindowSwingView.isChessPlayerAI()) {
+			if(!Controller.isWhiteAI) {
 				ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", true);
 				
 				dialog.addWindowListener(new WindowAdapter() {
@@ -654,7 +655,7 @@ public class ChessMove extends GameMove {
 		
 		//You can only get here if everything went right during the execution of the move.
 		if(!this.testMove && !isKingInCheck(board, this.getPiece().getWhite()) && checkPromotion(board)) {
-			if(!ChessWindowSwingView.isChessPlayerAI()) {
+			if(!Controller.isBlackAI) {
 				ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", false);
 				
 				dialog.addWindowListener(new WindowAdapter() {

@@ -60,7 +60,6 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	
 	private Map<Piece, Color> pieceColors;
 	private Map<Piece, PlayerMode> playerModes;
-	public static boolean islastMoveAI;
 	
 	private JPanel backgroundPane;
 	private JPanel boardPanel;
@@ -257,17 +256,12 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		statusArea.append(msg + "\n");
 	}
 	
-	public static boolean isChessPlayerAI() { //TODO Check if this works
-		return islastMoveAI;
-	}
-	
 	/**
 	 * Makes a manual move
 	 * @param manualPlayer
 	 */
 	final protected void decideMakeManualMove(Player manualPlayer) {
 		try {
-			islastMoveAI = false;
 			ctrl.makeMove(manualPlayer);
 		} catch (GameError e) {
 			System.out.println(e.getMessage());
@@ -278,7 +272,6 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	 * Make an auto move
 	 */
 	final protected void decideMakeAutomaticMove() {
-		islastMoveAI = true;
 		if(playerModes.get(turn) == PlayerMode.AI)
 		{
 			intelligentMove();
@@ -298,7 +291,6 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	{
 		addStatusMessagesTextArea();
 		addPlayerInfoTable();
-		//addPlayersColors();
 		addPlayersModes();
 		addButtons();
 	}
@@ -327,7 +319,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		});
 		bottomPanel.add(quit); //Adds quit button to the bottom panel
 		
-		restart = new JButton(/*"Restart"*/"Back to Menu"); //Same as quit button
+		restart = new JButton("Restart"); //Same as quit button
 		restart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -350,7 +342,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		JPanel autoPlayerPanel = new JPanel(new GridLayout(0,2,5,5)); //Creates a panel with a grid of 2 columns and gaps of 5 units
 		autoPlayerPanel.setBorder(BorderFactory.createTitledBorder(/*"Automatic Moves"*/"Game Options")); //Creates and sets the label of the border
 		autoPlayerPanel.setSize(new Dimension(10,50)); //Sets the size for the panel
-		randomMove = new JButton(/*"Random"*/"Help");	 //Creates the random move button
+		randomMove = new JButton("Random Move");	 //Creates the random move button
 		randomMove.addActionListener(new ActionListener() { //Same as quit and restart buttons
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -359,7 +351,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		});
 		autoPlayerPanel.add(randomMove); //Adds the button to the Auto players panel
 		
-		intelligentMove = new JButton(/*"Intelligent"*/"Surrender");
+		intelligentMove = new JButton("Intelligent Move");
 		intelligentMove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -413,6 +405,19 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 			PlayerMode selectedMode = (PlayerMode) modes.getSelectedItem();
 			PlayerMode currentMode = playerModes.get(selectedPiece);
 			playerModes.put(selectedPiece, selectedMode);
+			if(selectedMode != PlayerMode.MANUAL) {
+				if(((ChessPiece) selectedPiece).getWhite()) {
+					Controller.isWhiteAI = true;
+				} else {
+					Controller.isBlackAI = true;
+				}
+			} else {
+				if(((ChessPiece) selectedPiece).getWhite()) {
+					Controller.isWhiteAI = false;
+				} else {
+					Controller.isBlackAI = false;
+				}
+			}
 			if(currentMode == PlayerMode.MANUAL && selectedMode != PlayerMode.MANUAL && turn.equals(localPiece))
 				decideMakeAutomaticMove();
 			}
@@ -516,22 +521,17 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	 */
 	private void initPlayerModes() {
 		if(playerModePieces != null) {
-			if(localPiece == null)
-			{
-				for(Piece p: pieces)
-				{
-					
-					if(playerModes.get(p) == null)
-					{
+			if(localPiece == null) {
+				for(Piece p: pieces) {
+					if(playerModes.get(p) == null) {
 						playerModes.put(p, PlayerMode.MANUAL);
+						Controller.isWhiteAI = false;
+						Controller.isBlackAI = false;
 						playerModePieces.addItem(p);
 					}
 				}
-			}
-			else
-			{
-				if(playerModes.get(localPiece) == null)
-				{
+			} else {
+				if(playerModes.get(localPiece) == null) {
 					playerModes.put(localPiece, PlayerMode.MANUAL);
 					playerModePieces.addItem(localPiece);
 				}

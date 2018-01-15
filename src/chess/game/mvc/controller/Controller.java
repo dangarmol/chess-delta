@@ -41,6 +41,16 @@ public class Controller {
 	protected List<Piece> pieceTypes;
 
 	/**
+	 * If white is an AI Player (only used in Chess)
+	 */
+	public static boolean isWhiteAI;
+	
+	/**
+	 * If white is an AI Player (only used in Chess)
+	 */
+	public static boolean isBlackAI;
+	
+	/**
 	 * Constructs a controller. Should be called by subclasses to set the values
 	 * of {@link #game} and {@link #pieces}.
 	 * 
