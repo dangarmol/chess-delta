@@ -24,7 +24,6 @@ import chess.game.mvc.view.chessViews.ChessWindowSwingView;
  * Although this class is completely full of comments, just don't touch any algorithm nor try to change anything unless you're sure
  * of what you're doing and it's really necessary.
  * @author Daniel
- *
  */
 public class ChessMove extends GameMove {
 
@@ -945,7 +944,7 @@ public class ChessMove extends GameMove {
 				throw new GameError("This King cannot Castle anymore.");
 			}
 		} else { //Illegal move.
-			throw new GameError("Invalid move, try again. (Error 008)");
+			throw new GameError("Invalid move, try again.");
 		}
 	}
 	
