@@ -32,7 +32,8 @@ public class ChessMove extends GameMove {
 	private int rowDes;
 	private int colDes;
 	
-	private boolean testMove;
+	private boolean actionMove; //If it is a pawn move or a capture move, for the 50 moves rule.
+	private boolean testMove; //If it is a test move and will be reversed/ignored.
 	
 	private ChessPiece chessPiece;
 	private ChessBoard chessBoard;
@@ -46,6 +47,7 @@ public class ChessMove extends GameMove {
 		this.rowDes = rowDes;
 		this.colDes = colDes;
 		this.chessPiece = (ChessPiece) p;
+		this.actionMove = false;
 		this.testMove = false;
 	}
 	
@@ -58,6 +60,7 @@ public class ChessMove extends GameMove {
 		//Check that the player moves his own piece
 		
 		this.chessBoard = (ChessBoard) board;
+		this.actionMove = false;
 		
 		ChessBoard originalBoard = this.chessBoard.copyChessBoard();
 		
@@ -78,6 +81,7 @@ public class ChessMove extends GameMove {
 			
 		if(this.chessBoard.getPosition(this.row, this.col) instanceof Pawn) {
 			executePawnMove(this.chessBoard);
+			this.actionMove = true; //This is used for the 50 moves rule
 		} else if (this.chessBoard.getPosition(this.row, this.col) instanceof Rook) {
 			executeRookMove(this.chessBoard);
 		} else if (this.chessBoard.getPosition(this.row, this.col) instanceof Knight) {
@@ -105,6 +109,12 @@ public class ChessMove extends GameMove {
 		
 		disableEnPassant(!this.getPiece().getWhite()); //Disable En passant for every pawn of the colour that is going
 		//to move next turn, since it has been more than a move ago that he moved his pieces.
+		
+		if(actionMove && !testMove) {
+			ChessConstants.movesWithoutAction = 0;
+		} else {
+			ChessConstants.movesWithoutAction++;
+		}
 	}
 	
 	//Used by ChessRules to get the list of valid moves.
@@ -706,7 +716,8 @@ public class ChessMove extends GameMove {
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
 					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //Everything correct, we can execute the move.
-					executeCaptureMove(board); 
+					executeCaptureMove(board);
+					this.actionMove = true;
 					if(!this.testMove) ((Rook) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This rook can't Castle since it moved.
 				}
 			} else { //The destination position is empty.
@@ -731,6 +742,7 @@ public class ChessMove extends GameMove {
 				executeCheckedMove(board);
 			} else { //If the piece is trying to capture a piece.
 				executeCaptureMove(board);
+				this.actionMove = true;
 			}
 		} else { //The movement is illegal.
 			throw new GameError("Invalid movement, try again.");
@@ -748,6 +760,7 @@ public class ChessMove extends GameMove {
 					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //Everything correct, we can execute the move.
 					executeCaptureMove(board);
+					this.actionMove = true;
 				}
 			} else { //The destination position is empty.
 				if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
@@ -771,7 +784,8 @@ public class ChessMove extends GameMove {
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
 					throw new GameError("Invalid move, you can't skip through other pieces, try again.");
 				} else { //Everything correct, we can execute the move.
-					executeCaptureMove(board); 
+					executeCaptureMove(board);
+					this.actionMove = true;
 				}
 			} else { //The destination position is empty.
 				if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
@@ -794,7 +808,8 @@ public class ChessMove extends GameMove {
 					//Check that you're not trying to capture your own pieces.
 					throw new GameError("Invalid move, the destination position is occupied by an ally piece, try again.");
 				} else { //Everything correct, we can execute the move.
-					executeCaptureMove(board); 
+					executeCaptureMove(board);
+					this.actionMove = true;
 					if(!this.testMove) ((King) board.getChessPosition(this.rowDes, this.colDes)).setCastle(false); //This King can't Castle since it just moved.
 				}
 			} else { //The destination position is empty.

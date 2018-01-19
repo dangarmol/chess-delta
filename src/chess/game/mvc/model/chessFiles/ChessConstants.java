@@ -20,4 +20,6 @@ public class ChessConstants {
 	public static final int ITER_LIMIT = 10;
 	public static final boolean WHITE = true;
 	public static final boolean BLACK = false;
+	
+	public static int movesWithoutAction = 0;
 }

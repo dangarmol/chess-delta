@@ -85,6 +85,8 @@ public class ChessRules implements GameRules {
 		if(nextPlayer(board, pieces, lastPlayer) == null) { //If next player can't move, someone has won or there's a Checkmate!
 			//There must be a Checkmate or Stalemate, therefore we check the end of the game.
 			gameState = checkWinnerEndGame(board, pieces, lastPlayer);
+		} else if(ChessConstants.movesWithoutAction >= 50) { //Check if no pawn has been moved or no piece has been captured in the last 50 moves
+			gameState = new Pair<State, Piece>(State.Draw, null);
 		}
 		
 		return gameState;
@@ -95,10 +97,8 @@ public class ChessRules implements GameRules {
 	private Pair<State, Piece> checkWinnerEndGame(Board board, List<Piece> pieces, Piece lastPlayer) {
 		ChessPiece lastChessPlayer = (ChessPiece) lastPlayer;
 
-		//TODO This needs to be changed. It SHOULD NOT be like this in the final version. Should not create a move to make this.
-		//We could make the method Static, but I doubt it is the optimal solution.
-		ChessMove chessMove = new ChessMove();
-		if(chessMove.isKingInCheck((ChessBoard) board, !lastChessPlayer.getWhite())) { //Checks if the King from the player that hasn't made the last move is in Check. (It would be Checkmate)
+		//Creates an empty chess move to check if the enemy king is in check
+		if(new ChessMove().isKingInCheck((ChessBoard) board, !lastChessPlayer.getWhite())) { //Checks if the King from the player that hasn't made the last move is in Check. (It would be Checkmate)
 			//If there is a Checkmate
 			if(lastChessPlayer.getWhite()) {
 				//If the last one to move was White
@@ -271,7 +271,7 @@ public class ChessRules implements GameRules {
 
 	@Override
 	public Piece initialPlayer(Board board, List<Piece> pieces) {
-		return pieces.get(0); //White always starts
+		return pieces.get(ChessConstants.WHITE_ID); //White always starts
 	}
 
 	@Override
