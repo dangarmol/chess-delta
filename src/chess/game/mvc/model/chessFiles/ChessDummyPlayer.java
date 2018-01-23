@@ -16,13 +16,11 @@ public class ChessDummyPlayer extends Player {
 
 	private static final long serialVersionUID = 1L;
 
-	//TODO This should also check if the match is finished. Sometimes when 2 AI players play against each other and one checkmates the other, this throws and exception. Find out why. It doesn't happen with Human vs Computer.
 	@Override
 	public GameMove requestMove(Piece piece, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
 		List<GameMove> moves = rules.validMoves(board, playersPieces, piece);
 		Pair<State, Piece> gameState = ((ChessRules) rules).updateState(board, playersPieces, piece);
-		if(gameState.getFirst() != State.InPlay) { //TODO Check this. It might not be what needs to be checked.
-			//throw new GameError("The player is stuck and can't move"); //TODO This needs to be changed.
+		if(gameState.getFirst() != State.InPlay) { //If the game has finished the player doesn't move.
 			return null;
 		}
 		

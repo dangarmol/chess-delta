@@ -2,8 +2,6 @@ package chess.game.mvc.model.chessFiles;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
@@ -13,8 +11,6 @@ import chess.game.mvc.model.chessPieces.chessPiecesImp.Pawn;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Queen;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Rook;
 import chess.game.mvc.model.genericGameFiles.Board;
-import chess.game.mvc.model.genericGameFiles.FiniteRectBoard;
-import chess.game.mvc.model.genericGameFiles.Game;
 import chess.game.mvc.model.genericGameFiles.GameMove;
 import chess.game.mvc.model.genericGameFiles.GameRules;
 import chess.game.mvc.model.genericGameFiles.Pair;

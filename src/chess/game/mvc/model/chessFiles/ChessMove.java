@@ -4,7 +4,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
-import chess.game.Main;
 import chess.game.mvc.controller.Controller;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
@@ -18,7 +17,6 @@ import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.GameMove;
 import chess.game.mvc.model.genericGameFiles.Piece;
-import chess.game.mvc.view.chessViews.ChessWindowSwingView;
 
 /**
  * Although this class is completely full of comments, just don't touch any algorithm nor try to change anything unless you're sure
