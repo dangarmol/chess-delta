@@ -274,9 +274,10 @@ public class ChessRules implements GameRules {
 
 	@Override
 	public double evaluate(Board board, List<Piece> pieces, Piece turn, Piece p) {
-		//TODO Test this casting part
-		ChessBoardEvaluator evaluator = new ChessBoardEvaluator((ChessBoard) board, ((ChessPiece) turn).getWhite());
-		return evaluator.getRating();
+		//TODO This should never be called
+		/*ChessBoardEvaluator evaluator = new ChessBoardEvaluator((ChessBoard) board, ((ChessPiece) turn).getWhite());
+		return evaluator.getRating();*/
+		return 0;
 	}
 
 	@Override
