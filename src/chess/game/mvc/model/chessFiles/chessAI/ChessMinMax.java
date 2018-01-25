@@ -9,7 +9,6 @@ import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
 import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameMove;
 import chess.game.mvc.model.genericGameFiles.GameRules;
-import chess.game.mvc.model.genericGameFiles.Pair;
 import chess.game.mvc.model.genericGameFiles.Piece;
 
 public class ChessMinMax implements AIAlgorithm {

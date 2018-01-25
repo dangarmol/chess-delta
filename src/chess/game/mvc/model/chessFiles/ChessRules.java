@@ -3,7 +3,6 @@ package chess.game.mvc.model.chessFiles;
 import java.util.ArrayList;
 import java.util.List;
 
-import chess.game.mvc.model.chessFiles.chessAI.ChessBoardEvaluator;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;

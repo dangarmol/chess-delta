@@ -8,7 +8,6 @@ import java.util.Set;
 
 import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.chessFiles.ChessBoard;
-import chess.game.mvc.model.chessPieces.ChessPiece;
 
 /**
  * A class that represents a board game being played. It implements the

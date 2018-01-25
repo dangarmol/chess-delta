@@ -8,16 +8,10 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import chess.game.mvc.model.chessFiles.ChessConstants;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.King;
