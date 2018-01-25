@@ -23,6 +23,7 @@ public class ChessMinMax implements AIAlgorithm {
 	private List<Piece> pieceTypes;
 	private int minID;
 	private int maxID;
+	private ChessMinMaxNode bestNode;
 	
 	public ChessMinMax() {
 		this.level = ChessConstants.DEFAULT_MINMAX_LEVEL;
@@ -40,6 +41,7 @@ public class ChessMinMax implements AIAlgorithm {
 			this.rules = rules;
 			this.pieces = playersPieces;
 			this.pieceTypes = pieceTypes;
+			this.bestNode = new ChessMinMaxNode();
 			this.maxID = (((ChessPiece) p).getWhite() ? ChessConstants.WHITE_ID : ChessConstants.BLACK_ID); //TODO Check this.
 			this.minID = ((maxID == ChessConstants.WHITE_ID) ? ChessConstants.BLACK_ID : ChessConstants.WHITE_ID);
 			return minMax(p, board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
@@ -48,9 +50,13 @@ public class ChessMinMax implements AIAlgorithm {
 		}
 	}
 	
+	//TODO Remove Piece?
 	private ChessMinMaxNode minMax(Piece p, Board board, int depth) {
-		//TODO This needs to return a move, not a rating. Probably adding moves on the last part of the penultimate line of the functions.
-		return null;
+		if(max((ChessBoard) board, depth) == bestNode.getRating()) { //This might seem like a trivial check, but it assures that the "bestNode" is up to date.
+			return bestNode;
+		} else {
+			return null;
+		}
 	}
 	
 	private double min(ChessBoard board, int depth) {
@@ -58,16 +64,24 @@ public class ChessMinMax implements AIAlgorithm {
 		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over!
 			return this.evaluator.getRating(board, this.pieces.get(this.minID));
 		} else {
-			double lowest = Double.MAX_VALUE;
+			double lowestInBranch = Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
 				ChessBoard testBoard = board.copyChessBoard();
 				((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes);
 				/*A different execute function should be created on the ChessMove class. However, this should
 				never cause problems, since all the executed moves are from the list of checked moves*/
 				
-				lowest = Math.min(max(board, depth + 1), lowest);
+				if(depth == 1) {
+					double currentNodeRating = max(board, depth + 1);
+					if(currentNodeRating < lowestInBranch) {
+						lowestInBranch = currentNodeRating;
+						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
+					}
+				} else {
+					lowestInBranch = Math.min(max(board, depth + 1), lowestInBranch);
+				}
 			}
-			return lowest;
+			return lowestInBranch;
 		}
 	}
 	
@@ -76,16 +90,24 @@ public class ChessMinMax implements AIAlgorithm {
 		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over!
 			return this.evaluator.getRating(board, this.pieces.get(this.maxID));
 		} else {
-			double highest = Double.MIN_VALUE;
+			double highestInBranch = Double.MIN_VALUE;
 			for(GameMove move : validMoves) {
 				ChessBoard testBoard = board.copyChessBoard();
 				((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes);
 				/*A different execute function should be created on the ChessMove class. However, this should
 				never cause problems, since all the executed moves are from the list of checked moves*/
 				
-				highest = Math.max(min(board, depth + 1), highest);
+				if(depth == 1) {
+					double currentNodeRating = min(board, depth + 1);
+					if(currentNodeRating > highestInBranch) {
+						highestInBranch = currentNodeRating;
+						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
+					}
+				} else {
+					highestInBranch = Math.max(min(board, depth + 1), highestInBranch);
+				}
 			}
-			return highest;
+			return highestInBranch;
 		}
 	}
 }

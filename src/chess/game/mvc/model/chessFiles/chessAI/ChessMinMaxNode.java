@@ -25,4 +25,9 @@ public class ChessMinMaxNode {
 	public double getRating() {
 		return this.rating;
 	}
+	
+	public void changeNode(ChessMove move, double rating) {
+		this.move = move;
+		this.rating = rating;
+	}
 }
