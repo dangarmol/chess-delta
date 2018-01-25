@@ -2,6 +2,8 @@ package chess.game.mvc.model.chessFiles.chessAI;
 
 import java.util.List;
 
+import chess.game.mvc.model.chessFiles.ChessBoard;
+import chess.game.mvc.model.chessFiles.ChessConstants;
 import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
 import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameMove;
@@ -14,22 +16,35 @@ public class ChessMinMax implements AIAlgorithm {
 	private static final long serialVersionUID = 556625192621284461L;
 
 	private int level;
+	private ChessBoardEvaluator evaluator;
 	
 	public ChessMinMax(int level) {
 		this.level = level;
+		this.evaluator = new ChessBoardEvaluator();
 	}
 	
 	@Override
 	public GameMove getMove(Piece p, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
 		try {
-			return minMax(p, board, playersPieces, pieceTypes, rules, this.level).getMove();
+			return minMax(p, board, ChessConstants.STARTING_DEPTH).getMove();
 		} catch (Exception e) {
 			return null;
 		}
 	}
 	
-	private ChessMinMaxNode minMax(Piece p, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules, int level) {
-		
+	private ChessMinMaxNode minMax(Piece p, Board board, int depth) {
+
 		return null;
+	}
+	
+	private double min(ChessBoard board, int depth) {
+		if(depth == level /*|| game over*/) {
+			return 
+		}
+		return 0;
+	}
+	
+	private double max() {
+		return 0;
 	}
 }

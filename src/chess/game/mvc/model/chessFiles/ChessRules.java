@@ -2,6 +2,8 @@ package chess.game.mvc.model.chessFiles;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import chess.game.mvc.model.chessFiles.chessAI.ChessBoardEvaluator;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
@@ -272,8 +274,9 @@ public class ChessRules implements GameRules {
 
 	@Override
 	public double evaluate(Board board, List<Piece> pieces, Piece turn, Piece p) {
-		// TODO Check ConnectNRules
-		return 0;
+		//TODO Test this casting part
+		ChessBoardEvaluator evaluator = new ChessBoardEvaluator((ChessBoard) board, ((ChessPiece) turn).getWhite());
+		return evaluator.getRating();
 	}
 
 	@Override

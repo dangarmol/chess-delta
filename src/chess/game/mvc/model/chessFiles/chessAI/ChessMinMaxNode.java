@@ -5,7 +5,7 @@ import chess.game.mvc.model.chessFiles.ChessMove;
 public class ChessMinMaxNode {
 	
 	private ChessMove move;
-	private double quality;
+	private double rating;
 	
 	public ChessMinMaxNode() {}
 	
@@ -13,16 +13,16 @@ public class ChessMinMaxNode {
 		this.move = cm;
 	}
 	
-	public ChessMinMaxNode(ChessMove cm, double quality) {
+	public ChessMinMaxNode(ChessMove cm, double rating) {
 		this.move = cm;
-		this.quality = quality;
+		this.rating = rating;
 	}
 	
 	public ChessMove getMove() {
 		return this.move;
 	}
 	
-	public double getQuality() {
-		return this.quality;
+	public double getRating() {
+		return this.rating;
 	}
 }

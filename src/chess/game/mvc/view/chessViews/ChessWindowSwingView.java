@@ -324,7 +324,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					ctrl.restart(); //Calls the controller to restart the game
+					ctrl.restart(); //Calls the controller to restart the game //TODO Fix game restart for attributes
 				}
 				catch(GameError _e){}
 			}
@@ -389,12 +389,10 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		playerModePieces = new JComboBox<Piece>(new DefaultComboBoxModel<Piece>());	//Creates the left comboBox
 		modes = new JComboBox<PlayerMode>(new DefaultComboBoxModel<PlayerMode>()); //Creates the right comboBox
 		modes.addItem(PlayerMode.MANUAL); //Add the options in the ComboBox from the enum
-		if(randPlayer != null)
-		{
+		if(randPlayer != null) {
 			modes.addItem(PlayerMode.RANDOM);
 		}
-		if(aiPlayer != null)
-		{
+		if(aiPlayer != null) {
 			modes.addItem(PlayerMode.AI);
 		}
 		setMode = new JButton("Set Mode"); //Adds button and action listener
@@ -418,6 +416,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 					Controller.isBlackAI = false;
 				}
 			}
+			
 			if(currentMode == PlayerMode.MANUAL && selectedMode != PlayerMode.MANUAL && turn.equals(localPiece))
 				decideMakeAutomaticMove();
 			}
