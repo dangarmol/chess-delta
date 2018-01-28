@@ -13,6 +13,8 @@ To try the latest release, go to the folder [**releases**](/releases) and launch
 - [ ] Min-Max AI implementation.<br>
 - [ ] Alpha-Beta AI implementation.<br>
 - [ ] MCTS AI implementation (MonteCarlo Tree Search).<br>
+
+### Possible additional features: <br>
 - [ ] Online version of the game.<br>
 - [ ] Neural Networks approach to AI (Research).<br>
 - [ ] Distributed Computing (to make the game server run on an actual server instead of one of the players' machines).<br>
