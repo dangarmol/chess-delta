@@ -33,6 +33,7 @@ import javax.swing.table.TableCellRenderer;
 import chess.game.Main;
 import chess.game.mvc.controller.Controller;
 import chess.game.mvc.controller.Player;
+import chess.game.mvc.model.chessFiles.ChessConstants;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameError;
@@ -415,7 +416,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 				}
 			}
 			
-			if(currentMode == PlayerMode.MANUAL && selectedMode != PlayerMode.MANUAL && turn.equals(localPiece))
+			if(currentMode == PlayerMode.MANUAL && selectedMode != PlayerMode.MANUAL && turn.equals(localPiece)) //TODO Change if possible
 				decideMakeAutomaticMove();
 			}
 		});
@@ -503,14 +504,14 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	private void handleGameStart(Board board, String gameDesc, List<Piece> pieces, Piece turn) {
 		this.setTitle(gameDesc);
 		addMsg("Game started");
-		this.turn = pieces.get(0); //White always starts
+		this.turn = pieces.get(ChessConstants.WHITE_ID); //White always starts
 		this.board = board;
 		this.pieces = pieces;
 		this.gameDesc = gameDesc;
 		initPlayerModes();
 		redrawBoard();
 		
-		handleOnChangeTurn(board, pieces.get(0));
+		handleOnChangeTurn(board, pieces.get(ChessConstants.WHITE_ID));
 	}
 
 	/**

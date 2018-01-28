@@ -32,7 +32,7 @@ public abstract class ChessFRBoardSwingView extends ChessWindowSwingView { //Cre
 		boardComponent = new ChessBoardComponent() {
 				@Override
 				protected void mouseClicked(int row, int col, int mouseButton) {
-					handleMouseClick(row, col ,mouseButton);
+					handleMouseClick(row, col, mouseButton);
 				}
 				
 				protected void mouseOver() { //TODO Create this

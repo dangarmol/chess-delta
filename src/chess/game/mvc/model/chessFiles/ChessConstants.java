@@ -24,4 +24,8 @@ public class ChessConstants {
 	public static final int DEFAULT_MINMAX_LEVEL = 3;
 	
 	public static int movesWithoutAction = 0;
+	
+	public static int rowClicked = -1;
+	public static int colClicked = -1;
+	public static boolean firstClick = true;
 }

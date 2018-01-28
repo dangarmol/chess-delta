@@ -83,6 +83,7 @@ public class ChessSwingView extends ChessFRBoardSwingView {
 			//addMsg("Selected piece (" + this.row + "," + this.col + ")");
 			addMsg("Selected piece from " + getFormattedPosition(this.row, this.col) + ".");
 			addMsg("Click on the destination...");
+			paintSelectedCell();
 		}
 		else if (activeBoard && !firstClick)
 		{
@@ -95,7 +96,16 @@ public class ChessSwingView extends ChessFRBoardSwingView {
 				player.setMoveValue(this.row, this.col, this.rowDes, this.colDes);
 				decideMakeManualMove(this.player);
 			}
+			paintSelectedCell();
 		}
+	}
+	
+	//Paints (or unpaints the selected cell)
+	private void paintSelectedCell() {
+		ChessConstants.firstClick = this.firstClick;
+		ChessConstants.rowClicked = this.row;
+		ChessConstants.colClicked = this.col;
+		this.redrawBoard();
 	}
 	
 	/**

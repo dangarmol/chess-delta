@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import chess.game.mvc.model.chessFiles.ChessConstants;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.King;
@@ -205,7 +206,9 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 		//x and y are coordinates in the space, not rows/cols!!
 		
 		//Selects the colour for each tile depending on position
-		if(row % 2 == 0 && col % 2 == 1 || row % 2 == 1 && col % 2 == 0) {
+		if(ChessConstants.rowClicked == row && ChessConstants.colClicked == col && !ChessConstants.firstClick) {
+			g.setColor(new Color(45, 152, 38)); //Color for the selected tile after first click.
+		} else if(row % 2 == 0 && col % 2 == 1 || row % 2 == 1 && col % 2 == 0) {
 			g.setColor(new Color(204, 102, 0)); //Dark tiles
 		} else {
 			g.setColor(new Color(255, 217, 179)); //Light tiles
@@ -214,6 +217,10 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 		g.fillRect(x, y, _CELL_WIDTH, _CELL_HEIGHT);
 
 		//Checks if there's a piece on the selected position. If there is, draws it depending on the type and colour.
+		this.drawPiece(row, col, x, y, g);
+	}
+	
+	private void drawPiece(int row, int col, int x, int y, Graphics g) {
 		if(board.getPosition(row, col) != null) {
 			if(this.getPiece(row, col, board) instanceof Pawn) {
 				if (((ChessPiece) this.getPiece(row, col, board)).getWhite()) {
