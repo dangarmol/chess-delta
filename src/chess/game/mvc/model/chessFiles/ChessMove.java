@@ -821,7 +821,7 @@ public class ChessMove extends GameMove {
 					if(board.getChessPosition(7, 7) != null && board.getChessPosition(7, 7) instanceof Rook) { //Check that there's a rook
 						if(((Rook) board.getChessPosition(7, 7)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 7, 7)) { //Check that there are no pieces inbetween
-								if(!((King) board.getChessPosition(this.row, this.col)).getCheck()) { //Check that the king is not in check
+								if(!((King) board.getChessPosition(this.row, this.col)).getCheck()) { //Check that the king is not in check TODO THIS DOESN'T WORK!! FIX!!
 									ChessBoard testBoard = board.copyChessBoard(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 7, 5); //Move to the first position it would go through
@@ -853,7 +853,7 @@ public class ChessMove extends GameMove {
 					if(board.getChessPosition(7, 0) != null && board.getChessPosition(7, 0) instanceof Rook) { //Check that there's a rook
 						if(((Rook) board.getChessPosition(7, 0)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 7, 0)) { //Check that there are no pieces inbetween
-								if(!((King) board.getChessPosition(this.row, this.col)).getCheck()) { //Check that the king is not in check
+								if(!((King) board.getChessPosition(this.row, this.col)).getCheck()) { //Check that the king is not in check TODO FIX THIS!!
 									ChessBoard testBoard = board.copyChessBoard(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 7, 3); //Move to the first position it would go through
