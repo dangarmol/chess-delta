@@ -7,24 +7,20 @@ public class King extends ChessPiece {
 	private static final long serialVersionUID = 1L;
 
 	private boolean canCastle;
-	private boolean inCheck;
 	
 	public King() {
 		super();
 		this.canCastle = true;
-		this.inCheck = false;
 	}
 	
 	public King(boolean isWhite) {
 		super(isWhite);
 		this.canCastle = true;
-		this.inCheck = false;
 	}
 	
-	public King(String id, boolean isWhite, boolean canCastle, boolean inCheck) {
+	public King(String id, boolean isWhite, boolean canCastle) {
 		super(id, isWhite);
 		this.canCastle = canCastle;
-		this.inCheck = inCheck;
 	}
 
 	public King(String id, boolean isWhite) {
@@ -40,16 +36,8 @@ public class King extends ChessPiece {
 		this.canCastle = canCastle;
 	}
 	
-	public boolean getCheck() {
-		return inCheck;
-	}
-	
-	public void setCheck(boolean inCheck) {
-		this.inCheck = inCheck;
-	}
-	
 	@Override
 	public King copyPiece() {
-		return new King(this.getId(), this.getWhite(), this.canCastle, this.inCheck);
+		return new King(this.getId(), this.getWhite(), this.canCastle);
 	}
 }

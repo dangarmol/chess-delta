@@ -52,26 +52,22 @@ public abstract class BoardComponent extends JComponent { //Muestra cada una de 
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				System.out.println("Mouse Released: " + "(" + e.getX() + ","
-						+ e.getY() + ")");
+				//System.out.println("Mouse Released: " + "(" + e.getX() + "," + e.getY() + ")");
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println("Mouse Pressed: " + "(" + e.getX() + ","
-						+ e.getY() + ")");
+				//System.out.println("Mouse Pressed: " + "(" + e.getX() + "," + e.getY() + ")");
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				System.out.println("Mouse Exited Component: " + "(" + e.getX()
-						+ "," + e.getY() + ")");
+				//System.out.println("Mouse Exited Component: " + "(" + e.getX() + "," + e.getY() + ")");
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				System.out.println("Mouse Entered Component: " + "(" + e.getX()
-						+ "," + e.getY() + ")");
+				//System.out.println("Mouse Entered Component: " + "(" + e.getX() + "," + e.getY() + ")");
 			}
 			
 			/**
@@ -79,8 +75,7 @@ public abstract class BoardComponent extends JComponent { //Muestra cada una de 
 			 */
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//System.out.println("Mouse Button "+e.getButton()+" Clicked at " + "(" + e.getX() + ","
-				//		+ e.getY() + ")");
+				//System.out.println("Mouse Button " + e.getButton() + " Clicked at " + "(" + e.getX() + "," + e.getY() + ")");
 				int col = (e.getX() / _CELL_WIDTH); 
 				int row = (e.getY() / _CELL_HEIGHT); 
 				int mouseButton = 0; 
