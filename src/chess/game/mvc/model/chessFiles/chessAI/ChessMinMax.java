@@ -24,6 +24,7 @@ public class ChessMinMax implements AIAlgorithm {
 	private int minID;
 	private int maxID;
 	private ChessMinMaxNode bestNode;
+	private ChessPiece maxPiece;
 	
 	public ChessMinMax() {
 		this.level = ChessConstants.DEFAULT_MINMAX_LEVEL;
@@ -44,16 +45,17 @@ public class ChessMinMax implements AIAlgorithm {
 			this.bestNode = new ChessMinMaxNode();
 			this.maxID = (((ChessPiece) p).getWhite() ? ChessConstants.WHITE_ID : ChessConstants.BLACK_ID); //TODO Check this.
 			this.minID = ((maxID == ChessConstants.WHITE_ID) ? ChessConstants.BLACK_ID : ChessConstants.WHITE_ID);
+			this.maxPiece = (ChessPiece) this.pieces.get(this.maxID);
 			return minMax(p, board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
 		} catch (Exception e) {
 			return null;
 		}
 	}
 	
-	//TODO Remove Piece?
+	//TODO Remove Piece from list of attributes?
 	private ChessMinMaxNode minMax(Piece p, Board board, int depth) {
-		if(max((ChessBoard) board, depth) == bestNode.getRating()) { //This might seem like a trivial check, but it assures that the "bestNode" is up to date.
-			return bestNode;
+		if(max((ChessBoard) board, depth) == this.bestNode.getRating()) { //This might seem like a trivial check, but it assures that the "bestNode" is up to date.
+			return this.bestNode;
 		} else {
 			return null;
 		}
@@ -62,7 +64,7 @@ public class ChessMinMax implements AIAlgorithm {
 	private double min(ChessBoard board, int depth) {
 		List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
 		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over!
-			return this.evaluator.getRating(board, this.pieces.get(this.minID));
+			return this.evaluator.getRating(board, (ChessPiece) this.pieces.get(this.minID), this.maxPiece, validMoves);
 		} else {
 			double lowestInBranch = Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
@@ -88,7 +90,7 @@ public class ChessMinMax implements AIAlgorithm {
 	private double max(ChessBoard board, int depth) {
 		List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
 		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over!
-			return this.evaluator.getRating(board, this.pieces.get(this.maxID));
+			return this.evaluator.getRating(board, (ChessPiece) this.pieces.get(this.maxID), this.maxPiece, validMoves);
 		} else {
 			double highestInBranch = Double.MIN_VALUE;
 			for(GameMove move : validMoves) {
