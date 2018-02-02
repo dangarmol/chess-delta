@@ -53,9 +53,7 @@ public class ChessMove extends GameMove {
 	
 	//Checks if the move can be made and, if so, moves the piece to the specified position.
 	public void execute(Board board, List<Piece> playersPieces, List<Piece> chessPieces) {
-		//Changed from this.getPiece() instanceof Rook
-		//this.getPiece() now returns the player that made the move.
-		//Check that the player moves his own piece
+		//this.getPiece() now returns the player that made the move!!!
 		
 		this.chessBoard = (ChessBoard) board;
 		this.actionMove = false;
@@ -459,7 +457,8 @@ public class ChessMove extends GameMove {
 	}
 	
 	//Simply executes a move that has been previously checked and is legal.
-	private void executeCheckedMove(ChessBoard board) { 
+	//It is public so that it can be called from the AI classes to perform moves from the list of possible (valid) moves.
+	public void executeCheckedMove(ChessBoard board) { 
 		board.setPosition(this.rowDes, this.colDes, board.getChessPosition(this.row, this.col));
 		deleteMovedPiece(this.row, this.col, board);
 	}

@@ -47,7 +47,7 @@ public class ChessDummyPlayer extends Player {
 	 * @param row
 	 *            row number.
 	 * @param col
-	 *            column number..
+	 *            column number.
 	 * @param p
 	 *            Piece to place at ({@code row},{@code col}).
 	 * @return

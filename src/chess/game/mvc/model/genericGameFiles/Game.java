@@ -233,7 +233,7 @@ public class Game implements Observable<GameObserver> {
 		}
 
 		state = State.Starting; // mark it as starting
-		start(this.pieces, this.pieceTypes); // and use start again to restart teh game
+		start(this.pieces, this.pieceTypes); // and use start again to restart the game
 	}
 
 	/**

@@ -70,7 +70,7 @@ public class DummyAIPlayer extends Player {
 		// if the thread is interrupted it will come back from sleep immediatly,
 		// with the interruption flag on
 		
-		Utils.sleep(delay); //TODO Fix delay here. It is only applied when the Random move button is pressed.
+		Utils.sleep(delay);
 		if (Thread.interrupted()) {
 			return null;
 		} else {

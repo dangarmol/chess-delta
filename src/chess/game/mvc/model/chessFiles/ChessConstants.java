@@ -1,6 +1,8 @@
 package chess.game.mvc.model.chessFiles;
 
+//TODO Possibly change name to ChessStatic
 public class ChessConstants {
+	//CHESSBOARD
 	public static final int MIN_DIM = 0;
 	public static final int MAX_DIM = 7;
 	public static final int WHITE_ID = 0;
@@ -23,8 +25,9 @@ public class ChessConstants {
 	public static final int STARTING_MINMAX_DEPTH = 0;
 	public static final int DEFAULT_MINMAX_LEVEL = 3;
 	
-	public static int movesWithoutAction = 0;
+	public static int movesWithoutAction = 0; //TODO Should be an attribute at the ChessBoard class for 50 move rule, as well as the 3 move rule.
 	
+	//VIEW
 	public static int rowClicked = -1;
 	public static int colClicked = -1;
 	public static boolean firstClick = true;

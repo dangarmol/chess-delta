@@ -96,7 +96,7 @@ public class ChessMinMax implements AIAlgorithm {
 			for(GameMove move : validMoves) {
 				ChessBoard testBoard = board.copyChessBoard();
 				((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes);
-				/*A different execute function should be created on the ChessMove class. However, this should
+				/*A different (more efficient) execute function should be created on the ChessMove class. However, this should
 				never cause problems, since all the executed moves are from the list of checked moves*/
 				
 				if(depth == 1) { //ONLY saves the movements in the case when the depth is 1, moves from a higher depth are not relevant, only the rating is

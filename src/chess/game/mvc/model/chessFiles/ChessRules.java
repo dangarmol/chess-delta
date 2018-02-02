@@ -37,6 +37,7 @@ public class ChessRules implements GameRules {
 		Board board = new ChessBoard();		
 		
 		//Sets the positions for every piece on their starting positions.
+		//NOTE: This cannot be done with a "for" loop because of some issues on the piece order.
 		board.setPosition(0, 0, pieceTypes.get(ChessPieceID.BLACK_ROOK_A));
 		board.setPosition(0, 1, pieceTypes.get(ChessPieceID.BLACK_KNIGHT));
 		board.setPosition(0, 2, pieceTypes.get(ChessPieceID.BLACK_BISHOP));
@@ -72,7 +73,30 @@ public class ChessRules implements GameRules {
 		board.setPosition(1, 7, pieceTypes.get(ChessPieceID.BLACK_PAWN_H));
 		board.setPosition(6, 7, pieceTypes.get(ChessPieceID.WHITE_PAWN_H));
 		
+		setStartingAttributes(board);
+		
 		return board;
+	}
+	
+	//In the case of a game restart, the attributes do not return to their original, therefore this function is needed. 
+	private void setStartingAttributes(Board b) {
+		if(b instanceof ChessBoard) {
+			ChessBoard board = (ChessBoard) b;
+			for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
+				for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
+					if(board.getChessPosition(rowX, colY) != null) { //If there's a piece
+						if(board.getChessPosition(rowX, colY) instanceof Rook) {
+							((Rook) board.getChessPosition(rowX, colY)).setCastle(true);
+						} else if(board.getChessPosition(rowX, colY) instanceof Pawn) {
+							((Pawn) board.getChessPosition(rowX, colY)).setPassant(false);
+							((Pawn) board.getChessPosition(rowX, colY)).setFirstMove(true);
+						} else if(board.getChessPosition(rowX, colY) instanceof King) {
+							((King) board.getChessPosition(rowX, colY)).setCastle(true);
+						}
+					}
+				}
+			}	
+		}
 	}
 	
 	@Override
