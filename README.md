@@ -17,7 +17,7 @@ To try the latest release, go to the folder [**releases**](/releases) and launch
 ### Possible additional features: <br>
 - [ ] Online version of the game.<br>
 - [ ] Neural Networks approach to AI (Research).<br>
-- [ ] Distributed Computing (to make the game server run on an actual server instead of one of the players' machines).<br>
+- [ ] Distributed Computing (to make the game server run on an actual server instead of one of the players' machines to improve performance).<br>
 - [ ] Responsive Web and/or iOS / Android App.<br>
 <br>
 IMPORTANT: Not every element on the list will be added to the final version of the game. This is only an optimistic approach to the features that could be implemented in case that there is enough time for it.
