@@ -46,14 +46,14 @@ public class ChessMinMax implements AIAlgorithm {
 			this.maxID = (((ChessPiece) p).getWhite() ? ChessConstants.WHITE_ID : ChessConstants.BLACK_ID); //TODO Check this.
 			this.minID = ((maxID == ChessConstants.WHITE_ID) ? ChessConstants.BLACK_ID : ChessConstants.WHITE_ID);
 			this.maxPiece = (ChessPiece) this.pieces.get(this.maxID);
-			return minMax(p, board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
+			return minMax(board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
 		} catch (Exception e) {
 			return null;
 		}
 	}
 	
 	//TODO Remove Piece from list of attributes?
-	private ChessMinMaxNode minMax(Piece p, Board board, int depth) {
+	private ChessMinMaxNode minMax(Board board, int depth) {
 		if(max((ChessBoard) board, depth) == this.bestNode.getRating()) { //This might seem like a trivial check, but it assures that the "bestNode" is up to date.
 			return this.bestNode;
 		} else {
@@ -73,7 +73,7 @@ public class ChessMinMax implements AIAlgorithm {
 				/*A different execute function should be created on the ChessMove class. However, this should
 				never cause problems, since all the executed moves are from the list of checked moves*/
 				
-				if(depth == 1) {
+				if(depth == 1) { //ONLY saves the movements in the case when the depth is 1, moves from a higher depth are not relevant, only the rating is
 					double currentNodeRating = max(board, depth + 1);
 					if(currentNodeRating <= lowestInBranch) { //Could be equal in case of loss or win if implemented as infinite rating.
 						lowestInBranch = currentNodeRating;
@@ -99,7 +99,7 @@ public class ChessMinMax implements AIAlgorithm {
 				/*A different execute function should be created on the ChessMove class. However, this should
 				never cause problems, since all the executed moves are from the list of checked moves*/
 				
-				if(depth == 1) {
+				if(depth == 1) { //ONLY saves the movements in the case when the depth is 1, moves from a higher depth are not relevant, only the rating is
 					double currentNodeRating = min(board, depth + 1);
 					if(currentNodeRating >= highestInBranch) { //Could be equal in case of loss or win if implemented as infinite rating.
 						highestInBranch = currentNodeRating;

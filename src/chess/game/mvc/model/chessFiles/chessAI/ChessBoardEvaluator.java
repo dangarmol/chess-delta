@@ -22,17 +22,32 @@ public class ChessBoardEvaluator {
 	public ChessBoardEvaluator() {}
 	
 	/* HEURISTICS:
-	 * The more possible moves, the better the rating. //TODO Add amount of movements to heuristics
-	 * Is this a NegMax implementation?
+	 * If the player causes the enemy to be in check, the rating is increased.
+	 * A Checkmate returns an infinite or minus infinite value.
+	 * A Stalemate returns a neutral (zero) rating.
+	 * The more possible moves, the better the rating.
+	 * Finally, the rating is also increased by the pieces the player has and the position where they are.
 	 */
 	public double getRating(ChessBoard board, ChessPiece currentPiece, ChessPiece maxPiece, List<GameMove> validMoves) {
+		//TODO Test this function!
 		double cumulativeRating = 0;
 		
-		if(this.isCheckMate(board, currentPiece.getWhite(), validMoves.isEmpty())) {
+		boolean isCheck = isCheck(board, currentPiece.getWhite());
+		if(isCheck) { //If the current piece performed a check move.
+			if(currentPiece.getWhite() == maxPiece.getWhite()) {
+				//If the player that is in check is the min player...
+				cumulativeRating += 50;
+			} else {
+				//Otherwise...
+				cumulativeRating -= 50;
+			}
+		}
+		
+		if(isCheck && validMoves.isEmpty()) { //There is a checkmate
 			//First check if someone won. If someone did, return Double max or min value, depending on whether it's a
 			//win for the Max player or the opposite.
 			if(currentPiece.getWhite() == maxPiece.getWhite()) {
-				//If the player that won is the same as the one that is being maxed...
+				//If the player that won is the max player...
 				return Double.MAX_VALUE;
 			} else {
 				//Otherwise...
@@ -41,6 +56,12 @@ public class ChessBoardEvaluator {
 		} else if(validMoves.isEmpty()) {
 			//There is a stalemate.
 			return 0;
+		}
+		
+		if(currentPiece.getWhite() == maxPiece.getWhite()) {
+			cumulativeRating += validMoves.size();
+		} else {
+			cumulativeRating -= validMoves.size();
 		}
 		
 		cumulativeRating += rateBoardByPieces(board, maxPiece.getWhite()); //Adds the max player board rating by pieces.
@@ -63,19 +84,24 @@ public class ChessBoardEvaluator {
 					if(board.getChessPosition(rowX, colY) instanceof Pawn) { //If it's a white pawn
 						rating += ratePawn(rowX, colY, board.getChessPosition(rowX, colY).getWhite());
 					} else if(board.getChessPosition(rowX, colY) instanceof Rook) {
-						rating += rateRook(rowX, colY);
+						rating += rateRook(rowX, colY, board.getChessPosition(rowX, colY).getWhite());
 					} else if(board.getChessPosition(rowX, colY) instanceof Knight) {
-						rating += rateKnight(rowX, colY);
+						rating += rateKnight(rowX, colY, board.getChessPosition(rowX, colY).getWhite());
 					} else if(board.getChessPosition(rowX, colY) instanceof Bishop) {
-						rating += rateBishop(rowX, colY);
+						rating += rateBishop(rowX, colY, board.getChessPosition(rowX, colY).getWhite());
 					} else if(board.getChessPosition(rowX, colY) instanceof Queen) {
-						rating += rateQueen(rowX, colY);
+						rating += rateQueen(rowX, colY, board.getChessPosition(rowX, colY).getWhite());
 					} else if(board.getChessPosition(rowX, colY) instanceof King) {
-						continue; //The King doesn't add any value to the board, since his value would be infinity.
+						continue; //The King doesn't add any value to the board, since his value would be infinite.
 					}
 				}
+				//Pieces further away from the sides of the board are usually worth slightly more.
+				if(colY == 3 || colY == 4) rating += 3;
+				else if(colY == 2 || colY == 5) rating += 2;
+				else if(colY == 1 || colY == 6) rating += 1;
 			}
 		}
+		
 		return rating;
 	}
 	
@@ -107,34 +133,54 @@ public class ChessBoardEvaluator {
 			}
 		}
 		
-		//Pawns further away from the sides (closer to the middle of the board are worth slightly more)
-		if(colY == 3 || colY == 4) rating += 3;
-		else if(colY == 2 || colY == 5) rating += 2;
-		else if(colY == 1 || colY == 6) rating += 1;
 		return rating;
 	}
 	
-	private double rateRook(int rowX, int colY) { //TODO
-		double rating = 0;
-		
+	private double rateRook(int rowX, int colY, boolean isWhite) {
+		double rating = 25;
+		if(isWhite) {
+			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
+				rating -= 5;
+		} else {
+			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
+				rating -= 5;
+		}
 		return rating;
 	}
 	
-	private double rateKnight(int rowX, int colY) { //TODO
-		double rating = 0;
-		
+	private double rateKnight(int rowX, int colY, boolean isWhite) {
+		double rating = 15;
+		if(isWhite) {
+			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
+				rating -= 5;
+		} else {
+			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
+				rating -= 5;
+		}
 		return rating;
 	}
 	
-	private double rateBishop(int rowX, int colY) { //TODO
-		double rating = 0;
-		
+	private double rateBishop(int rowX, int colY, boolean isWhite) {
+		double rating = 15;
+		if(isWhite) {
+			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
+				rating -= 5;
+		} else {
+			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
+				rating -= 5;
+		}
 		return rating;
 	}
 	
-	private double rateQueen(int rowX, int colY) { //TODO
-		double rating = 0;
-		
+	private double rateQueen(int rowX, int colY, boolean isWhite) {
+		double rating = 45;
+		if(isWhite) {
+			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
+				rating -= 5;
+		} else {
+			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
+				rating -= 5;
+		}
 		return rating;
 	}
 	
@@ -143,8 +189,8 @@ public class ChessBoardEvaluator {
 	 * If white just made a checkmate move and this method is called as isGameOver(board, false, true), it should return true.
 	 * @return @true if game is won BY CHECKMATE, NOT stalemate, @false otherwise.
 	 */
-	private boolean isCheckMate(ChessBoard board, boolean isWhiteTurn, boolean emptyMoves) { //TODO This function needs to be tested!
-		if(emptyMoves && new ChessMove().isKingInCheck(board, isWhiteTurn)) //TODO This should be changed later to avoid creating new ChessMove.
+	private boolean isCheck(ChessBoard board, boolean isWhiteTurn) { //TODO This function needs to be tested!
+		if(new ChessMove().isKingInCheck(board, isWhiteTurn)) //TODO This should be changed later to avoid creating new ChessMove.
 			return true;
 		else
 			return false;
