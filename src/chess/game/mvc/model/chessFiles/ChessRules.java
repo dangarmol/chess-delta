@@ -84,14 +84,14 @@ public class ChessRules implements GameRules {
 			ChessBoard board = (ChessBoard) b;
 			for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
 				for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
-					if(board.getChessPosition(rowX, colY) != null) { //If there's a piece
-						if(board.getChessPosition(rowX, colY) instanceof Rook) {
-							((Rook) board.getChessPosition(rowX, colY)).setCastle(true);
-						} else if(board.getChessPosition(rowX, colY) instanceof Pawn) {
-							((Pawn) board.getChessPosition(rowX, colY)).setPassant(false);
-							((Pawn) board.getChessPosition(rowX, colY)).setFirstMove(true);
-						} else if(board.getChessPosition(rowX, colY) instanceof King) {
-							((King) board.getChessPosition(rowX, colY)).setCastle(true);
+					if(board.getPosition(rowX, colY) != null) { //If there's a piece
+						if(board.getPosition(rowX, colY) instanceof Rook) {
+							((Rook) board.getPosition(rowX, colY)).setCastle(true);
+						} else if(board.getPosition(rowX, colY) instanceof Pawn) {
+							((Pawn) board.getPosition(rowX, colY)).setPassant(false);
+							((Pawn) board.getPosition(rowX, colY)).setFirstMove(true);
+						} else if(board.getPosition(rowX, colY) instanceof King) {
+							((King) board.getPosition(rowX, colY)).setCastle(true);
 						}
 					}
 				}
@@ -136,26 +136,26 @@ public class ChessRules implements GameRules {
 	
 	@Override
 	public List<GameMove> validMoves(Board board, List<Piece> playersPieces, Piece turn) {
-		ChessBoard originalBoard = (ChessBoard) board;
-		boolean isWhiteTurn = ((ChessPiece) turn).getWhite();
-		ChessBoard testBoard = originalBoard.copyChessBoard();
+		Board originalBoard = board;
+		boolean isWhiteTurn = turn.getWhite();
+		Board testBoard = originalBoard.copy();
 		List<GameMove> legalMoves = new ArrayList<GameMove>(); //Every single possible move on the board is saved here
 		for (int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) { //Exploring rows and cols.
 			for (int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
-				if(originalBoard.getChessPosition(rowX, colY) != null && //If the position is not empty...
-					originalBoard.getChessPosition(rowX, colY).getWhite() == isWhiteTurn){ //...and it is from the current turn.
-					if(originalBoard.getChessPosition(rowX, colY) instanceof Pawn) {
+				if(originalBoard.getPosition(rowX, colY) != null && //If the position is not empty...
+					originalBoard.getPosition(rowX, colY).getWhite() == isWhiteTurn){ //...and it is from the current turn.
+					if(originalBoard.getPosition(rowX, colY) instanceof Pawn) {
 						this.addPawnMoves(testBoard, originalBoard, legalMoves, rowX, colY, turn);
-					} else if(originalBoard.getChessPosition(rowX, colY) instanceof Rook) {
+					} else if(originalBoard.getPosition(rowX, colY) instanceof Rook) {
 						this.addHorizVertMoves(testBoard, originalBoard, legalMoves, rowX, colY, turn);
-					} else if(originalBoard.getChessPosition(rowX, colY) instanceof Knight) {
+					} else if(originalBoard.getPosition(rowX, colY) instanceof Knight) {
 						this.addKnightMoves(testBoard, originalBoard, legalMoves, rowX, colY, turn);
-					} else if(originalBoard.getChessPosition(rowX, colY) instanceof Bishop) {
+					} else if(originalBoard.getPosition(rowX, colY) instanceof Bishop) {
 						this.addDiagonalMoves(testBoard, originalBoard, legalMoves, rowX, colY, turn);
-					} else if(originalBoard.getChessPosition(rowX, colY) instanceof Queen) {
+					} else if(originalBoard.getPosition(rowX, colY) instanceof Queen) {
 						this.addHorizVertMoves(testBoard, originalBoard, legalMoves, rowX, colY, turn);
 						this.addDiagonalMoves(testBoard, originalBoard, legalMoves, rowX, colY, turn);
-					} else if(originalBoard.getChessPosition(rowX, colY) instanceof King) {
+					} else if(originalBoard.getPosition(rowX, colY) instanceof King) {
 						this.addKingMoves(testBoard, originalBoard, legalMoves, rowX, colY, turn);
 					} else {
 						throw new GameError("Internal error, piece type not found!");
@@ -166,45 +166,45 @@ public class ChessRules implements GameRules {
 		return legalMoves;
 	}
 	
-	private void checkAndAdd(ChessMove testMove, ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves) {
+	private void checkAndAdd(ChessMove testMove, Board testBoard, Board originalBoard, List<GameMove> legalMoves) {
 		if(testMove.isMoveLegal(testBoard)) {
 			testMove.revertBoard(testBoard, originalBoard);
 			legalMoves.add(testMove);
 		}
 	}
 	
-	private void addHorizVertMoves(ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
+	private void addHorizVertMoves(Board testBoard, Board originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
 		int rowDes = rowX - 1, colDes = colY;
 		while(rowDes >= ChessConstants.MIN_DIM) { //North direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
-			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			rowDes--;
 		}
 		rowDes = rowX + 1; colDes = colY;
 		while(rowDes <= ChessConstants.MAX_DIM) { //South direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
-			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			rowDes++;
 		}
 		rowDes = rowX; colDes = colY + 1;
 		while(colDes <= ChessConstants.MAX_DIM) { //East direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
-			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			colDes++;
 		}
 		rowDes = rowX; colDes = colY - 1;
 		while(colDes >= ChessConstants.MIN_DIM) { //West direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
-			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			colDes--;
 		}
 	}
 	
-	private void addDiagonalMoves(ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
+	private void addDiagonalMoves(Board testBoard, Board originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
 		int rowDes = rowX - 1, colDes = colY - 1;
 		while(rowDes >= ChessConstants.MIN_DIM && colDes >= ChessConstants.MIN_DIM) { //NorthWest direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
-			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			rowDes--;
 			colDes--;
 		}
@@ -212,7 +212,7 @@ public class ChessRules implements GameRules {
 		rowDes = rowX - 1; colDes = colY + 1;
 		while(rowDes >= ChessConstants.MIN_DIM && colDes <= ChessConstants.MAX_DIM) { //NorthEast direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
-			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			rowDes--;
 			colDes++;
 		}
@@ -220,7 +220,7 @@ public class ChessRules implements GameRules {
 		rowDes = rowX + 1; colDes = colY + 1;
 		while(colDes <= ChessConstants.MAX_DIM && rowDes <= ChessConstants.MAX_DIM) { //SouthEast direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
-			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			colDes++;
 			rowDes++;
 		}
@@ -228,13 +228,13 @@ public class ChessRules implements GameRules {
 		rowDes = rowX + 1; colDes = colY - 1;
 		while(colDes >= ChessConstants.MIN_DIM && rowDes <= ChessConstants.MAX_DIM) { //SouthWest direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
-			if(originalBoard.getChessPosition(rowDes, colDes) != null) break;
+			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			colDes--;
 			rowDes++;
 		}
 	}
 	
-	private void addKnightMoves(ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
+	private void addKnightMoves(Board testBoard, Board originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX - 2, colY - 1, turn), testBoard, originalBoard, legalMoves); //2 up 1 left
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX - 2, colY + 1, turn), testBoard, originalBoard, legalMoves); //2 up 1 right
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 2, colY - 1, turn), testBoard, originalBoard, legalMoves); //2 down 1 left
@@ -245,8 +245,8 @@ public class ChessRules implements GameRules {
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX + 1, colY + 2, turn), testBoard, originalBoard, legalMoves); //2 right 1 down
 	}
 	
-	private void addPawnMoves(ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
-		if(originalBoard.getChessPosition(rowX, colY).getWhite()) { //If it's a white Pawn it will explore some moves...
+	private void addPawnMoves(Board testBoard, Board originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
+		if(originalBoard.getPosition(rowX, colY).getWhite()) { //If it's a white Pawn it will explore some moves...
 			this.checkAndAdd(new ChessMove(rowX, colY, rowX - 1, colY, turn), testBoard, originalBoard, legalMoves); //Simple move
 			this.checkAndAdd(new ChessMove(rowX, colY, rowX - 2, colY, turn), testBoard, originalBoard, legalMoves); //Double move
 			this.checkAndAdd(new ChessMove(rowX, colY, rowX - 1, colY - 1, turn), testBoard, originalBoard, legalMoves); //Diagonal move left
@@ -259,7 +259,7 @@ public class ChessRules implements GameRules {
 		}
 	}
 	
-	private void addKingMoves(ChessBoard testBoard, ChessBoard originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
+	private void addKingMoves(Board testBoard, Board originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX - 1, colY - 1, turn), testBoard, originalBoard, legalMoves); //NW move
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX - 1, colY, turn), testBoard, originalBoard, legalMoves); //N move
 		this.checkAndAdd(new ChessMove(rowX, colY, rowX - 1, colY + 1, turn), testBoard, originalBoard, legalMoves); //NE move

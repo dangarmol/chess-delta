@@ -188,4 +188,10 @@ public class Piece implements java.io.Serializable {
 		return id;
 	}
 
+	//Only used in Chess
+	public boolean getWhite() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

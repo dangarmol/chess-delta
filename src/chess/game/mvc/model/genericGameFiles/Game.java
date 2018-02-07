@@ -340,7 +340,7 @@ public class Game implements Observable<GameObserver> {
 		boolean errors = false;
 		try {
 			if(board instanceof ChessBoard)
-				m = player.requestMove(turn, ((ChessBoard) board).copyChessBoard(), roPlayersPieces, pieceTypes, rules);
+				m = player.requestMove(turn, board.copy(), roPlayersPieces, pieceTypes, rules);
 			else
 				m = player.requestMove(turn, roBoard, roPlayersPieces, pieceTypes, rules);
 			

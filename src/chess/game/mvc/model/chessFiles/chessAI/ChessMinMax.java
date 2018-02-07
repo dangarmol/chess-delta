@@ -68,7 +68,7 @@ public class ChessMinMax implements AIAlgorithm {
 		} else {
 			double lowestInBranch = Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
-				ChessBoard testBoard = board.copyChessBoard();
+				Board testBoard = board.copy();
 				((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes);
 				/*A different execute function should be created on the ChessMove class. However, this should
 				never cause problems, since all the executed moves are from the list of checked moves*/
@@ -94,7 +94,7 @@ public class ChessMinMax implements AIAlgorithm {
 		} else {
 			double highestInBranch = Double.MIN_VALUE;
 			for(GameMove move : validMoves) {
-				ChessBoard testBoard = board.copyChessBoard();
+				Board testBoard = board.copy();
 				((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes);
 				/*A different (more efficient) execute function should be created on the ChessMove class. However, this should
 				never cause problems, since all the executed moves are from the list of checked moves*/

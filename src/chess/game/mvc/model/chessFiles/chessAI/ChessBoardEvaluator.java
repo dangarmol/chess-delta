@@ -80,18 +80,18 @@ public class ChessBoardEvaluator {
 		double rating = 0;
 		for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
 			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
-				if(board.getChessPosition(rowX, colY) != null) { //If there's a piece
-					if(board.getChessPosition(rowX, colY) instanceof Pawn) { //If it's a white pawn
-						rating += ratePawn(rowX, colY, board.getChessPosition(rowX, colY).getWhite());
-					} else if(board.getChessPosition(rowX, colY) instanceof Rook) {
-						rating += rateRook(rowX, colY, board.getChessPosition(rowX, colY).getWhite());
-					} else if(board.getChessPosition(rowX, colY) instanceof Knight) {
-						rating += rateKnight(rowX, colY, board.getChessPosition(rowX, colY).getWhite());
-					} else if(board.getChessPosition(rowX, colY) instanceof Bishop) {
-						rating += rateBishop(rowX, colY, board.getChessPosition(rowX, colY).getWhite());
-					} else if(board.getChessPosition(rowX, colY) instanceof Queen) {
-						rating += rateQueen(rowX, colY, board.getChessPosition(rowX, colY).getWhite());
-					} else if(board.getChessPosition(rowX, colY) instanceof King) {
+				if(board.getPosition(rowX, colY) != null) { //If there's a piece
+					if(board.getPosition(rowX, colY) instanceof Pawn) { //If it's a white pawn
+						rating += ratePawn(rowX, colY, board.getPosition(rowX, colY).getWhite());
+					} else if(board.getPosition(rowX, colY) instanceof Rook) {
+						rating += rateRook(rowX, colY, board.getPosition(rowX, colY).getWhite());
+					} else if(board.getPosition(rowX, colY) instanceof Knight) {
+						rating += rateKnight(rowX, colY, board.getPosition(rowX, colY).getWhite());
+					} else if(board.getPosition(rowX, colY) instanceof Bishop) {
+						rating += rateBishop(rowX, colY, board.getPosition(rowX, colY).getWhite());
+					} else if(board.getPosition(rowX, colY) instanceof Queen) {
+						rating += rateQueen(rowX, colY, board.getPosition(rowX, colY).getWhite());
+					} else if(board.getPosition(rowX, colY) instanceof King) {
 						continue; //The King doesn't add any value to the board, since his value would be infinite.
 					}
 				}
