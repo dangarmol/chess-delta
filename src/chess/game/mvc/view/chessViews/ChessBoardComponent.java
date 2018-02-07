@@ -98,26 +98,22 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				System.out.println("Mouse Released: " + "(" + e.getX() + ","
-						+ e.getY() + ")");
+				//System.out.println("Mouse Released: " + "(" + e.getX() + "," + e.getY() + ")");
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println("Mouse Pressed: " + "(" + e.getX() + ","
-						+ e.getY() + ")");
+				//System.out.println("Mouse Pressed: " + "(" + e.getX() + "," + e.getY() + ")");
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				System.out.println("Mouse Exited Component: " + "(" + e.getX()
-						+ "," + e.getY() + ")");
+				//System.out.println("Mouse Exited Component: " + "(" + e.getX() + "," + e.getY() + ")");
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				System.out.println("Mouse Entered Component: " + "(" + e.getX()
-						+ "," + e.getY() + ")");
+				//System.out.println("Mouse Entered Component: " + "(" + e.getX() + "," + e.getY() + ")");
 			}
 			
 			/**
