@@ -1,35 +1,9 @@
 package chess.game.mvc.model.chessFiles;
 
-import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.genericGameFiles.BasicBoard;
 import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.Piece;
-
-/*public class ChessBoard extends FiniteRectBoard {
-
-	private static final long serialVersionUID = -8595352893288103075L;
-
-	public ChessBoard() {
-		super(ChessConstants.BOARD_DIMS, ChessConstants.BOARD_DIMS);
-	}
-	
-	//Returns the ChessPiece at the selected position if the current board is a ChessBoard
-	public ChessPiece getChessPosition(int row, int col) {
-		if (row < 0 || row >= rows || col < 0 || col >= cols) {
-			throw new GameError("Trying to access an invalid position (" + row + "," + col + ")");
-		}
-		return (ChessPiece) board[row][col];
-	}
-	
-	public ChessBoard copyChessBoard() {
-		ChessBoard newboard = new ChessBoard();
-		this.copyTo(newboard);
-		return newboard;
-	}
-	
-	
-}*/
 
 /**
  * An implementation of a finite rectangular board.
