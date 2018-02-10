@@ -65,7 +65,7 @@ public class ChessMove extends GameMove {
 		
 		if(!checkTurn(this.chessBoard)) {//Checks that the player is trying to move his own piece.
 			String color = "";
-			if(this.getPiece().getWhite())
+			if(((ChessPiece) this.getPiece()).getWhite())
 				color = "WHITE";
 			else
 				color = "BLACK";
@@ -92,9 +92,9 @@ public class ChessMove extends GameMove {
 			throw new GameError("Piece type not recognised! This should be unreachable.");
 		}
 		
-		if(isKingInCheck(this.chessBoard, this.getPiece().getWhite())) { //If the King is in Check
+		if(isKingInCheck(this.chessBoard, ((ChessPiece) this.getPiece()).getWhite())) { //If the King is in Check
 			revertBoard(this.chessBoard, originalBoard);
-			if(isKingInCheck(originalBoard, this.getPiece().getWhite())) { //If the King was in Check before the move.
+			if(isKingInCheck(originalBoard, ((ChessPiece) this.getPiece()).getWhite())) { //If the King was in Check before the move.
 				throw new GameError("You cannot perform that move, your King is in Check!!!");
 			} else { //If the King would be in check after the move.
 				throw new GameError("You cannot perform that move, your King would be in Check after that!!!");
@@ -103,7 +103,7 @@ public class ChessMove extends GameMove {
 		
 		//If the code reaches this point, the move has been successfully executed.
 		
-		disableEnPassant(!this.getPiece().getWhite()); //Disable En passant for every pawn of the colour that is going
+		disableEnPassant(!((ChessPiece) this.getPiece()).getWhite()); //Disable En passant for every pawn of the colour that is going
 		//to move next turn, since it has been more than a move ago that he moved his pieces.
 		
 		if(actionMove && !testMove) {
@@ -139,7 +139,7 @@ public class ChessMove extends GameMove {
 		
 		if(!checkTurn(this.chessBoard)) {//Checks that the player is trying to move his own piece.
 			String color = "";
-			if(this.getPiece().getWhite())
+			if(((ChessPiece) this.getPiece()).getWhite())
 				color = "WHITE";
 			else
 				color = "BLACK";
@@ -165,7 +165,7 @@ public class ChessMove extends GameMove {
 			throw new GameError("Piece type not recognised! This should be unreachable.");
 		}
 		
-		if(isKingInCheck(this.chessBoard, this.getPiece().getWhite())) { //If the King is in Check
+		if(isKingInCheck(this.chessBoard, ((ChessPiece) this.getPiece()).getWhite())) { //If the King is in Check
 			throw new GameError("You cannot perform that move, your King would be in Check after that!!!");
 		}
 	}
@@ -177,7 +177,7 @@ public class ChessMove extends GameMove {
 		for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
 			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
 				if(chessBoard2.getPosition(rowX, colY) != null) {
-					if(chessBoard2.getPosition(rowX, colY) instanceof King && (chessBoard2.getPosition(rowX, colY).getWhite() == isWhite)) {
+					if(chessBoard2.getPosition(rowX, colY) instanceof King && (((ChessPiece) chessBoard2.getPosition(rowX, colY)).getWhite() == isWhite)) {
 						return rowX * 10 + colY;
 					}
 				}
@@ -225,7 +225,7 @@ public class ChessMove extends GameMove {
 	private boolean checkHorizVertThreat(Board chessBoard2, int kingRow, int kingCol) {
 		for(int rowX = kingRow + 1; rowX <= ChessConstants.MAX_DIM; rowX++) { //South Direction
 			if(chessBoard2.getPosition(rowX, kingCol) != null) { //If the position is empty, the loop keeps running.
-				if(checkHorizVertAttacker(chessBoard2, rowX, kingCol, chessBoard2.getPosition(kingRow, kingCol).getWhite()))
+				if(checkHorizVertAttacker(chessBoard2, rowX, kingCol, ((ChessPiece) chessBoard2.getPosition(kingRow, kingCol)).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
 				else
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
@@ -234,7 +234,7 @@ public class ChessMove extends GameMove {
 		
 		for(int rowX = kingRow - 1; rowX >= ChessConstants.MIN_DIM; rowX--) { //North Direction
 			if(chessBoard2.getPosition(rowX, kingCol) != null) { //If the position is empty, the loop keeps running.
-				if(checkHorizVertAttacker(chessBoard2, rowX, kingCol, chessBoard2.getPosition(kingRow, kingCol).getWhite()))
+				if(checkHorizVertAttacker(chessBoard2, rowX, kingCol, ((ChessPiece) chessBoard2.getPosition(kingRow, kingCol)).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
 				else
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
@@ -243,7 +243,7 @@ public class ChessMove extends GameMove {
 		
 		for(int colY = kingCol + 1; colY <= ChessConstants.MAX_DIM; colY++) { //East Direction
 			if(chessBoard2.getPosition(kingRow, colY) != null) { //If the position is empty, the loop keeps running.
-				if(checkHorizVertAttacker(chessBoard2, kingRow, colY, chessBoard2.getPosition(kingRow, kingCol).getWhite()))
+				if(checkHorizVertAttacker(chessBoard2, kingRow, colY, ((ChessPiece) chessBoard2.getPosition(kingRow, kingCol)).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
 				else
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
@@ -252,7 +252,7 @@ public class ChessMove extends GameMove {
 		
 		for(int colY = kingCol - 1; colY >= ChessConstants.MIN_DIM; colY--) { //West Direction
 			if(chessBoard2.getPosition(kingRow, colY) != null) { //If the position is empty, the loop keeps running.
-				if(checkHorizVertAttacker(chessBoard2, kingRow, colY, chessBoard2.getPosition(kingRow, kingCol).getWhite()))
+				if(checkHorizVertAttacker(chessBoard2, kingRow, colY, ((ChessPiece) chessBoard2.getPosition(kingRow, kingCol)).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
 				else
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and returns false, since none of the loops found a threat.
@@ -263,7 +263,7 @@ public class ChessMove extends GameMove {
 	
 	private boolean checkHorizVertAttacker(Board chessBoard2, int rowX, int colY, boolean isWhiteKing) {
 		return (chessBoard2.getPosition(rowX, colY) instanceof Queen || chessBoard2.getPosition(rowX, colY) instanceof Rook) && //Checks that there's either a Queen or a Rook
-				(!chessBoard2.getPosition(rowX, colY).getWhite() == isWhiteKing); //And that the king is not the same color as the piece.
+				(!((ChessPiece) chessBoard2.getPosition(rowX, colY)).getWhite() == isWhiteKing); //And that the king is not the same color as the piece.
 	}
 	
 	//Checks if the king is threatened from any diagonal by either a Queen or a Bishop.
@@ -275,7 +275,7 @@ public class ChessMove extends GameMove {
 		colY = kingCol + colOffSet * multiplier;
 		while(rowX >= ChessConstants.MIN_DIM && colY >= ChessConstants.MIN_DIM) { //NorthWest Direction
 			if(chessBoard2.getPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
-				if(checkDiagonalAttacker(chessBoard2, rowX, colY, chessBoard2.getPosition(kingRow, kingCol).getWhite()))
+				if(checkDiagonalAttacker(chessBoard2, rowX, colY, ((ChessPiece) chessBoard2.getPosition(kingRow, kingCol)).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
 				else
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
@@ -290,7 +290,7 @@ public class ChessMove extends GameMove {
 		colY = kingCol + colOffSet * multiplier;
 		while(rowX >= ChessConstants.MIN_DIM && colY <= ChessConstants.MAX_DIM) { //NorthEast Direction
 			if(chessBoard2.getPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
-				if(checkDiagonalAttacker(chessBoard2, rowX, colY, chessBoard2.getPosition(kingRow, kingCol).getWhite()))
+				if(checkDiagonalAttacker(chessBoard2, rowX, colY, ((ChessPiece) chessBoard2.getPosition(kingRow, kingCol)).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
 				else
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
@@ -305,7 +305,7 @@ public class ChessMove extends GameMove {
 		colY = kingCol + colOffSet * multiplier;
 		while(rowX <= ChessConstants.MAX_DIM && colY <= ChessConstants.MAX_DIM) { //SouthEast Direction
 			if(chessBoard2.getPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
-				if(checkDiagonalAttacker(chessBoard2, rowX, colY, chessBoard2.getPosition(kingRow, kingCol).getWhite()))
+				if(checkDiagonalAttacker(chessBoard2, rowX, colY, ((ChessPiece) chessBoard2.getPosition(kingRow, kingCol)).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
 				else
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
@@ -322,7 +322,7 @@ public class ChessMove extends GameMove {
 			rowX = kingRow + rowOffSet * multiplier;
 			colY = kingCol + colOffSet * multiplier;
 			if(chessBoard2.getPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
-				if(checkDiagonalAttacker(chessBoard2, rowX, colY, chessBoard2.getPosition(kingRow, kingCol).getWhite()))
+				if(checkDiagonalAttacker(chessBoard2, rowX, colY, ((ChessPiece) chessBoard2.getPosition(kingRow, kingCol)).getWhite()))
 					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
 				else
 					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and returns false, since none of the loops found a threat.
@@ -336,17 +336,17 @@ public class ChessMove extends GameMove {
 	
 	private boolean checkDiagonalAttacker(Board chessBoard2, int rowX, int colY, boolean isWhiteKing) {
 		return (chessBoard2.getPosition(rowX, colY) instanceof Queen || chessBoard2.getPosition(rowX, colY) instanceof Bishop) && //Checks that there's either a Queen or a Bishop
-				(!chessBoard2.getPosition(rowX, colY).getWhite() == isWhiteKing); //And that the king is not the same color as the piece.
+				(!((ChessPiece) chessBoard2.getPosition(rowX, colY)).getWhite() == isWhiteKing); //And that the king is not the same color as the piece.
 	}
 
 	private boolean checkKnightThreat(Board board, int kingRow, int kingCol) {
-		boolean isWhiteKing = board.getPosition(kingRow, kingCol).getWhite();
+		boolean isWhiteKing = ((ChessPiece) board.getPosition(kingRow, kingCol)).getWhite();
 		
 		if(kingRow - 2 >= ChessConstants.MIN_DIM) { //Check if going 2 rows up is within the board range.
 			if(kingCol - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 column left is within the board range
 				if(board.getPosition(kingRow - 2, kingCol - 1) != null &&
 						board.getPosition(kingRow - 2, kingCol - 1) instanceof Knight &&
-						board.getPosition(kingRow - 2, kingCol - 1).getWhite() != isWhiteKing) {
+						((ChessPiece) board.getPosition(kingRow - 2, kingCol - 1)).getWhite() != isWhiteKing) {
 					return true; //If the explored position is not empty, and has a enemy Knight
 				}
 			}
@@ -354,7 +354,7 @@ public class ChessMove extends GameMove {
 			if(kingCol + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 column right is within the board range
 				if(board.getPosition(kingRow - 2, kingCol + 1) != null &&
 						board.getPosition(kingRow - 2, kingCol + 1) instanceof Knight &&
-						board.getPosition(kingRow - 2, kingCol + 1).getWhite() != isWhiteKing) {
+						((ChessPiece) board.getPosition(kingRow - 2, kingCol + 1)).getWhite() != isWhiteKing) {
 					return true; //If the explored position is not empty, and has a enemy Knight
 				}
 			}
@@ -364,7 +364,7 @@ public class ChessMove extends GameMove {
 			if(kingCol - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 column left is within the board range
 				if(board.getPosition(kingRow + 2, kingCol - 1) != null &&
 						board.getPosition(kingRow + 2, kingCol - 1) instanceof Knight &&
-						board.getPosition(kingRow + 2, kingCol - 1).getWhite() != isWhiteKing) {
+						((ChessPiece) board.getPosition(kingRow + 2, kingCol - 1)).getWhite() != isWhiteKing) {
 					return true; //If the explored position is not empty, and has a enemy Knight
 				}
 			}
@@ -372,7 +372,7 @@ public class ChessMove extends GameMove {
 			if(kingCol + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 column right is within the board range
 				if(board.getPosition(kingRow + 2, kingCol + 1) != null &&
 						board.getPosition(kingRow + 2, kingCol + 1) instanceof Knight &&
-						board.getPosition(kingRow + 2, kingCol + 1).getWhite() != isWhiteKing) {
+						((ChessPiece) board.getPosition(kingRow + 2, kingCol + 1)).getWhite() != isWhiteKing) {
 					return true; //If the explored position is not empty, and has a enemy Knight
 				}
 			}
@@ -382,7 +382,7 @@ public class ChessMove extends GameMove {
 			if(kingRow - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 row up is within the board range
 				if(board.getPosition(kingRow - 1, kingCol - 2) != null &&
 						board.getPosition(kingRow - 1, kingCol - 2) instanceof Knight &&
-						board.getPosition(kingRow - 1, kingCol - 2).getWhite() != isWhiteKing) {
+						((ChessPiece) board.getPosition(kingRow - 1, kingCol - 2)).getWhite() != isWhiteKing) {
 					return true; //If the explored position is not empty, and has a enemy Knight
 				}
 			}
@@ -390,7 +390,7 @@ public class ChessMove extends GameMove {
 			if(kingRow + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 row down is within the board range
 				if(board.getPosition(kingRow + 1, kingCol - 2) != null &&
 						board.getPosition(kingRow + 1, kingCol - 2) instanceof Knight &&
-						board.getPosition(kingRow + 1, kingCol - 2).getWhite() != isWhiteKing) {
+						((ChessPiece) board.getPosition(kingRow + 1, kingCol - 2)).getWhite() != isWhiteKing) {
 					return true; //If the explored position is not empty, and has a enemy Knight
 				}
 			}
@@ -400,7 +400,7 @@ public class ChessMove extends GameMove {
 			if(kingRow - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 row up is within the board range
 				if(board.getPosition(kingRow - 1, kingCol + 2) != null &&
 						board.getPosition(kingRow - 1, kingCol + 2) instanceof Knight &&
-						board.getPosition(kingRow - 1, kingCol + 2).getWhite() != isWhiteKing) {
+						((ChessPiece) board.getPosition(kingRow - 1, kingCol + 2)).getWhite() != isWhiteKing) {
 					return true; //If the explored position is not empty, and has a enemy Knight
 				}
 			}
@@ -408,7 +408,7 @@ public class ChessMove extends GameMove {
 			if(kingRow + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 row down is within the board range
 				if(board.getPosition(kingRow + 1, kingCol + 2) != null &&
 						board.getPosition(kingRow + 1, kingCol + 2) instanceof Knight &&
-						board.getPosition(kingRow + 1, kingCol + 2).getWhite() != isWhiteKing) {
+						((ChessPiece) board.getPosition(kingRow + 1, kingCol + 2)).getWhite() != isWhiteKing) {
 					return true; //If the explored position is not empty, and has a enemy Knight
 				}
 			}
@@ -419,9 +419,9 @@ public class ChessMove extends GameMove {
 
 	//Checks if the king is threatened by a Pawn.
 	private boolean checkPawnThreat(Board board, int kingRow, int kingCol) {
-		if(board.getPosition(kingRow, kingCol).getWhite() && kingRow > ChessConstants.MIN_DIM + 1) { //If the king is white and not on the top 2 rows (since pawns can't be on the top row anyway).
+		if(((ChessPiece) board.getPosition(kingRow, kingCol)).getWhite() && kingRow > ChessConstants.MIN_DIM + 1) { //If the king is white and not on the top 2 rows (since pawns can't be on the top row anyway).
 			if(kingCol + 1 <= ChessConstants.MAX_DIM && board.getPosition(kingRow - 1, kingCol + 1) != null) { //Checking the right diagonal for a pawn.
-				if(!board.getPosition(kingRow - 1, kingCol + 1).getWhite()) { //If there is a black piece on that position
+				if(!((ChessPiece) board.getPosition(kingRow - 1, kingCol + 1)).getWhite()) { //If there is a black piece on that position
 					if(board.getPosition(kingRow - 1, kingCol + 1) instanceof Pawn) { //If that piece is a pawn
 						return true; //All the conditions were met.
 					}
@@ -429,15 +429,15 @@ public class ChessMove extends GameMove {
 			}
 			
 			if(kingCol - 1 <= ChessConstants.MAX_DIM && board.getPosition(kingRow - 1, kingCol - 1) != null) { //Checking the left diagonal.
-				if(!board.getPosition(kingRow - 1, kingCol - 1).getWhite()) { //If there is a black piece on that position
+				if(!((ChessPiece) board.getPosition(kingRow - 1, kingCol - 1)).getWhite()) { //If there is a black piece on that position
 					if(board.getPosition(kingRow - 1, kingCol - 1) instanceof Pawn) { //If that piece is a pawn
 						return true; //All the conditions were met.
 					}
 				}
 			}
-		} else if(!board.getPosition(kingRow, kingCol).getWhite() && kingRow < ChessConstants.MAX_DIM - 1) { //If the king is black and not on the bottom 2 rows (since pawns can't be on the bottom row anyway).
+		} else if(!((ChessPiece) board.getPosition(kingRow, kingCol)).getWhite() && kingRow < ChessConstants.MAX_DIM - 1) { //If the king is black and not on the bottom 2 rows (since pawns can't be on the bottom row anyway).
 			if(kingCol + 1 <= ChessConstants.MAX_DIM && board.getPosition(kingRow + 1, kingCol + 1) != null) { //Checking the right diagonal for a pawn.
-				if(board.getPosition(kingRow + 1, kingCol + 1).getWhite()) { //If there is a white piece on that position
+				if(((ChessPiece) board.getPosition(kingRow + 1, kingCol + 1)).getWhite()) { //If there is a white piece on that position
 					if(board.getPosition(kingRow + 1, kingCol + 1) instanceof Pawn) { //If that piece is a pawn
 						return true; //All the conditions were met.
 					}
@@ -445,7 +445,7 @@ public class ChessMove extends GameMove {
 			}
 			
 			if(kingCol - 1 <= ChessConstants.MAX_DIM && board.getPosition(kingRow + 1, kingCol - 1) != null) { //Checking the left diagonal.
-				if(board.getPosition(kingRow + 1, kingCol - 1).getWhite()) { //If there is a white piece on that position
+				if(((ChessPiece) board.getPosition(kingRow + 1, kingCol - 1)).getWhite()) { //If there is a white piece on that position
 					if(board.getPosition(kingRow + 1, kingCol - 1) instanceof Pawn) { //If that piece is a pawn
 						return true; //All the conditions were met.
 					}
@@ -470,8 +470,8 @@ public class ChessMove extends GameMove {
 	
 	
 	private void executeCaptureMove(Board chessBoard2) {
-		if((chessBoard2.getPosition(this.rowDes, this.colDes).getWhite() && (this.getPiece().getWhite())) ||
-				((!chessBoard2.getPosition(this.rowDes, this.colDes).getWhite() && (!this.getPiece().getWhite())))) {
+		if((((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && (((ChessPiece) this.getPiece()).getWhite())) ||
+				((!((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && (!((ChessPiece) this.getPiece()).getWhite())))) {
 				//If the player tried to capture an ally piece.
 			throw new GameError("Destination position already occupied by an ally piece!");
 		} else { //If he's capturing an enemy piece.
@@ -489,7 +489,7 @@ public class ChessMove extends GameMove {
 			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
 				if(this.chessBoard.getPosition(rowX, colY) != null &&
 						this.chessBoard.getPosition(rowX, colY) instanceof Pawn &&
-						this.chessBoard.getPosition(rowX, colY).getWhite() == isWhite) {
+						((ChessPiece) this.chessBoard.getPosition(rowX, colY)).getWhite() == isWhite) {
 					if(!this.testMove) ((Pawn) this.chessBoard.getPosition(rowX, colY)).setPassant(false);
 				}
 			}
@@ -499,14 +499,14 @@ public class ChessMove extends GameMove {
 	//Shows whether the current player is moving his own pieces or trying to move the opponent's ones.
 	private boolean checkTurn(Board chessBoard2) {
 		//this.getPiece() returns the piece to which the move belongs!
-		return ((this.getPiece().getWhite() && (chessBoard2.getPosition(this.row, this.col)).getWhite()) ||
-				(!this.getPiece().getWhite() && !(chessBoard2.getPosition(this.row, this.col)).getWhite()));
+		return ((((ChessPiece) this.getPiece()).getWhite() && ((ChessPiece) chessBoard2.getPosition(this.row, this.col)).getWhite()) ||
+				(!((ChessPiece) this.getPiece()).getWhite() && !((ChessPiece) chessBoard2.getPosition(this.row, this.col)).getWhite()));
 	}
 	
 	//Due to the peculiar pattern of pawn movement, it is required to have two
 	//different functions, since white pawns move upwards, and black ones move downwards.
 	private void executePawnMove(Board chessBoard2) {
-		if(this.getPiece().getWhite())
+		if(((ChessPiece) this.getPiece()).getWhite())
 			executeWhitePawnMove(chessBoard2);
 		else
 			executeBlackPawnMove(chessBoard2);
@@ -522,7 +522,7 @@ public class ChessMove extends GameMove {
 					(chessBoard2.getPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
 				//No need to check that destination is null, that's checked above.
 				if(this.colDes == this.col + 1) { //Capture to the right
-					if(!chessBoard2.getPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is black
+					if(!((ChessPiece) chessBoard2.getPosition(this.row, this.col + 1)).getWhite() && //Check that the pawn is black
 							((Pawn) chessBoard2.getPosition(this.row, this.col + 1)).getPassant()) { //and it can be captured En Passant for this turn.						
 						executeCheckedMove(chessBoard2);
 						if(!this.testMove) chessBoard2.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
@@ -530,7 +530,7 @@ public class ChessMove extends GameMove {
 						throw new GameError("Invalid Pawn move, try again.");
 					}
 				} else if (this.colDes == this.col - 1) { //Capture to the left.
-					if(!chessBoard2.getPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is black
+					if(!((ChessPiece) chessBoard2.getPosition(this.row, this.col - 1)).getWhite() && //Check that the pawn is black
 							((Pawn) chessBoard2.getPosition(this.row, this.col - 1)).getPassant()) { //and it can be captured En Passant for this turn.
 						executeCheckedMove(chessBoard2);
 						if(!this.testMove) chessBoard2.setPosition(this.row, this.col - 1, null); //Deletes the captured piece
@@ -569,7 +569,7 @@ public class ChessMove extends GameMove {
 		}
 		
 		//You can only get here if everything went right during the execution of the move.
-		if(!this.testMove && !isKingInCheck(chessBoard2, this.getPiece().getWhite()) && checkPromotion(chessBoard2)) {
+		if(!this.testMove && !isKingInCheck(chessBoard2, ((ChessPiece) this.getPiece()).getWhite()) && checkPromotion(chessBoard2)) {
 			if(!Controller.isWhiteAI) {
 				ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", true);
 				
@@ -613,7 +613,7 @@ public class ChessMove extends GameMove {
 					(chessBoard2.getPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
 				//No need to check that destination is null, that's checked above.
 				if(this.colDes == this.col + 1) { //Capture to the right
-					if(chessBoard2.getPosition(this.row, this.col + 1).getWhite() && //Check that the pawn is white
+					if(((ChessPiece) chessBoard2.getPosition(this.row, this.col + 1)).getWhite() && //Check that the pawn is white
 							((Pawn) chessBoard2.getPosition(this.row, this.col + 1)).getPassant()) { //and it can be captured En Passant for this turn.						
 						executeCheckedMove(chessBoard2);
 						chessBoard2.setPosition(this.row, this.col + 1, null); //Deletes the captured piece
@@ -621,7 +621,7 @@ public class ChessMove extends GameMove {
 						throw new GameError("Invalid Pawn move, try again.");
 					}
 				} else if (this.colDes == this.col - 1) { //Capture to the left.
-					if(chessBoard2.getPosition(this.row, this.col - 1).getWhite() && //Check that the pawn is white
+					if(((ChessPiece) chessBoard2.getPosition(this.row, this.col - 1)).getWhite() && //Check that the pawn is white
 							((Pawn) chessBoard2.getPosition(this.row, this.col - 1)).getPassant()) { //and it can be captured En Passant for this turn.
 						executeCheckedMove(chessBoard2);
 						chessBoard2.setPosition(this.row, this.col - 1, null); //Deletes the captured piece
@@ -660,7 +660,7 @@ public class ChessMove extends GameMove {
 		}
 		
 		//You can only get here if everything went right during the execution of the move.
-		if(!this.testMove && !isKingInCheck(chessBoard2, this.getPiece().getWhite()) && checkPromotion(chessBoard2)) {
+		if(!this.testMove && !isKingInCheck(chessBoard2, ((ChessPiece) this.getPiece()).getWhite()) && checkPromotion(chessBoard2)) {
 			if(!Controller.isBlackAI) {
 				ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", false);
 				
@@ -695,8 +695,8 @@ public class ChessMove extends GameMove {
 	}
 	
 	private boolean checkPromotion(Board chessBoard2) { //This function should only be called from within the Pawn movement function for it to work properly.
-		return (chessBoard2.getPosition(this.rowDes, this.colDes).getWhite() && this.rowDes == ChessConstants.MIN_DIM) || //If it's white and has reached the top
-				(!chessBoard2.getPosition(this.rowDes, this.colDes).getWhite() && this.rowDes == ChessConstants.MAX_DIM); //If it's black and has reached the bottom
+		return (((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && this.rowDes == ChessConstants.MIN_DIM) || //If it's white and has reached the top
+				(!((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && this.rowDes == ChessConstants.MAX_DIM); //If it's black and has reached the bottom
 	}
 	
 	private void executePromotion(Board chessBoard2, ChessPiece p) { //The piece must be properly created in another function. Usually executeWhite/BlackPawnMove().
@@ -706,8 +706,8 @@ public class ChessMove extends GameMove {
 	private void executeRookMove(Board chessBoard2) {
 		if(checkHorizVertMove()) { //Check that it's moving either horizontally or vertically.
 			if(chessBoard2.getPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
-				if((chessBoard2.getPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
-						(!chessBoard2.getPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
+				if((((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && ((ChessPiece) this.getPiece()).getWhite()) ||
+						(!((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && !((ChessPiece) this.getPiece()).getWhite())) {
 					//Check that you're not trying to capture your own pieces.
 					throw new GameError("Invalid move, the destination is occupied by an ally piece, try again.");
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
@@ -749,8 +749,8 @@ public class ChessMove extends GameMove {
 	private void executeBishopMove(Board board) {
 		if(checkDiagonalMove()) { //Checks that it's moving diagonally.
 			if(board.getPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
-				if((board.getPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
-						(!board.getPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
+				if((((ChessPiece) board.getPosition(this.rowDes, this.colDes)).getWhite() && ((ChessPiece) this.getPiece()).getWhite()) ||
+						(!((ChessPiece) board.getPosition(this.rowDes, this.colDes)).getWhite() && !((ChessPiece) this.getPiece()).getWhite())) {
 					//Check that you're not trying to capture your own pieces.
 					throw new GameError("Invalid move, the destination position is occupied by an ally piece, try again.");
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
@@ -774,8 +774,8 @@ public class ChessMove extends GameMove {
 	private void executeQueenMove(Board board) {
 		if(checkDiagonalMove() || checkHorizVertMove()) { //Checks that it's moving diagonally or horizontally but not in any other way.
 			if(board.getPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
-				if((board.getPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
-						(!board.getPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
+				if((((ChessPiece) board.getPosition(this.rowDes, this.colDes)).getWhite() && ((ChessPiece) this.getPiece()).getWhite()) ||
+						(!((ChessPiece) board.getPosition(this.rowDes, this.colDes)).getWhite() && !((ChessPiece) this.getPiece()).getWhite())) {
 					//Check that you're not trying to capture your own pieces.
 					throw new GameError("Invalid move, the destination position is occupied by an ally piece, try again.");
 				} else if (!checkPiecesInbetween(this.row, this.col, this.rowDes, this.colDes)) { //Check there are no pieces inbetween.
@@ -800,8 +800,8 @@ public class ChessMove extends GameMove {
 		if(Math.abs(this.row - this.rowDes) <= 1 && Math.abs(this.col - this.colDes) <= 1) {
 			//Check that it's moving only 1 tile away.
 			if(board.getPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
-				if((board.getPosition(this.rowDes, this.colDes).getWhite() && this.getPiece().getWhite()) ||
-						(!board.getPosition(this.rowDes, this.colDes).getWhite() && !this.getPiece().getWhite())) {
+				if((((ChessPiece) board.getPosition(this.rowDes, this.colDes)).getWhite() && ((ChessPiece) this.getPiece()).getWhite()) ||
+						(!((ChessPiece) board.getPosition(this.rowDes, this.colDes)).getWhite() && !((ChessPiece) this.getPiece()).getWhite())) {
 					//Check that you're not trying to capture your own pieces.
 					throw new GameError("Invalid move, the destination position is occupied by an ally piece, try again.");
 				} else { //Everything correct, we can execute the move.
@@ -813,7 +813,7 @@ public class ChessMove extends GameMove {
 					executeCheckedMove(board);
 					if(!this.testMove) ((King) board.getPosition(this.rowDes, this.colDes)).setCastle(false); //This King can't Castle since it just moved.
 			}
-		} else if(board.getPosition(this.row, this.col).getWhite() && ((this.row == 7 && this.col == 4) &&
+		} else if(((ChessPiece) board.getPosition(this.row, this.col)).getWhite() && ((this.row == 7 && this.col == 4) &&
 				(this.rowDes == 7 && (this.colDes == 2 || this.colDes == 6)))) { //Trying to Castle white king.
 			if(((King) board.getPosition(this.row, this.col)).getCastle()) { //Check if the King can castle.
 				if(this.colDes == 6) { //Short castling
@@ -824,10 +824,10 @@ public class ChessMove extends GameMove {
 									Board testBoard = board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 7, 5); //Move to the first position it would go through
-									if(isKingInCheck(testBoard, this.getPiece().getWhite()))//Check if it is in check at this point.
+									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
 									executeCastlingTestMove(testBoard, 7, 5, 7, 6); //Move to the next position
-									if(isKingInCheck(testBoard, this.getPiece().getWhite())) //Check if it is in check at this point.
+									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
@@ -856,10 +856,10 @@ public class ChessMove extends GameMove {
 									Board testBoard = board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 7, 3); //Move to the first position it would go through
-									if(isKingInCheck(testBoard, this.getPiece().getWhite()))//Check if it is in check at this point.
+									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
 									executeCastlingTestMove(testBoard, 7, 3, 7, 2); //Move to the next position
-									if(isKingInCheck(testBoard, this.getPiece().getWhite())) //Check if it is in check at this point.
+									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
@@ -884,7 +884,7 @@ public class ChessMove extends GameMove {
 			} else {
 				throw new GameError("This King cannot Castle anymore.");
 			}
-		} else if(!board.getPosition(this.row, this.col).getWhite() && ((this.row == 0 && this.col == 4) &&
+		} else if(!((ChessPiece) board.getPosition(this.row, this.col)).getWhite() && ((this.row == 0 && this.col == 4) &&
 				(this.rowDes == 0 && (this.colDes == 2 || this.colDes == 6)))) { //Trying to Castle black king.
 			if(((King) board.getPosition(this.row, this.col)).getCastle()) { //Check if the King can castle.
 				if(this.colDes == 6) { //Short castling
@@ -895,10 +895,10 @@ public class ChessMove extends GameMove {
 									Board testBoard = board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 0, 5); //Move to the first position it would go through
-									if(isKingInCheck(testBoard, this.getPiece().getWhite()))//Check if it is in check at this point.
+									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
 									executeCastlingTestMove(testBoard, 0, 5, 0, 6); //Move to the next position
-									if(isKingInCheck(testBoard, this.getPiece().getWhite())) //Check if it is in check at this point.
+									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
@@ -927,10 +927,10 @@ public class ChessMove extends GameMove {
 									Board testBoard = board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 0, 3); //Move to the first position it would go through
-									if(isKingInCheck(testBoard, this.getPiece().getWhite()))//Check if it is in check at this point.
+									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
 									executeCastlingTestMove(testBoard, 0, 3, 0, 2); //Move to the next position
-									if(isKingInCheck(testBoard, this.getPiece().getWhite())) //Check if it is in check at this point.
+									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...

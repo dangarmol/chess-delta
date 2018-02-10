@@ -137,13 +137,13 @@ public class ChessRules implements GameRules {
 	@Override
 	public List<GameMove> validMoves(Board board, List<Piece> playersPieces, Piece turn) {
 		Board originalBoard = board;
-		boolean isWhiteTurn = turn.getWhite();
+		boolean isWhiteTurn = ((ChessPiece) turn).getWhite();
 		Board testBoard = originalBoard.copy();
 		List<GameMove> legalMoves = new ArrayList<GameMove>(); //Every single possible move on the board is saved here
 		for (int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) { //Exploring rows and cols.
 			for (int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
 				if(originalBoard.getPosition(rowX, colY) != null && //If the position is not empty...
-					originalBoard.getPosition(rowX, colY).getWhite() == isWhiteTurn){ //...and it is from the current turn.
+					((ChessPiece) originalBoard.getPosition(rowX, colY)).getWhite() == isWhiteTurn){ //...and it is from the current turn.
 					if(originalBoard.getPosition(rowX, colY) instanceof Pawn) {
 						this.addPawnMoves(testBoard, originalBoard, legalMoves, rowX, colY, turn);
 					} else if(originalBoard.getPosition(rowX, colY) instanceof Rook) {
@@ -246,7 +246,7 @@ public class ChessRules implements GameRules {
 	}
 	
 	private void addPawnMoves(Board testBoard, Board originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
-		if(originalBoard.getPosition(rowX, colY).getWhite()) { //If it's a white Pawn it will explore some moves...
+		if(((ChessPiece) originalBoard.getPosition(rowX, colY)).getWhite()) { //If it's a white Pawn it will explore some moves...
 			this.checkAndAdd(new ChessMove(rowX, colY, rowX - 1, colY, turn), testBoard, originalBoard, legalMoves); //Simple move
 			this.checkAndAdd(new ChessMove(rowX, colY, rowX - 2, colY, turn), testBoard, originalBoard, legalMoves); //Double move
 			this.checkAndAdd(new ChessMove(rowX, colY, rowX - 1, colY - 1, turn), testBoard, originalBoard, legalMoves); //Diagonal move left

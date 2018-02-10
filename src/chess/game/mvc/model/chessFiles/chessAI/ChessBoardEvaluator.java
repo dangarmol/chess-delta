@@ -82,15 +82,15 @@ public class ChessBoardEvaluator {
 			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
 				if(board.getPosition(rowX, colY) != null) { //If there's a piece
 					if(board.getPosition(rowX, colY) instanceof Pawn) { //If it's a white pawn
-						rating += ratePawn(rowX, colY, board.getPosition(rowX, colY).getWhite());
+						rating += ratePawn(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
 					} else if(board.getPosition(rowX, colY) instanceof Rook) {
-						rating += rateRook(rowX, colY, board.getPosition(rowX, colY).getWhite());
+						rating += rateRook(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
 					} else if(board.getPosition(rowX, colY) instanceof Knight) {
-						rating += rateKnight(rowX, colY, board.getPosition(rowX, colY).getWhite());
+						rating += rateKnight(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
 					} else if(board.getPosition(rowX, colY) instanceof Bishop) {
-						rating += rateBishop(rowX, colY, board.getPosition(rowX, colY).getWhite());
+						rating += rateBishop(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
 					} else if(board.getPosition(rowX, colY) instanceof Queen) {
-						rating += rateQueen(rowX, colY, board.getPosition(rowX, colY).getWhite());
+						rating += rateQueen(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
 					} else if(board.getPosition(rowX, colY) instanceof King) {
 						continue; //The King doesn't add any value to the board, since his value would be infinite.
 					}
