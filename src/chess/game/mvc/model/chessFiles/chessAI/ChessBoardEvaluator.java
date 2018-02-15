@@ -140,10 +140,10 @@ public class ChessBoardEvaluator {
 		double rating = 25;
 		if(isWhite) {
 			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
-				rating -= 5;
+				rating -= 4;
 		} else {
 			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
-				rating -= 5;
+				rating -= 4;
 		}
 		return rating;
 	}
@@ -152,10 +152,10 @@ public class ChessBoardEvaluator {
 		double rating = 15;
 		if(isWhite) {
 			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
-				rating -= 5;
+				rating -= 3;
 		} else {
 			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
-				rating -= 5;
+				rating -= 3;
 		}
 		return rating;
 	}
@@ -164,10 +164,10 @@ public class ChessBoardEvaluator {
 		double rating = 15;
 		if(isWhite) {
 			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
-				rating -= 5;
+				rating -= 3;
 		} else {
 			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
-				rating -= 5;
+				rating -= 3;
 		}
 		return rating;
 	}

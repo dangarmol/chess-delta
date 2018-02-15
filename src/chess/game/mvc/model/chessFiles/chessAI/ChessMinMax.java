@@ -52,7 +52,6 @@ public class ChessMinMax implements AIAlgorithm {
 		}
 	}
 	
-	//TODO Remove Piece from list of attributes?
 	private ChessMinMaxNode minMax(Board board, int depth) {
 		if(max((ChessBoard) board, depth) == this.bestNode.getRating()) { //This might seem like a trivial check, but it assures that the "bestNode" is up to date.
 			return this.bestNode;
@@ -69,9 +68,10 @@ public class ChessMinMax implements AIAlgorithm {
 			double lowestInBranch = Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
 				Board testBoard = board.copy();
-				((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes);
+				//((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes); //TODO Remove
+				((ChessMove) move).executeCheckedMove(testBoard);
 				/*A different execute function should be created on the ChessMove class. However, this should
-				never cause problems, since all the executed moves are from the list of checked moves*/
+				never cause problems, since all the executed moves are from the list of checked moves*/ //TODO Remove
 				
 				if(depth == 1) { //ONLY saves the movements in the case when the depth is 1, moves from a higher depth are not relevant, only the rating is
 					double currentNodeRating = max(board, depth + 1);
@@ -95,9 +95,10 @@ public class ChessMinMax implements AIAlgorithm {
 			double highestInBranch = Double.MIN_VALUE;
 			for(GameMove move : validMoves) {
 				Board testBoard = board.copy();
-				((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes);
+				//((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes); //TODO Remove
+				((ChessMove) move).executeCheckedMove(testBoard);
 				/*A different (more efficient) execute function should be created on the ChessMove class. However, this should
-				never cause problems, since all the executed moves are from the list of checked moves*/
+				never cause problems, since all the executed moves are from the list of checked moves*/ //TODO Remove
 				
 				if(depth == 1) { //ONLY saves the movements in the case when the depth is 1, moves from a higher depth are not relevant, only the rating is
 					double currentNodeRating = min(board, depth + 1);
