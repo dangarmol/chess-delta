@@ -43,7 +43,7 @@ public class ChessMinMax implements AIAlgorithm {
 			this.pieces = playersPieces;
 			this.pieceTypes = pieceTypes;
 			this.bestNode = new ChessMinMaxNode();
-			this.maxID = (((ChessPiece) p).getWhite() ? ChessConstants.WHITE_ID : ChessConstants.BLACK_ID); //TODO Check this.
+			this.maxID = (((ChessPiece) p).getWhite() ? ChessConstants.WHITE_ID : ChessConstants.BLACK_ID);
 			this.minID = ((maxID == ChessConstants.WHITE_ID) ? ChessConstants.BLACK_ID : ChessConstants.WHITE_ID);
 			this.maxPiece = (ChessPiece) this.pieces.get(this.maxID);
 			return minMax(board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
@@ -68,16 +68,13 @@ public class ChessMinMax implements AIAlgorithm {
 			double lowestInBranch = Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
 				Board testBoard = board.copy();
-				//((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes); //TODO Remove
 				((ChessMove) move).executeCheckedMove(testBoard);
-				/*A different execute function should be created on the ChessMove class. However, this should
-				never cause problems, since all the executed moves are from the list of checked moves*/ //TODO Remove
 				
-				if(depth == 1) { //ONLY saves the movements in the case when the depth is 1, moves from a higher depth are not relevant, only the rating is
+				if(depth == ChessConstants.STARTING_MINMAX_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is
 					double currentNodeRating = max(board, depth + 1);
 					if(currentNodeRating <= lowestInBranch) { //Could be equal in case of loss or win if implemented as infinite rating.
 						lowestInBranch = currentNodeRating;
-						//this.bestNode.changeNode((ChessMove) move, currentNodeRating);
+						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
 					}
 				} else {
 					lowestInBranch = Math.min(max(board, depth + 1), lowestInBranch);
@@ -95,12 +92,9 @@ public class ChessMinMax implements AIAlgorithm {
 			double highestInBranch = Double.MIN_VALUE;
 			for(GameMove move : validMoves) {
 				Board testBoard = board.copy();
-				//((ChessMove) move).execute(testBoard, this.pieces, this.pieceTypes); //TODO Remove
 				((ChessMove) move).executeCheckedMove(testBoard);
-				/*A different (more efficient) execute function should be created on the ChessMove class. However, this should
-				never cause problems, since all the executed moves are from the list of checked moves*/ //TODO Remove
 				
-				if(depth == 1) { //ONLY saves the movements in the case when the depth is 1, moves from a higher depth are not relevant, only the rating is
+				if(depth == ChessConstants.STARTING_MINMAX_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is
 					double currentNodeRating = min(board, depth + 1);
 					if(currentNodeRating >= highestInBranch) { //Could be equal in case of loss or win if implemented as infinite rating.
 						highestInBranch = currentNodeRating;
