@@ -56,7 +56,7 @@ public class ChessMinMax implements AIAlgorithm {
 		if(max((ChessBoard) board, depth) == this.bestNode.getRating()) { //This might seem like a trivial check, but it assures that the "bestNode" is up to date.
 			return this.bestNode;
 		} else {
-			return null;
+			return null; //This should never be reached
 		}
 	}
 	
@@ -77,7 +77,7 @@ public class ChessMinMax implements AIAlgorithm {
 					double currentNodeRating = max(board, depth + 1);
 					if(currentNodeRating <= lowestInBranch) { //Could be equal in case of loss or win if implemented as infinite rating.
 						lowestInBranch = currentNodeRating;
-						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
+						//this.bestNode.changeNode((ChessMove) move, currentNodeRating);
 					}
 				} else {
 					lowestInBranch = Math.min(max(board, depth + 1), lowestInBranch);
