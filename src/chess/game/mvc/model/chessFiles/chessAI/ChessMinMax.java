@@ -89,7 +89,13 @@ public class ChessMinMax implements AIAlgorithm {
 		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over!
 			return this.evaluator.getRating(board, (ChessPiece) this.pieces.get(this.maxID), this.maxPiece, validMoves);
 		} else {
-			double highestInBranch = Double.MIN_VALUE;
+			//double highestInBranch = Double.MIN_VALUE;
+			/**
+			 * APPARENTLY IN JAVA, Double.MIN_VALUE IS JUST THE MINIMUM ABSOLUTE VALUE, NOT NEGATIVE INFINITY.
+			 * It should be expressed like so: -Double.MAX_VALUE
+			 * https://stackoverflow.com/questions/3884793/why-is-double-min-value-in-not-negative
+			 */
+			double highestInBranch = -Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
 				Board testBoard = board.copy();
 				((ChessMove) move).executeCheckedMove(testBoard);
