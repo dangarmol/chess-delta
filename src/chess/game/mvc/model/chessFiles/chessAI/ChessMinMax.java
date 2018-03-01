@@ -60,10 +60,10 @@ public class ChessMinMax implements AIAlgorithm {
 		}
 	}
 	
-	private double min(ChessBoard board, int depth) {
+	private double min(Board board, int depth) {
 		List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
 		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over!
-			return this.evaluator.getRating(board, (ChessPiece) this.pieces.get(this.minID), this.maxPiece, validMoves);
+			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.minID), this.maxPiece, validMoves);
 		} else {
 			double lowestInBranch = Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
@@ -71,7 +71,7 @@ public class ChessMinMax implements AIAlgorithm {
 				((ChessMove) move).executeCheckedMove(testBoard);
 				
 				if(depth == ChessConstants.STARTING_MINMAX_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is
-					double currentNodeRating = max(board, depth + 1);
+					double currentNodeRating = max(testBoard, depth + 1);
 					if(currentNodeRating <= lowestInBranch) { //Could be equal in case of loss or win if implemented as infinite rating.
 						lowestInBranch = currentNodeRating;
 						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
@@ -84,10 +84,10 @@ public class ChessMinMax implements AIAlgorithm {
 		}
 	}
 	
-	private double max(ChessBoard board, int depth) {
+	private double max(Board board, int depth) {
 		List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
 		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over!
-			return this.evaluator.getRating(board, (ChessPiece) this.pieces.get(this.maxID), this.maxPiece, validMoves);
+			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.maxID), this.maxPiece, validMoves);
 		} else {
 			//double highestInBranch = Double.MIN_VALUE;
 			/**
@@ -101,7 +101,7 @@ public class ChessMinMax implements AIAlgorithm {
 				((ChessMove) move).executeCheckedMove(testBoard);
 				
 				if(depth == ChessConstants.STARTING_MINMAX_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is
-					double currentNodeRating = min(board, depth + 1);
+					double currentNodeRating = min(testBoard, depth + 1);
 					if(currentNodeRating >= highestInBranch) { //Could be equal in case of loss or win if implemented as infinite rating.
 						highestInBranch = currentNodeRating;
 						this.bestNode.changeNode((ChessMove) move, currentNodeRating);

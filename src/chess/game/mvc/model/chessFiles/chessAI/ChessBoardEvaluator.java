@@ -51,7 +51,7 @@ public class ChessBoardEvaluator {
 				return Double.MAX_VALUE;
 			} else {
 				//Otherwise...
-				return Double.MIN_VALUE;
+				return -Double.MAX_VALUE; //TODO Add bugfix: This was previously Double.MIN_VALUE!!!
 			}
 		} else if(validMoves.isEmpty()) {
 			//There is a stalemate.
