@@ -60,6 +60,13 @@ public class ChessMinMax implements AIAlgorithm {
 		}
 	}
 	
+	//TODO Alpha is changed in max level if the value is higher than Alpha, and Beta same but for min
+	/**
+	 * Alpha means don't search further if you find a lower value.
+	 * Beta means don't search further if you find a higher value.
+	 * Alpha is the minimum guaranteed value for max.
+	 * Beta is the max guaranteed value for min.
+	 */
 	private double min(Board board, int depth) {
 		List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
 		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over!

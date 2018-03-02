@@ -21,6 +21,14 @@ public class ChessBoardEvaluator {
 	
 	public ChessBoardEvaluator() {}
 	
+	/**
+	 * TODO:
+	 * Look up killer heuristic
+	 * Move that makes the opponent always lose.
+	 * Alpha 1000 Beta -1000
+	 * Once you find a winning move, it stops iterating/searching.
+	 */
+	
 	/* HEURISTICS:
 	 * If the player causes the enemy to be in check, the rating is increased.
 	 * A Checkmate returns an infinite or minus infinite value.
@@ -48,7 +56,7 @@ public class ChessBoardEvaluator {
 			//win for the Max player or the opposite.
 			if(currentPiece.getWhite() == maxPiece.getWhite()) {
 				//If the player that won is the max player...
-				return Double.MAX_VALUE;
+				return Double.MAX_VALUE; //TODO Don't use infinity for winning. Use 1000
 			} else {
 				//Otherwise...
 				return -Double.MAX_VALUE; //TODO Add bugfix: This was previously Double.MIN_VALUE!!!
