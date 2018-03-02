@@ -60,8 +60,10 @@ public class ChessMinMax implements AIAlgorithm {
 		}
 	}
 	
-	//TODO Alpha is changed in max level if the value is higher than Alpha, and Beta same but for min
 	/**
+	 * Alpha is changed in max if the value is higher than Alpha.
+	 * Beta is changed in min if the value is lower than Beta.
+	 * 
 	 * Alpha means don't search further if you find a lower value.
 	 * Beta means don't search further if you find a higher value.
 	 * Alpha is the minimum guaranteed value for max.
