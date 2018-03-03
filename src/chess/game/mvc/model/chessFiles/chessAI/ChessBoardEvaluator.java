@@ -40,13 +40,21 @@ public class ChessBoardEvaluator {
 		//TODO Test this function!
 		double cumulativeRating = 0;
 		
-		boolean isCheck = isCheck(board, currentPiece.getWhite());
-		if(isCheck) { //If the current piece performed a check move.
+		boolean whiteInCheck = isWhiteInCheck(board);
+		boolean blackInCheck;
+		
+		if(!whiteInCheck) {
+			blackInCheck = isBlackInCheck(board);
+		} else {
+			blackInCheck = false; //It's not possible to have both players in check at the same time.
+		}
+		
+		if(whiteInCheck || blackInCheck) { //If the current piece performed a check move.
 			if(currentPiece.getWhite() == maxPiece.getWhite()) {
-				//If the player that is in check is the min player...
+				//If the player that is in check is the current player...
 				cumulativeRating += 50;
 			} else {
-				//Otherwise...
+				//If it's the opponent...
 				cumulativeRating -= 50;
 			}
 		}
@@ -56,7 +64,7 @@ public class ChessBoardEvaluator {
 			//win for the Max player or the opposite.
 			if(currentPiece.getWhite() == maxPiece.getWhite()) {
 				//If the player that won is the max player...
-				return Double.MAX_VALUE; //TODO Don't use infinity for winning. Use 1000
+				return Double.MAX_VALUE; //TODO Don't use infinity for winning. Use 1000 or some other high value.
 			} else {
 				//Otherwise...
 				return -Double.MAX_VALUE; //TODO Add bugfix: This was previously Double.MIN_VALUE!!!
@@ -193,12 +201,22 @@ public class ChessBoardEvaluator {
 	}
 	
 	/**
-	 * Checks if the game is over for the current player!!
-	 * If white just made a checkmate move and this method is called as isGameOver(board, false, true), it should return true.
+	 * Checks if the game is over for the white player!!
 	 * @return @true if game is won BY CHECKMATE, NOT stalemate, @false otherwise.
 	 */
-	private boolean isCheck(ChessBoard board, boolean isWhiteTurn) { //TODO This function needs to be tested!
-		if(new ChessMove().isKingInCheck(board, isWhiteTurn)) //TODO This should be changed later to avoid creating new ChessMove.
+	private boolean isWhiteInCheck(ChessBoard board) {
+		if(new ChessMove().isKingInCheck(board, ChessConstants.WHITE)) //TODO This should be changed later to avoid creating new ChessMove.
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Checks if the game is over for the black player!!
+	 * @return @true if game is won BY CHECKMATE, NOT stalemate, @false otherwise.
+	 */
+	private boolean isBlackInCheck(ChessBoard board) {
+		if(new ChessMove().isKingInCheck(board, ChessConstants.BLACK)) //TODO This should be changed later to avoid creating new ChessMove.
 			return true;
 		else
 			return false;

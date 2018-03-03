@@ -61,6 +61,7 @@ public class ChessMinMax implements AIAlgorithm {
 	}
 	
 	/**
+	 * TODO
 	 * Alpha is changed in max if the value is higher than Alpha.
 	 * Beta is changed in min if the value is lower than Beta.
 	 * 
