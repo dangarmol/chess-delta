@@ -20,7 +20,6 @@ public class ChessMinMax implements AIAlgorithm {
 	private ChessBoardEvaluator evaluator;
 	private GameRules rules;
 	private List<Piece> pieces;
-	private List<Piece> pieceTypes;
 	private int minID;
 	private int maxID;
 	private ChessMinMaxNode bestNode;
@@ -41,7 +40,6 @@ public class ChessMinMax implements AIAlgorithm {
 		try {
 			this.rules = rules;
 			this.pieces = playersPieces;
-			this.pieceTypes = pieceTypes;
 			this.bestNode = new ChessMinMaxNode();
 			this.maxID = (((ChessPiece) p).getWhite() ? ChessConstants.WHITE_ID : ChessConstants.BLACK_ID);
 			this.minID = ((maxID == ChessConstants.WHITE_ID) ? ChessConstants.BLACK_ID : ChessConstants.WHITE_ID);
@@ -72,7 +70,7 @@ public class ChessMinMax implements AIAlgorithm {
 	 */
 	private double min(Board board, int depth) {
 		List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
-		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over!
+		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over! //TODO This may be wrong
 			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.minID), this.maxPiece, validMoves);
 		} else {
 			double lowestInBranch = Double.MAX_VALUE;
@@ -87,7 +85,7 @@ public class ChessMinMax implements AIAlgorithm {
 						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
 					}
 				} else {
-					lowestInBranch = Math.min(max(board, depth + 1), lowestInBranch);
+					lowestInBranch = Math.min(max(testBoard, depth + 1), lowestInBranch);
 				}
 			}
 			return lowestInBranch;
@@ -117,7 +115,7 @@ public class ChessMinMax implements AIAlgorithm {
 						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
 					}
 				} else {
-					highestInBranch = Math.max(min(board, depth + 1), highestInBranch);
+					highestInBranch = Math.max(min(testBoard, depth + 1), highestInBranch);
 				}
 			}
 			return highestInBranch;

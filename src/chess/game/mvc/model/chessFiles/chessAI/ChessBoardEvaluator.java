@@ -49,39 +49,39 @@ public class ChessBoardEvaluator {
 			blackInCheck = false; //It's not possible to have both players in check at the same time.
 		}
 		
-		if(whiteInCheck || blackInCheck) { //If the current piece performed a check move.
-			if(currentPiece.getWhite() == maxPiece.getWhite()) {
-				//If the player that is in check is the current player...
-				cumulativeRating += 50;
+		if(whiteInCheck) { //If there is a player in check
+			if(currentPiece.getWhite()) {
+				cumulativeRating += 10;
 			} else {
-				//If it's the opponent...
-				cumulativeRating -= 50;
+				cumulativeRating -= 10;
+			}
+		} else if(blackInCheck) {
+			if(!currentPiece.getWhite()) {
+				cumulativeRating += 10;
+			} else {
+				cumulativeRating -= 10;
 			}
 		}
 		
-		if(isCheck && validMoves.isEmpty()) { //There is a checkmate
-			//First check if someone won. If someone did, return Double max or min value, depending on whether it's a
-			//win for the Max player or the opposite.
-			if(currentPiece.getWhite() == maxPiece.getWhite()) {
-				//If the player that won is the max player...
-				return Double.MAX_VALUE; //TODO Don't use infinity for winning. Use 1000 or some other high value.
-			} else {
-				//Otherwise...
-				return -Double.MAX_VALUE; //TODO Add bugfix: This was previously Double.MIN_VALUE!!!
+		if(validMoves.isEmpty()) {
+			if((currentPiece.getWhite() && whiteInCheck) || (!currentPiece.getWhite() && blackInCheck)) { //The current player is in checkmate.
+				return -1000;
+			} else if((currentPiece.getWhite() && blackInCheck) || (!currentPiece.getWhite() && whiteInCheck)) {
+				return 1000;
+			} else if(!whiteInCheck && !blackInCheck) {
+				//There is a stalemate.
+				return 0;
 			}
-		} else if(validMoves.isEmpty()) {
-			//There is a stalemate.
-			return 0;
 		}
 		
-		if(currentPiece.getWhite() == maxPiece.getWhite()) {
+		/*if(currentPiece.getWhite() == maxPiece.getWhite()) {
 			cumulativeRating += validMoves.size();
 		} else {
 			cumulativeRating -= validMoves.size();
-		}
+		}*/
 		
-		cumulativeRating += rateBoardByPieces(board, maxPiece.getWhite()); //Adds the max player board rating by pieces.
-		cumulativeRating -= rateBoardByPieces(board, !maxPiece.getWhite()); //Subtracts the min player board rating by pieces.
+		cumulativeRating += rateBoardByPieces(board, currentPiece.getWhite()); //Adds the current player board rating by pieces.
+		cumulativeRating -= rateBoardByPieces(board, !currentPiece.getWhite()); //Subtracts the current player board rating by pieces.
 		
 		return cumulativeRating;
 	}
