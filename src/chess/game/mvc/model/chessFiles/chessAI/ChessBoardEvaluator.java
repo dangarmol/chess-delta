@@ -74,12 +74,6 @@ public class ChessBoardEvaluator {
 			}
 		}
 		
-		/*if(currentPiece.getWhite() == maxPiece.getWhite()) {
-			cumulativeRating += validMoves.size();
-		} else {
-			cumulativeRating -= validMoves.size();
-		}*/
-		
 		cumulativeRating += rateBoardByPieces(board, currentPiece.getWhite()); //Adds the current player board rating by pieces.
 		cumulativeRating -= rateBoardByPieces(board, !currentPiece.getWhite()); //Subtracts the current player board rating by pieces.
 		

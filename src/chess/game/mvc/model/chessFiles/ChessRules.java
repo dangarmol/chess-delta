@@ -113,8 +113,10 @@ public class ChessRules implements GameRules {
 		return gameState;
 	}
 	
-	//This function must only be called if the game has ended for a player not being able to move. Not in any other case!!
-	//This could only be called after either Checkmate or Stalemate!!
+	/**
+	 * This function must only be called if the game has ended for a player not being able to move. Not in any other case!!
+	 * This could only be called after either Checkmate or Stalemate!!
+	 */
 	private Pair<State, Piece> checkWinnerEndGame(Board board, List<Piece> pieces, Piece lastPlayer) {
 		ChessPiece lastChessPlayer = (ChessPiece) lastPlayer;
 
