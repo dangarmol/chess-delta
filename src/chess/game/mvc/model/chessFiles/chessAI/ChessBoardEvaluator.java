@@ -36,7 +36,7 @@ public class ChessBoardEvaluator {
 	 * The more possible moves, the better the rating.
 	 * Finally, the rating is also increased by the pieces the player has and the position where they are.
 	 */
-	public double getRating(ChessBoard board, ChessPiece currentPiece) {
+	public double getRating(ChessBoard board, ChessPiece currentPiece, ChessPiece maxPiece) {
 		//TODO Test this function!
 		double cumulativeRating = 0;
 		
@@ -63,8 +63,8 @@ public class ChessBoardEvaluator {
 			}
 		}
 		
-		cumulativeRating += rateBoardByPieces(board, currentPiece.getWhite()); //Adds the current player board rating by pieces.
-		cumulativeRating -= rateBoardByPieces(board, !currentPiece.getWhite()); //Subtracts the current player board rating by pieces.
+		cumulativeRating += rateBoardByPieces(board, maxPiece.getWhite()); //Adds the max player board rating by pieces.
+		cumulativeRating -= rateBoardByPieces(board, !maxPiece.getWhite()); //Subtracts the min player board rating by pieces.
 		
 		return cumulativeRating;
 	}

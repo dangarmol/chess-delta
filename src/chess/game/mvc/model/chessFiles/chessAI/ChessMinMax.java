@@ -83,7 +83,7 @@ public class ChessMinMax implements AIAlgorithm {
 		} else if(gameState.getFirst().equals(State.Draw)) { //TODO Test this
 			return 0;
 		} else if(depth == this.level) {
-			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.minID));
+			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.minID), this.maxPiece);
 		} else {
 			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
 			double lowestInBranch = Double.MAX_VALUE;
@@ -116,7 +116,7 @@ public class ChessMinMax implements AIAlgorithm {
 		} else if(gameState.getFirst().equals(State.Draw)) { //TODO Test this
 			return 0;
 		} else if(depth == this.level) {
-			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.maxID));
+			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.maxID), this.maxPiece);
 		} else {
 			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
 
