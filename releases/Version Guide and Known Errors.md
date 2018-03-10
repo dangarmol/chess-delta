@@ -1,6 +1,6 @@
 ### PLEASE REPORT ANY BUGS FOUND AND UNCAUGHT EXCEPTIONS TO dangar13@ucm.es OR POST THEM AT THE ISSUES TAB.
 
-#### ChessDelta v0.1:
+#### ChessDelta Alpha v0.1:
 > It is already possible to play a 1 vs 1 match for two human players on the same computer, following the rules.
 
 - Clicking on the edge of a cell will make the program believe that the user clicked outside the cell, on a adjacent one. This will not cause any uncaught exception since the game already takes into account that the position must be valid. However, it could cause confusion to the user. This will be fixed in a later version.
@@ -8,9 +8,9 @@
 
 -----------------------------------------------------------------------------
 
-#### ChessDelta v0.2:
+#### ChessDelta Alpha v0.2:
 > It is already possible to play a 1 vs 1 match for two human players on the same computer, following the rules.
-> Some bugfixes from ChessDelta v0.1.
+> Some bugfixes from ChessDelta Alpha v0.1.
 
 + Clicking on the edge of a cell already works properly.
 + Other minor bugs fixed.
@@ -18,7 +18,7 @@
 
 -----------------------------------------------------------------------------
 
-#### ChessDelta v0.3:
+#### ChessDelta Alpha v0.3:
 > It is already possible to play against a Dummy AI player and an experimental MinMax Player.
 
 + Fixed some bugs from last version.
