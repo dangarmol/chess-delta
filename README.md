@@ -10,7 +10,7 @@ To try the latest release, go to the folder [**releases**](/releases) and launch
 - [x] Creation of the Chess Rules (when a game ends with a winner or in a draw).<br>
 - [x] Creation of a list of possible moves given a board and a turn (to implement Artificial Intelligence).<br>
 - [x] Dummy player implementation that performs a random (but legal) move.<br>
-- [ ] Min-Max AI implementation.<br>
+- [x] Min-Max AI implementation.<br>
 - [ ] Alpha-Beta AI implementation.<br>
 - [ ] MCTS AI implementation (MonteCarlo Tree Search).<br>
 
