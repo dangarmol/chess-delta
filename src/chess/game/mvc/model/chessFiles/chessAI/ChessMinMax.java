@@ -10,7 +10,9 @@ import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
 import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameMove;
 import chess.game.mvc.model.genericGameFiles.GameRules;
+import chess.game.mvc.model.genericGameFiles.Pair;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Game.State;
 
 public class ChessMinMax implements AIAlgorithm {
 
@@ -24,6 +26,7 @@ public class ChessMinMax implements AIAlgorithm {
 	private int maxID;
 	private ChessMinMaxNode bestNode;
 	private ChessPiece maxPiece;
+	private ChessPiece minPiece;
 	
 	public ChessMinMax() {
 		this.level = ChessConstants.DEFAULT_MINMAX_LEVEL;
@@ -44,6 +47,7 @@ public class ChessMinMax implements AIAlgorithm {
 			this.maxID = (((ChessPiece) p).getWhite() ? ChessConstants.WHITE_ID : ChessConstants.BLACK_ID);
 			this.minID = ((maxID == ChessConstants.WHITE_ID) ? ChessConstants.BLACK_ID : ChessConstants.WHITE_ID);
 			this.maxPiece = (ChessPiece) this.pieces.get(this.maxID);
+			this.minPiece = (ChessPiece) this.pieces.get(this.minID);
 			return minMax(board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
 		} catch (Exception e) {
 			return null;
@@ -69,10 +73,20 @@ public class ChessMinMax implements AIAlgorithm {
 	 * Beta is the max guaranteed value for min.
 	 */
 	private double min(Board board, int depth) {
-		List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
-		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over! //TODO This may be wrong
+		Pair<State, Piece> gameState = this.rules.updateState(board, pieces, this.minPiece); //TODO Test this. Should be max or min?
+		if(gameState.getFirst().equals(State.Won)) { //TODO Test this
+			if(gameState.getSecond().equals(this.minPiece)) { //TODO Test this
+				return 1000;
+			} else {
+				return -1000;
+			}
+		} else if(gameState.getFirst().equals(State.Draw)) { //TODO Test this
+			return 0;
+		} else if(depth == this.level) { //If it's empty means that game is over! //TODO This may be wrong
+			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
 			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.minID), this.maxPiece, validMoves);
 		} else {
+			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
 			double lowestInBranch = Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
 				Board testBoard = board.copy();
@@ -93,10 +107,20 @@ public class ChessMinMax implements AIAlgorithm {
 	}
 	
 	private double max(Board board, int depth) {
-		List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
-		if(depth == this.level || validMoves.isEmpty()) { //If it's empty means that game is over!
+		Pair<State, Piece> gameState = this.rules.updateState(board, pieces, this.maxPiece); //TODO Test this. Should be max or min?
+		if(gameState.getFirst().equals(State.Won)) { //TODO Test this
+			if(gameState.getSecond().equals(this.maxPiece)) { //TODO Test this
+				return 1000;
+			} else {
+				return -1000;
+			}
+		} else if(gameState.getFirst().equals(State.Draw)) { //TODO Test this
+			return 0;
+		} else if(depth == this.level) { //If it's empty means that game is over! //TODO This may be wrong
+			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
 			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.maxID), this.maxPiece, validMoves);
 		} else {
+			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
 			//double highestInBranch = Double.MIN_VALUE;
 			/**
 			 * APPARENTLY IN JAVA, Double.MIN_VALUE IS JUST THE MINIMUM ABSOLUTE VALUE, NOT NEGATIVE INFINITY.
