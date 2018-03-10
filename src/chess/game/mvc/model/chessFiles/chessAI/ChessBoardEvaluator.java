@@ -36,7 +36,7 @@ public class ChessBoardEvaluator {
 	 * The more possible moves, the better the rating.
 	 * Finally, the rating is also increased by the pieces the player has and the position where they are.
 	 */
-	public double getRating(ChessBoard board, ChessPiece currentPiece, ChessPiece maxPiece, List<GameMove> validMoves) {
+	public double getRating(ChessBoard board, ChessPiece currentPiece) {
 		//TODO Test this function!
 		double cumulativeRating = 0;
 		
@@ -63,17 +63,6 @@ public class ChessBoardEvaluator {
 			}
 		}
 		
-		if(validMoves.isEmpty()) {
-			if((currentPiece.getWhite() && whiteInCheck) || (!currentPiece.getWhite() && blackInCheck)) { //The current player is in checkmate.
-				return -1000;
-			} else if((currentPiece.getWhite() && blackInCheck) || (!currentPiece.getWhite() && whiteInCheck)) {
-				return 1000;
-			} else if(!whiteInCheck && !blackInCheck) {
-				//There is a stalemate.
-				return 0;
-			}
-		}
-		
 		cumulativeRating += rateBoardByPieces(board, currentPiece.getWhite()); //Adds the current player board rating by pieces.
 		cumulativeRating -= rateBoardByPieces(board, !currentPiece.getWhite()); //Subtracts the current player board rating by pieces.
 		
@@ -91,24 +80,26 @@ public class ChessBoardEvaluator {
 		for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
 			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
 				if(board.getPosition(rowX, colY) != null) { //If there's a piece
-					if(board.getPosition(rowX, colY) instanceof Pawn) { //If it's a white pawn
-						rating += ratePawn(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
-					} else if(board.getPosition(rowX, colY) instanceof Rook) {
-						rating += rateRook(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
-					} else if(board.getPosition(rowX, colY) instanceof Knight) {
-						rating += rateKnight(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
-					} else if(board.getPosition(rowX, colY) instanceof Bishop) {
-						rating += rateBishop(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
-					} else if(board.getPosition(rowX, colY) instanceof Queen) {
-						rating += rateQueen(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
-					} else if(board.getPosition(rowX, colY) instanceof King) {
-						continue; //The King doesn't add any value to the board, since his value would be infinite.
+					if(((ChessPiece) board.getPosition(rowX, colY)).getWhite() == isWhite) { //TODO Make this more efficient
+						if(board.getPosition(rowX, colY) instanceof Pawn) { //If it's a white pawn
+							rating += ratePawn(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
+						} else if(board.getPosition(rowX, colY) instanceof Rook) {
+							rating += rateRook(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
+						} else if(board.getPosition(rowX, colY) instanceof Knight) {
+							rating += rateKnight(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
+						} else if(board.getPosition(rowX, colY) instanceof Bishop) {
+							rating += rateBishop(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
+						} else if(board.getPosition(rowX, colY) instanceof Queen) {
+							rating += rateQueen(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
+						} else if(board.getPosition(rowX, colY) instanceof King) {
+							continue; //The King doesn't add any value to the board, since his value would be infinite.
+						}
 					}
+					//Pieces further away from the sides of the board are usually worth slightly more.
+					if(colY == 3 || colY == 4) rating += 3;
+					else if(colY == 2 || colY == 5) rating += 2;
+					else if(colY == 1 || colY == 6) rating += 1;
 				}
-				//Pieces further away from the sides of the board are usually worth slightly more.
-				if(colY == 3 || colY == 4) rating += 3;
-				else if(colY == 2 || colY == 5) rating += 2;
-				else if(colY == 1 || colY == 6) rating += 1;
 			}
 		}
 		

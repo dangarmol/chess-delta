@@ -82,9 +82,8 @@ public class ChessMinMax implements AIAlgorithm {
 			}
 		} else if(gameState.getFirst().equals(State.Draw)) { //TODO Test this
 			return 0;
-		} else if(depth == this.level) { //If it's empty means that game is over! //TODO This may be wrong
-			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
-			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.minID), this.maxPiece, validMoves);
+		} else if(depth == this.level) {
+			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.minID));
 		} else {
 			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
 			double lowestInBranch = Double.MAX_VALUE;
@@ -116,12 +115,11 @@ public class ChessMinMax implements AIAlgorithm {
 			}
 		} else if(gameState.getFirst().equals(State.Draw)) { //TODO Test this
 			return 0;
-		} else if(depth == this.level) { //If it's empty means that game is over! //TODO This may be wrong
-			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
-			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.maxID), this.maxPiece, validMoves);
+		} else if(depth == this.level) {
+			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.maxID));
 		} else {
 			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
-			//double highestInBranch = Double.MIN_VALUE;
+
 			/**
 			 * APPARENTLY IN JAVA, Double.MIN_VALUE IS JUST THE MINIMUM ABSOLUTE VALUE, NOT NEGATIVE INFINITY.
 			 * It should be expressed like so: -Double.MAX_VALUE
