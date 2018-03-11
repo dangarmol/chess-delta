@@ -284,7 +284,7 @@ public class ChessRules implements GameRules {
 		else if (lastPlayer == playersPieces.get(ChessConstants.BLACK_ID))
 			nextPlayer = playersPieces.get(ChessConstants.WHITE_ID);
 		else
-			throw new GameError("Something went wrong while changing turns. Unrecognised player. This should be unreachable.");
+			return null; //throw new GameError("Something went wrong while changing turns. Unrecognised player. This should be unreachable.");
 		
 		if(validMoves(board, playersPieces, nextPlayer).isEmpty()) //Check if he can move any of his pieces
 			return null; //Returns null if next player can't move!

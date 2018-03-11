@@ -19,9 +19,24 @@
 -----------------------------------------------------------------------------
 
 #### ChessDelta Alpha v0.3:
-> It is already possible to play against a Dummy AI player and an experimental MinMax Player.
+> It is already possible to play against a Dummy AI player and an experimental MinMax Player (MinMax 1.0).
 
 + Fixed some bugs from last version.
 + Important changes to internal game structure. Although they are not visible, they improve efficiency and fix several issues.
 + Added a feature to highlight clicked tiles in green to enhance User Experience thanks to the feedback from a tester.
 + Artificial Intelligence is not working properly yet, although it's possible to play against it.
++ MinMax 1.0
+
+-----------------------------------------------------------------------------
+
+#### ChessDelta Alpha  v1.0
+> It is already possible to play against an intelligent MinMax player.
+
++ MinMax massively improved (MinMax 2.0)
+
+-----------------------------------------------------------------------------
+
+#### ChessDelta Alpha v1.1
+> Added move Statistics to Console!
+
++ Bugfix: On version Alpha v1.0, game turns would crash if AI player lost the match.

@@ -19,7 +19,8 @@ public class ChessMinMax implements AIAlgorithm {
 	private static final long serialVersionUID = 556625192621284461L;
 
 	private int level; //How hard it is to win against the AI. The higher this number, the more intelligent it becomes.
-	private ChessBoardEvaluator evaluator;
+	private BasicBoardEvaluator evaluator;
+	private AIStatistics aiStats;
 	private GameRules rules;
 	private List<Piece> pieces;
 	private int minID;
@@ -27,51 +28,47 @@ public class ChessMinMax implements AIAlgorithm {
 	private ChessMinMaxNode bestNode;
 	private ChessPiece maxPiece;
 	private ChessPiece minPiece;
-	private long totalNodesExplored;
 	private long nodesExplored;
 	
 	public ChessMinMax() {
 		this.level = ChessConstants.DEFAULT_MINMAX_LEVEL;
-		this.evaluator = new ChessBoardEvaluator();
-		this.totalNodesExplored = 0;
+		this.evaluator = new BasicBoardEvaluator();
+		this.aiStats = new AIStatistics(ChessConstants.DEFAULT_MINMAX_LEVEL);
 	}
 	
 	public ChessMinMax(int level) {
 		this.level = level;
-		this.evaluator = new ChessBoardEvaluator();
-		this.totalNodesExplored = 0;
+		this.evaluator = new BasicBoardEvaluator();
+		this.aiStats = new AIStatistics(level);
 	}
 	
 	@Override
 	public GameMove getMove(Piece p, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
-		try {
-			this.rules = rules;
-			this.pieces = playersPieces;
-			this.bestNode = new ChessMinMaxNode();
-			this.maxID = (((ChessPiece) p).getWhite() ? ChessConstants.WHITE_ID : ChessConstants.BLACK_ID);
-			this.minID = ((maxID == ChessConstants.WHITE_ID) ? ChessConstants.BLACK_ID : ChessConstants.WHITE_ID);
-			this.maxPiece = (ChessPiece) this.pieces.get(this.maxID);
-			this.minPiece = (ChessPiece) this.pieces.get(this.minID);
-			this.nodesExplored = 0;
-			return minMax(board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
-		} catch (Exception e) {
-			return null;
-		}
+		this.rules = rules;
+		this.pieces = playersPieces;
+		this.bestNode = new ChessMinMaxNode();
+		this.maxID = (((ChessPiece) p).getWhite() ? ChessConstants.WHITE_ID : ChessConstants.BLACK_ID);
+		this.minID = ((maxID == ChessConstants.WHITE_ID) ? ChessConstants.BLACK_ID : ChessConstants.WHITE_ID);
+		this.maxPiece = (ChessPiece) this.pieces.get(this.maxID);
+		this.minPiece = (ChessPiece) this.pieces.get(this.minID);
+		this.nodesExplored = 0;
+		return minMax(board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
 	}
 	
 	private ChessMinMaxNode minMax(Board board, int depth) {
+		this.aiStats.increaseMoves();
+		
 		final long startTime = System.currentTimeMillis();
-		if(max((ChessBoard) board, depth) == this.bestNode.getRating()) { //This might seem like a trivial check, but it assures that the "bestNode" is up to date.
-			
-			System.out.println("AI has been thinking for " + (System.currentTimeMillis() - startTime) + " ms for this move."
-					+ "(Move Rating: " + this.bestNode.getRating() + ")");
-			this.totalNodesExplored += this.nodesExplored;
-			System.out.println("Nodes explored on this turn: " + this.nodesExplored + ". Total nodes: " + this.totalNodesExplored);
-			
-			return this.bestNode;
-		} else {
-			return null; //This should never be reached
-		}
+		double moveRating = max((ChessBoard) board, depth);
+		final long thinkingTime = System.currentTimeMillis() - startTime;
+		
+		this.aiStats.addNodesExplored(this.nodesExplored);
+		this.aiStats.addRating(moveRating);
+		this.aiStats.addThinkingTime(thinkingTime);
+		
+		System.out.println(this.aiStats.getStats());
+		
+		return this.bestNode;
 	}
 	
 	/**
