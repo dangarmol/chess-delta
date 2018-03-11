@@ -27,15 +27,19 @@ public class ChessMinMax implements AIAlgorithm {
 	private ChessMinMaxNode bestNode;
 	private ChessPiece maxPiece;
 	private ChessPiece minPiece;
+	private long totalNodesExplored;
+	private long nodesExplored;
 	
 	public ChessMinMax() {
 		this.level = ChessConstants.DEFAULT_MINMAX_LEVEL;
 		this.evaluator = new ChessBoardEvaluator();
+		this.totalNodesExplored = 0;
 	}
 	
 	public ChessMinMax(int level) {
 		this.level = level;
 		this.evaluator = new ChessBoardEvaluator();
+		this.totalNodesExplored = 0;
 	}
 	
 	@Override
@@ -48,6 +52,7 @@ public class ChessMinMax implements AIAlgorithm {
 			this.minID = ((maxID == ChessConstants.WHITE_ID) ? ChessConstants.BLACK_ID : ChessConstants.WHITE_ID);
 			this.maxPiece = (ChessPiece) this.pieces.get(this.maxID);
 			this.minPiece = (ChessPiece) this.pieces.get(this.minID);
+			this.nodesExplored = 0;
 			return minMax(board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
 		} catch (Exception e) {
 			return null;
@@ -55,7 +60,14 @@ public class ChessMinMax implements AIAlgorithm {
 	}
 	
 	private ChessMinMaxNode minMax(Board board, int depth) {
+		final long startTime = System.currentTimeMillis();
 		if(max((ChessBoard) board, depth) == this.bestNode.getRating()) { //This might seem like a trivial check, but it assures that the "bestNode" is up to date.
+			
+			System.out.println("AI has been thinking for " + (System.currentTimeMillis() - startTime) + " ms for this move."
+					+ "(Move Rating: " + this.bestNode.getRating() + ")");
+			this.totalNodesExplored += this.nodesExplored;
+			System.out.println("Nodes explored on this turn: " + this.nodesExplored + ". Total nodes: " + this.totalNodesExplored);
+			
 			return this.bestNode;
 		} else {
 			return null; //This should never be reached
@@ -73,14 +85,17 @@ public class ChessMinMax implements AIAlgorithm {
 	 * Beta is the max guaranteed value for min.
 	 */
 	private double min(Board board, int depth) {
-		Pair<State, Piece> gameState = this.rules.updateState(board, pieces, this.minPiece); //TODO Test this. Should be max or min?
-		if(gameState.getFirst().equals(State.Won)) { //TODO Test this
-			if(gameState.getSecond().equals(this.minPiece)) { //TODO Test this
+		Pair<State, Piece> gameState = this.rules.updateState(board, pieces, this.minPiece);
+		
+		this.nodesExplored++;
+		
+		if(gameState.getFirst().equals(State.Won)) {
+			if(gameState.getSecond().equals(this.minPiece)) {
 				return 1000;
 			} else {
 				return -1000;
 			}
-		} else if(gameState.getFirst().equals(State.Draw)) { //TODO Test this
+		} else if(gameState.getFirst().equals(State.Draw)) {
 			return 0;
 		} else if(depth == this.level) {
 			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.minID), this.maxPiece);
@@ -106,14 +121,17 @@ public class ChessMinMax implements AIAlgorithm {
 	}
 	
 	private double max(Board board, int depth) {
-		Pair<State, Piece> gameState = this.rules.updateState(board, pieces, this.maxPiece); //TODO Test this. Should be max or min?
-		if(gameState.getFirst().equals(State.Won)) { //TODO Test this
-			if(gameState.getSecond().equals(this.maxPiece)) { //TODO Test this
+		Pair<State, Piece> gameState = this.rules.updateState(board, pieces, this.maxPiece);
+		
+		this.nodesExplored++;
+		
+		if(gameState.getFirst().equals(State.Won)) {
+			if(gameState.getSecond().equals(this.maxPiece)) {
 				return 1000;
 			} else {
 				return -1000;
 			}
-		} else if(gameState.getFirst().equals(State.Draw)) { //TODO Test this
+		} else if(gameState.getFirst().equals(State.Draw)) {
 			return 0;
 		} else if(depth == this.level) {
 			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.maxID), this.maxPiece);
