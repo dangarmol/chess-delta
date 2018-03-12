@@ -52,6 +52,7 @@ public class ChessMinMax implements AIAlgorithm {
 		this.maxPiece = (ChessPiece) this.pieces.get(this.maxID);
 		this.minPiece = (ChessPiece) this.pieces.get(this.minID);
 		this.nodesExplored = 0;
+		this.aiStats.setColour(((ChessPiece) p).getWhite());
 		return minMax(board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
 	}
 	

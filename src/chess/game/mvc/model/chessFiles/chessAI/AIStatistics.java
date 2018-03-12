@@ -12,6 +12,7 @@ public class AIStatistics {
 	private long lastThinkingTime;
 	private long lastNodesExplored;
 	private double lastRating;
+	private boolean isWhite;
 	
 	public AIStatistics() {
 		this.depth = ChessConstants.DEFAULT_MINMAX_LEVEL;
@@ -19,6 +20,7 @@ public class AIStatistics {
 		this.totalThinkingTime = 0;
 		this.totalNodesExplored = 0;
 		this.totalRating = 0;
+		this.isWhite = true; //TODO Maybe remove
 	}
 	
 	public AIStatistics(int depth) {
@@ -27,10 +29,15 @@ public class AIStatistics {
 		this.totalThinkingTime = 0;
 		this.totalNodesExplored = 0;
 		this.totalRating = 0;
+		this.isWhite = true; //TODO Maybe remove
 	}
 	
 	public void increaseMoves() {
 		this.totalMoves++;
+	}
+	
+	public void setColour(boolean isWhite) {
+		this.isWhite = isWhite;
 	}
 	
 	public void addThinkingTime(long time) {
@@ -54,10 +61,11 @@ public class AIStatistics {
 	}
 	
 	public String getStats() {
+		if(this.totalMoves == 0) this.totalMoves = 1; //To avoid dividing by zero.
 		String stats = "";
-		stats += "###\nMove number " + this.totalMoves + ".\n";
-		stats += "AI has been thinking for " + this.lastThinkingTime + " ms this turn. ";
-		stats += "(" + (this.totalThinkingTime / this.totalMoves) + " ms average. | " + this.totalThinkingTime + " ms total.)\n";
+		stats += "###\nMove number " + this.totalMoves + " for " + (this.isWhite ? "WHITE" : "BLACK") + " player.\n";
+		stats += "AI has been thinking for " + this.lastThinkingTime + " ms this turn. (Depth: " + this.depth + " | ";
+		stats += (this.totalThinkingTime / this.totalMoves) + " ms average. | " + this.totalThinkingTime + " ms total.)\n";
 		stats += "Nodes explored for last move: " + this.lastNodesExplored + ". ";
 		stats += "(" + (this.totalNodesExplored / this.totalMoves) + " nodes average. | " + this.totalNodesExplored + " nodes total.)\n";
 		stats += "Last move rating: " + this.lastRating + " (Average: " + (this.totalRating / this.totalMoves) + ")\n";
