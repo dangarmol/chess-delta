@@ -11,7 +11,7 @@ To try the latest release, go to the folder [**releases**](/releases) and launch
 - [x] Creation of a list of possible moves given a board and a turn (to implement Artificial Intelligence).<br>
 - [x] Dummy player implementation that performs a random (but legal) move.<br>
 - [x] Min-Max AI implementation.<br>
-- [ ] Alpha-Beta AI implementation.<br>
+- [x] Alpha-Beta AI implementation.<br>
 - [ ] MCTS AI implementation (MonteCarlo Tree Search).<br>
 
 ### Possible additional features: <br>
