@@ -55,8 +55,13 @@ public class AIStatistics {
 			this.totalRating += rating;
 			this.lastRating = rating;
 		} else {
-			this.lastRating = (this.totalRating / this.totalMoves);
-			this.totalRating += this.lastRating;
+			if(rating == Double.MAX_VALUE) {
+				this.lastRating = 1000;
+				this.totalRating += this.lastRating;
+			} else if(rating == -Double.MAX_VALUE) {
+				this.lastRating = -1000;
+				this.totalRating += this.lastRating;
+			}
 		}
 	}
 	

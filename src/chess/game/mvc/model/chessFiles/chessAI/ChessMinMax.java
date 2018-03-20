@@ -53,14 +53,14 @@ public class ChessMinMax implements AIAlgorithm {
 		this.minPiece = (ChessPiece) this.pieces.get(this.minID);
 		this.nodesExplored = 0;
 		this.aiStats.setColour(((ChessPiece) p).getWhite());
-		return minMax(board, ChessConstants.STARTING_MINMAX_DEPTH).getMove();
+		return minMax(board, ChessConstants.STARTING_MINMAX_DEPTH, -1000, +1000).getMove();
 	}
 	
-	private ChessMinMaxNode minMax(Board board, int depth) {
+	private ChessMinMaxNode minMax(Board board, int depth, double alpha, double beta) {
 		this.aiStats.increaseMoves();
 		
 		final long startTime = System.currentTimeMillis();
-		double moveRating = max((ChessBoard) board, depth);
+		double moveRating = max((ChessBoard) board, depth, alpha, beta);
 		final long thinkingTime = System.currentTimeMillis() - startTime;
 		
 		this.aiStats.addNodesExplored(this.nodesExplored);
@@ -82,7 +82,7 @@ public class ChessMinMax implements AIAlgorithm {
 	 * Alpha is the minimum guaranteed value for max.
 	 * Beta is the max guaranteed value for min.
 	 */
-	private double min(Board board, int depth) {
+	private double min(Board board, int depth, double alpha, double beta) {
 		Pair<State, Piece> gameState = this.rules.updateState(board, pieces, this.minPiece);
 		
 		this.nodesExplored++;
@@ -97,7 +97,7 @@ public class ChessMinMax implements AIAlgorithm {
 			return 0;
 		} else if(depth == this.level) {
 			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.minID), this.maxPiece);
-		} else {
+		} else if(this.bestNode.getRating() < 1000 && this.bestNode.getRating() > -1000) {
 			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
 			double lowestInBranch = Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
@@ -105,20 +105,30 @@ public class ChessMinMax implements AIAlgorithm {
 				((ChessMove) move).executeCheckedMove(testBoard);
 				
 				if(depth == ChessConstants.STARTING_MINMAX_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is
-					double currentNodeRating = max(testBoard, depth + 1);
-					if(currentNodeRating <= lowestInBranch) { //Could be equal in case of loss or win if implemented as infinite rating.
+					double currentNodeRating = max(testBoard, depth + 1, alpha, beta);
+					if (currentNodeRating < beta) {
+						beta = currentNodeRating;
 						lowestInBranch = currentNodeRating;
-						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
+						this.bestNode.changeNode((ChessMove) move, currentNodeRating); //Should this be here?
 					}
 				} else {
-					lowestInBranch = Math.min(max(testBoard, depth + 1), lowestInBranch);
+					double currentNodeRating = max(testBoard, depth + 1, alpha, beta);
+					if (currentNodeRating < beta) {
+						beta = currentNodeRating;
+						lowestInBranch = currentNodeRating;
+					}
+				}
+				if(alpha >= beta) {
+					return lowestInBranch;
 				}
 			}
 			return lowestInBranch;
+		} else {
+			return this.bestNode.getRating();
 		}
 	}
 	
-	private double max(Board board, int depth) {
+	private double max(Board board, int depth, double alpha, double beta) {
 		Pair<State, Piece> gameState = this.rules.updateState(board, pieces, this.maxPiece);
 		
 		this.nodesExplored++;
@@ -133,11 +143,11 @@ public class ChessMinMax implements AIAlgorithm {
 			return 0;
 		} else if(depth == this.level) {
 			return this.evaluator.getRating((ChessBoard) board, (ChessPiece) this.pieces.get(this.maxID), this.maxPiece);
-		} else {
+		} else if(this.bestNode.getRating() < 1000 && this.bestNode.getRating() > -1000) {
 			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
 
 			/**
-			 * APPARENTLY IN JAVA, Double.MIN_VALUE IS JUST THE MINIMUM ABSOLUTE VALUE, NOT NEGATIVE INFINITY.
+			 * TODO Add to report: IN JAVA, Double.MIN_VALUE IS JUST THE MINIMUM ABSOLUTE VALUE, NOT NEGATIVE INFINITY.
 			 * It should be expressed like so: -Double.MAX_VALUE
 			 * https://stackoverflow.com/questions/3884793/why-is-double-min-value-in-not-negative
 			 */
@@ -147,16 +157,26 @@ public class ChessMinMax implements AIAlgorithm {
 				((ChessMove) move).executeCheckedMove(testBoard);
 				
 				if(depth == ChessConstants.STARTING_MINMAX_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is
-					double currentNodeRating = min(testBoard, depth + 1);
-					if(currentNodeRating >= highestInBranch) { //Could be equal in case of loss or win if implemented as infinite rating.
+					double currentNodeRating = min(testBoard, depth + 1, alpha, beta);
+					if(currentNodeRating > alpha) {
+						alpha = currentNodeRating;
 						highestInBranch = currentNodeRating;
 						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
 					}
 				} else {
-					highestInBranch = Math.max(min(testBoard, depth + 1), highestInBranch);
+					double currentNodeRating = min(testBoard, depth + 1, alpha, beta);
+					if (currentNodeRating > alpha) {
+						alpha = currentNodeRating;
+						highestInBranch = currentNodeRating;
+					}
+				}
+				if(alpha >= beta) {
+					return highestInBranch;
 				}
 			}
 			return highestInBranch;
+		} else {
+			return this.bestNode.getRating();
 		}
 	}
 }
