@@ -23,7 +23,7 @@ public class ChessConstants {
 	public static final boolean WHITE = true;
 	public static final boolean BLACK = false;
 	public static final int STARTING_MINMAX_DEPTH = 0;
-	public static final int DEFAULT_MINMAX_LEVEL = 5;
+	public static final int DEFAULT_MINMAX_LEVEL = 4;
 	public static final int BOARD_DIMS = 8;
 	
 	public static int movesWithoutAction = 0; //TODO Should be an attribute at the ChessBoard class for 50 move rule, as well as the 3 move rule.
