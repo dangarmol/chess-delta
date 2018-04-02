@@ -119,7 +119,7 @@ public class Main {
      * <p>
      * Algoritmo a utilizar por el jugador automatico.
      */
-    private static AIAlgorithm aiPlayerAlg;
+    private static List<AIAlgorithm> aiPlayerAlgs;
     
     /**
      * Starts a game. Should be called after {@link #parseArgs(String[])} so
@@ -136,7 +136,7 @@ public class Main {
         Controller c = null;
         pieces = gameFactory.createDefaultPieces();
         pieceTypes = gameFactory.createPieceTypes();
-        aiPlayerAlg = new ChessMinMax();
+        aiPlayerAlgs = gameFactory.createAIPlayerList(); //new ChessMinMax();
         
         playerModes = new ArrayList<PlayerMode>();
         for (int i = 0; i < pieces.size(); i++) {
@@ -146,10 +146,10 @@ public class Main {
         c = new Controller(g, pieces, pieceTypes);
         
         if(!isMultiviews()) {
-            gameFactory.createSwingView(g, c, null, gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));
+            gameFactory.createSwingView(g, c, null, gameFactory.createRandomPlayer(), gameFactory.createAIPlayers(aiPlayerAlgs));
         } else {
             for (Piece p : pieces) {
-                gameFactory.createSwingView(g, c, p, gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));
+                gameFactory.createSwingView(g, c, p, gameFactory.createRandomPlayer(), gameFactory.createAIPlayers(aiPlayerAlgs));
             }
         }
 	        

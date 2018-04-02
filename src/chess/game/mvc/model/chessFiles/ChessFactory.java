@@ -10,6 +10,8 @@ import chess.game.mvc.controller.Controller;
 import chess.game.mvc.controller.DummyAIPlayer;
 import chess.game.mvc.controller.GameFactory;
 import chess.game.mvc.controller.Player;
+import chess.game.mvc.model.chessFiles.chessAI.ChessAlphaBeta;
+import chess.game.mvc.model.chessFiles.chessAI.ChessMinMax;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
@@ -51,12 +53,16 @@ public class ChessFactory implements GameFactory {
 	}
 
 	@Override
-	public Player createAIPlayer(AIAlgorithm alg) {
-		if ( alg != null ) {
-			return new AIPlayer(alg);
-		} else {
-			return new DummyAIPlayer(createRandomPlayer(), 1000);
+	public List<Player> createAIPlayers(List<AIAlgorithm> algList) {
+		List<Player> aiPlayers = new ArrayList<Player>();
+		for(AIAlgorithm alg : algList) {
+			if (alg != null) {
+				aiPlayers.add(new AIPlayer(alg));
+			} else {
+				aiPlayers.add(new DummyAIPlayer(createRandomPlayer(), 1000));
+			}
 		}
+		return aiPlayers;
 	}
 
 	/**
@@ -123,7 +129,25 @@ public class ChessFactory implements GameFactory {
 
 	@Override
 	public void createSwingView(final Observable<GameObserver> g, final Controller c, final Piece viewPiece,
-			Player random, Player ai) {
+			Player random, List<Player> ai) {
 		throw new UnsupportedOperationException("There is no swing view");
+	}
+
+	public List<AIAlgorithm> createAIPlayerList() {
+		List<AIAlgorithm> aiAlgs = new ArrayList<AIAlgorithm>();
+		
+		//This is important
+		aiAlgs.add(new ChessMinMax(2));
+		aiAlgs.add(new ChessMinMax(3));
+		aiAlgs.add(new ChessMinMax(4));
+		aiAlgs.add(new ChessMinMax(5));
+		aiAlgs.add(new ChessAlphaBeta(2));
+		aiAlgs.add(new ChessAlphaBeta(3));
+		aiAlgs.add(new ChessAlphaBeta(4));
+		aiAlgs.add(new ChessAlphaBeta(5));
+		aiAlgs.add(new ChessAlphaBeta(6));
+		aiAlgs.add(new ChessAlphaBeta(7));
+		
+		return aiAlgs;
 	}
 }

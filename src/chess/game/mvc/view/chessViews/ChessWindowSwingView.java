@@ -55,7 +55,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	private Board board; //Board
 	
 	private Player randPlayer;
-	private Player aiPlayer;
+	private List<Player> aiPlayers;
 	
 	private Map<Piece, Color> pieceColors;
 	private Map<Piece, PlayerMode> playerModes;
@@ -83,7 +83,16 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	enum PlayerMode {
 		MANUAL("Manual", "Manual"),
 		RANDOM("Dummy AI", "Dummy AI"),
-		AI("Intelligent AI", "Intelligent AI");
+		MINMAX2("MinMax Depth 2", "MinMax Depth 2"),
+		MINMAX3("MinMax Depth 3", "MinMax Depth 3"),
+		MINMAX4("MinMax Depth 4", "MinMax Depth 4"),
+		MINMAX5("MinMax Depth 5", "MinMax Depth 5"),
+		AB2("AlphaBeta Depth 2", "AlphaBeta Depth 2"),
+		AB3("AlphaBeta Depth 3", "AlphaBeta Depth 3"),
+		AB4("AlphaBeta Depth 4", "AlphaBeta Depth 4"),
+		AB5("AlphaBeta Depth 5", "AlphaBeta Depth 5"),
+		AB6("AlphaBeta Depth 6", "AlphaBeta Depth 6"),
+		AB7("AlphaBeta Depth 7", "AlphaBeta Depth 7");
 
 		private String id;
 		private String desc;
@@ -115,12 +124,12 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	 * @param randPlayer
 	 * @param aiPlayer
 	 */
-	public ChessWindowSwingView(Observable<GameObserver> g, Controller c, Piece localPiece, Player randPlayer, Player aiPlayer) {
+	public ChessWindowSwingView(Observable<GameObserver> g, Controller c, Piece localPiece, Player randPlayer, List<Player> aiPlayers) {
 		this.game = g;
 		this.ctrl = c;
 		this.localPiece = localPiece;
 		this.randPlayer = randPlayer;
-		this.aiPlayer = aiPlayer;
+		this.aiPlayers = aiPlayers;
 		this.pieceColors = new HashMap<Piece, Color>();
 		this.playerModes = new HashMap<Piece, PlayerMode>();
 		
@@ -271,13 +280,19 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	 * Make an auto move
 	 */
 	final protected void decideMakeAutomaticMove() {
-		if(playerModes.get(turn) == PlayerMode.AI)
-		{
-			intelligentMove();
-		}
-		else if(playerModes.get(turn) == PlayerMode.RANDOM)
-		{
-			randomMove();
+		switch(playerModes.get(turn)) {
+			case MINMAX2: intelligentMove(0); break;
+			case MINMAX3: intelligentMove(1); break;
+			case MINMAX4: intelligentMove(2); break;
+			case MINMAX5: intelligentMove(3); break;
+			case AB2: intelligentMove(4); break;
+			case AB3: intelligentMove(5); break;
+			case AB4: intelligentMove(6); break;
+			case AB5: intelligentMove(7); break;
+			case AB6: intelligentMove(8); break;
+			case AB7: intelligentMove(9); break;
+			case RANDOM: randomMove(); break;
+			default: throw new GameError("Unknown AI Player");
 		}
 	}
 	
@@ -346,11 +361,11 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		});
 		autoPlayerPanel.add(randomMove); //Adds the button to the Auto players panel
 		
-		intelligentMove = new JButton("Intelligent Move");
+		intelligentMove = new JButton("AlphaBeta Depth 4 Move");
 		intelligentMove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				intelligentMove(); //Makes an intelligent move
+				intelligentMove(6); //Makes an AlphaBeta Depth 4 Move
 			}
 		});
 		autoPlayerPanel.add(intelligentMove);
@@ -361,8 +376,8 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	/**
 	 * Makes an intelligent move
 	 */
-	protected void intelligentMove() {
-		ctrl.makeMove(aiPlayer);
+	protected void intelligentMove(int aiIndex) {
+		ctrl.makeMove(aiPlayers.get(aiIndex)); //TODO Test this
 		tableModel.refresh();
 	}
 
@@ -387,8 +402,17 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		if(randPlayer != null) {
 			modes.addItem(PlayerMode.RANDOM);
 		}
-		if(aiPlayer != null) {
-			modes.addItem(PlayerMode.AI);
+		if(!aiPlayers.isEmpty()) {
+			modes.addItem(PlayerMode.MINMAX2);
+			modes.addItem(PlayerMode.MINMAX3);
+			modes.addItem(PlayerMode.MINMAX4);
+			modes.addItem(PlayerMode.MINMAX5);
+			modes.addItem(PlayerMode.AB2);
+			modes.addItem(PlayerMode.AB3);
+			modes.addItem(PlayerMode.AB4);
+			modes.addItem(PlayerMode.AB5);
+			modes.addItem(PlayerMode.AB6);
+			modes.addItem(PlayerMode.AB7);
 		}
 		setMode = new JButton("Set Mode"); //Adds button and action listener
 		setMode.addActionListener(new ActionListener() {
@@ -668,13 +692,23 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 			this.setTitle(gameDesc + " (Turn for: " + turn + ")");
 			enableView();
 		}
-		
-		if(playerModes.get(turn) == PlayerMode.AI) {
+		if(playerModes.get(turn) != PlayerMode.MANUAL) {
 			addMsg("AI Player is thinking...");
-			intelligentMove();
-		} else if(playerModes.get(turn) == PlayerMode.RANDOM) {
-			addMsg("AI Player is thinking...");
-			randomMove();
+			
+			switch(playerModes.get(turn)) {
+				case MINMAX2: intelligentMove(0); break;
+				case MINMAX3: intelligentMove(1); break;
+				case MINMAX4: intelligentMove(2); break;
+				case MINMAX5: intelligentMove(3); break;
+				case AB2: intelligentMove(4); break;
+				case AB3: intelligentMove(5); break;
+				case AB4: intelligentMove(6); break;
+				case AB5: intelligentMove(7); break;
+				case AB6: intelligentMove(8); break;
+				case AB7: intelligentMove(9); break;
+				case RANDOM: randomMove(); break;
+				default: throw new GameError("Unknown AI Player");
+			}
 		}
 	}
 

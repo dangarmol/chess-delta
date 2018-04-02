@@ -81,7 +81,7 @@ public interface GameFactory extends java.io.Serializable {
 	 *         <p>
 	 *         Un nuevo objeto {@link Player} para este juego.
 	 */
-	Player createAIPlayer(AIAlgorithm alg);
+	List<Player> createAIPlayers(List<AIAlgorithm> alg);
 
 	/**
 	 * Creates the default list of pieces (to be used when the user does not
@@ -146,5 +146,7 @@ public interface GameFactory extends java.io.Serializable {
 	 * 
 	 */
 	void createSwingView(final Observable<GameObserver> game, final Controller ctrl, final Piece viewPiece,
-			Player randPlayer, Player aiPlayer);
+			Player randPlayer, List<Player> aiPlayers);
+
+	List<AIAlgorithm> createAIPlayerList();
 }

@@ -1,5 +1,7 @@
 package chess.game.mvc.model.chessFiles;
 
+import java.util.List;
+
 import chess.game.mvc.controller.Controller;
 import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.genericGameFiles.GameError;
@@ -28,7 +30,7 @@ public class ChessSwingView extends ChessFRBoardSwingView {
 	 * @param aiPlayer
 	 */
 	public ChessSwingView(Observable<GameObserver> g, Controller c, Piece localPiece, Player randPlayer,
-			Player aiPlayer) {
+			List<Player> aiPlayer) {
 		super(g, c, localPiece, randPlayer, aiPlayer);
 		player = new ChessSwingPlayer();
 		activeBoard = true;

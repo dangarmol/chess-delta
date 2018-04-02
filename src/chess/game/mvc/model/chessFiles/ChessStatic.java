@@ -21,7 +21,7 @@ public class ChessStatic {
 	public static final int ITER_LIMIT = 10;
 	public static final boolean WHITE = true;
 	public static final boolean BLACK = false;
-	public static final int STARTING_MINMAX_DEPTH = 0;
+	public static final int STARTING_DEPTH = 0;
 	public static final int DEFAULT_MINMAX_LEVEL = 4;
 	public static final int BOARD_DIMS = 8;
 	

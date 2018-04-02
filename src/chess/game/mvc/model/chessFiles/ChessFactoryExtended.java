@@ -1,6 +1,7 @@
 package chess.game.mvc.model.chessFiles;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import javax.swing.SwingUtilities;
 
@@ -24,7 +25,7 @@ public class ChessFactoryExtended extends ChessFactory {
 	 */
 	@Override
 	public void createSwingView(final Observable<GameObserver> g, final Controller c, final Piece viewPiece,
-			final Player random, final Player ai) {
+			final Player random, final List<Player> ai) {
 			try {
 				SwingUtilities.invokeAndWait(new Runnable() {
 					@Override

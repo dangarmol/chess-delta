@@ -1,6 +1,7 @@
 package chess.game.mvc.view.chessViews;
 
 import java.awt.Color;
+import java.util.List;
 
 import chess.game.mvc.controller.Controller;
 import chess.game.mvc.controller.Player;
@@ -18,7 +19,7 @@ public abstract class ChessFRBoardSwingView extends ChessWindowSwingView { //Cre
 	 * @param randPlayer
 	 * @param aiPlayer
 	 */
-	public ChessFRBoardSwingView(Observable<GameObserver> g, Controller c, Piece localPiece, Player randPlayer, Player aiPlayer) {
+	public ChessFRBoardSwingView(Observable<GameObserver> g, Controller c, Piece localPiece, Player randPlayer, List<Player> aiPlayer) {
 		super(g, c, localPiece, randPlayer, aiPlayer);
 	}
 	
