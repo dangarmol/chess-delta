@@ -19,20 +19,6 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	
 	public BasicBoardEvaluator() {}
 	
-	/**
-	 * TODO:
-	 * Look up killer heuristic
-	 * Move that makes the opponent always lose.
-	 * Alpha 1000 Beta -1000
-	 * Once you find a winning move, it stops iterating/searching.
-	 */
-	
-	/* HEURISTICS:
-	 * If the player causes the enemy to be in check, the rating is increased.
-	 * A Checkmate returns +-1000 value (depending on player).
-	 * A Stalemate returns a neutral (zero) rating.
-	 * Finally, the rating is also increased by the pieces the player has and the position where they are.
-	 */
 	public double getRating(ChessBoard board, ChessPiece currentPiece, ChessPiece maxPiece) {
 		double cumulativeRating = 0;
 		
@@ -60,7 +46,6 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 		}
 		
 		cumulativeRating += rateBoardByPieces(board, maxPiece.getWhite()); //Adds the max player board rating by pieces.
-		cumulativeRating -= rateBoardByPieces(board, !maxPiece.getWhite()); //Subtracts the min player board rating by pieces.
 		
 		return cumulativeRating;
 	}
@@ -71,13 +56,13 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	 * Proportionally, pieces are worth: Queen = 45, Rook = 25, Bishop = 15, Knight = 15, Pawn = 5
 	 * Those are only base values, since they can be higher if they're in a good position at the board.
 	 */
-	private double rateBoardByPieces(ChessBoard board, boolean isWhite) {
+	private double rateBoardByPieces(ChessBoard board, boolean isMaxWhite) {
 		double rating = 0;
 		for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
 			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
 				if(board.getPosition(rowX, colY) != null) { //If there's a piece
-					if(((ChessPiece) board.getPosition(rowX, colY)).getWhite() == isWhite) { //TODO Make this more efficient
-						if(board.getPosition(rowX, colY) instanceof Pawn) { //If it's a white pawn
+					if(((ChessPiece) board.getPosition(rowX, colY)).getWhite() == isMaxWhite) { //If the colour matches the max player...
+						if(board.getPosition(rowX, colY) instanceof Pawn) {
 							rating += ratePawn(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
 						} else if(board.getPosition(rowX, colY) instanceof Rook) {
 							rating += rateRook(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
@@ -90,11 +75,31 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 						} else if(board.getPosition(rowX, colY) instanceof King) {
 							continue; //The King doesn't add any value to the board, since his value would be infinite.
 						}
+						
+						//Pieces further away from the sides of the board are usually worth slightly more.
+						if(colY == 3 || colY == 4) rating += 3;
+						else if(colY == 2 || colY == 5) rating += 2;
+						else if(colY == 1 || colY == 6) rating += 1;
+					} else { //If the colour matches the min player...
+						if(board.getPosition(rowX, colY) instanceof Pawn) { //If the colour matches the min player...
+							rating -= ratePawn(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
+						} else if(board.getPosition(rowX, colY) instanceof Rook) {
+							rating -= rateRook(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
+						} else if(board.getPosition(rowX, colY) instanceof Knight) {
+							rating -= rateKnight(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
+						} else if(board.getPosition(rowX, colY) instanceof Bishop) {
+							rating -= rateBishop(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
+						} else if(board.getPosition(rowX, colY) instanceof Queen) {
+							rating -= rateQueen(rowX, colY, ((ChessPiece) board.getPosition(rowX, colY)).getWhite());
+						} else if(board.getPosition(rowX, colY) instanceof King) {
+							continue; //The King doesn't add any value to the board, since his value would be infinite.
+						}
+						
+						//Pieces further away from the sides of the board are usually worth slightly more.
+						if(colY == 3 || colY == 4) rating -= 3;
+						else if(colY == 2 || colY == 5) rating -= 2;
+						else if(colY == 1 || colY == 6) rating -= 1;
 					}
-					//Pieces further away from the sides of the board are usually worth slightly more.
-					if(colY == 3 || colY == 4) rating += 3;
-					else if(colY == 2 || colY == 5) rating += 2;
-					else if(colY == 1 || colY == 6) rating += 1;
 				}
 			}
 		}
