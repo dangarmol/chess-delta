@@ -107,9 +107,9 @@ public class ChessMove extends GameMove {
 		//to move next turn, since it has been more than a move ago that he moved his pieces.
 		
 		if(actionMove && !testMove) {
-			ChessStatic.movesWithoutAction = 0;
-		} else {
-			ChessStatic.movesWithoutAction++;
+			this.chessBoard.resetMovesWithoutAction();
+		} else if(!testMove) {
+			this.chessBoard.increaseMovesWithoutAction();
 		}
 	}
 	
@@ -168,22 +168,28 @@ public class ChessMove extends GameMove {
 		if(((ChessBoard) this.chessBoard).isKingInCheck(((ChessPiece) this.getPiece()).getWhite())) { //If the King is in Check
 			throw new GameError("You cannot perform that move, your King would be in Check after that!!!");
 		}
+		
+		if(actionMove && !testMove) {
+			this.chessBoard.resetMovesWithoutAction();
+		} else if(!testMove) {
+			this.chessBoard.increaseMovesWithoutAction();
+		}
 	}
 	
 	//Simply executes a move that has been previously checked and is legal.
 	//It is public so that it can be called from the AI classes to perform moves from the list of possible (valid) moves.
-	public void executeCheckedMove(Board chessBoard2) { 
+	public void executeCheckedMove(ChessBoard chessBoard2) { 
 		chessBoard2.setPosition(this.rowDes, this.colDes, chessBoard2.getPosition(this.row, this.col));
 		deleteMovedPiece(this.row, this.col, chessBoard2);
 	}
 	
-	private void executeCastlingTestMove(Board testBoard, int row, int col, int rowDes, int colDes) { 
+	private void executeCastlingTestMove(ChessBoard testBoard, int row, int col, int rowDes, int colDes) { 
 		testBoard.setPosition(rowDes, colDes, testBoard.getPosition(row, col));
 		deleteMovedPiece(row, col, testBoard);
 	}
 	
 	
-	private void executeCaptureMove(Board chessBoard2) {
+	private void executeCaptureMove(ChessBoard chessBoard2) {
 		if((((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && (((ChessPiece) this.getPiece()).getWhite())) ||
 				((!((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && (!((ChessPiece) this.getPiece()).getWhite())))) {
 				//If the player tried to capture an ally piece.
@@ -485,7 +491,7 @@ public class ChessMove extends GameMove {
 		}
 	}
 
-	private void executeQueenMove(Board board) {
+	private void executeQueenMove(ChessBoard board) {
 		if(checkDiagonalMove() || checkHorizVertMove()) { //Checks that it's moving diagonally or horizontally but not in any other way.
 			if(board.getPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
 				if((((ChessPiece) board.getPosition(this.rowDes, this.colDes)).getWhite() && ((ChessPiece) this.getPiece()).getWhite()) ||

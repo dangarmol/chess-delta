@@ -104,7 +104,7 @@ public class ChessMinMax implements AIAlgorithm {
 			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.minID));
 			double lowestInBranch = Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
-				Board testBoard = board.copy();
+				ChessBoard testBoard = (ChessBoard) board.copy();
 				((ChessMove) move).executeCheckedMove(testBoard);
 				
 				if(depth == ChessStatic.STARTING_MINMAX_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is
@@ -156,7 +156,7 @@ public class ChessMinMax implements AIAlgorithm {
 			 */
 			double highestInBranch = -Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
-				Board testBoard = board.copy();
+				ChessBoard testBoard = (ChessBoard) board.copy();
 				((ChessMove) move).executeCheckedMove(testBoard);
 				
 				if(depth == ChessStatic.STARTING_MINMAX_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is

@@ -25,8 +25,6 @@ public class ChessStatic {
 	public static final int DEFAULT_MINMAX_LEVEL = 4;
 	public static final int BOARD_DIMS = 8;
 	
-	public static int movesWithoutAction = 0; //TODO Should be an attribute at the ChessBoard class for 50 move rule, as well as the 3 move rule.
-	
 	//VIEW
 	public static int rowClicked = -1;
 	public static int colClicked = -1;

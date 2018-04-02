@@ -13,16 +13,14 @@ import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.Piece;
 
 /**
- * An implementation of a finite rectangular board.
- * 
- * <p>
- * Implementacion de un tablero rectangular de dimensión finita.
- * 
+ * An implementation of a chess board.
  */
 public class ChessBoard extends BasicBoard {
 
 	private static final long serialVersionUID = 1L;
 
+	//TODO Implement 3 repeated board positions is draw.
+	
 	/**
 	 * The internal representation of the board. Simply a matrix of objects of
 	 * type {@link Piece}.
@@ -48,6 +46,11 @@ public class ChessBoard extends BasicBoard {
 	protected int rows;
 
 	/**
+	 * Number of moves without moving a pawn or capturing a piece.
+	 */
+	protected int movesWithoutAction;
+	
+	/**
 	 * This constructor constructs a finite rectangular board of a given
 	 * dimension.
 	 * 
@@ -67,6 +70,7 @@ public class ChessBoard extends BasicBoard {
 		this.rows = ChessStatic.BOARD_DIMS;
 		this.cols = ChessStatic.BOARD_DIMS;
 		board = new Piece[rows][cols];
+		this.movesWithoutAction = 0;
 	}
 
 	@Override
@@ -450,6 +454,21 @@ public class ChessBoard extends BasicBoard {
 		return false;
 	}
 		
+	public void increaseMovesWithoutAction() {
+		this.movesWithoutAction++;
+	}
+	
+	public void resetMovesWithoutAction() {
+		this.movesWithoutAction = 0;
+	}
+	
+	/**
+	 * @return @true if there have been more than 50 moves without a capture or pawn movement. @false otherwise
+	 */
+	public boolean check50MovesLimit() {
+		return movesWithoutAction >= 50;
+	}
+	
 	@Override
 	public boolean isFull() {
 		return false;
