@@ -1,5 +1,12 @@
 package chess.game.mvc.model.chessFiles;
 
+import chess.game.mvc.model.chessPieces.ChessPiece;
+import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
+import chess.game.mvc.model.chessPieces.chessPiecesImp.King;
+import chess.game.mvc.model.chessPieces.chessPiecesImp.Knight;
+import chess.game.mvc.model.chessPieces.chessPiecesImp.Pawn;
+import chess.game.mvc.model.chessPieces.chessPiecesImp.Queen;
+import chess.game.mvc.model.chessPieces.chessPiecesImp.Rook;
 import chess.game.mvc.model.genericGameFiles.BasicBoard;
 import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameError;
@@ -156,16 +163,300 @@ public class ChessBoard extends BasicBoard {
 
 		return render.toString();
 	}
+	
+	//Returns the position of the king from the current player as an 2 digits integer.
+	//Left digit represents row and right digit represents col. King at (2, 5), would be returned as "25".
+	//Returns -1 if the king hasn't been found. An exception should be thrown if this happens.
+	private int findKing(boolean isWhite) {
+		for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
+			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
+				if(this.getPosition(rowX, colY) != null) {
+					if(this.getPosition(rowX, colY) instanceof King && (((ChessPiece) this.getPosition(rowX, colY)).getWhite() == isWhite)) {
+						return rowX * 10 + colY;
+					}
+				}
+			}
+		}
+		return ChessConstants.UNKNOWN;
+	}
 
+	//Checks if the King for the colour passed by parameter is threatened by any piece.
+	public boolean isKingInCheck(boolean isWhite) {
+		int kingLocation = findKing(isWhite);
+		if(kingLocation == ChessConstants.UNKNOWN) {
+			throw new GameError("Internal error. King not found, this should never happen.");
+		}
+		int kingRow = kingLocation / 10;
+		int kingCol = kingLocation % 10;
+		
+		//King can't be threatened by the other King. Since a King cannot move to a vulnerable position.
+		//True means King is in check, False mean King is not in check.
+		return checkHorizVertThreat(kingRow, kingCol) || checkDiagonalThreat(kingRow, kingCol) ||
+				checkKnightThreat(kingRow, kingCol) || checkPawnThreat(kingRow, kingCol) ||
+				checkKingsCollision(kingRow, kingCol);
+	}
+	
+	//Checks if the King would move to a position threatened by the enemy King.
+	private boolean checkKingsCollision(int kingRow, int kingCol) {
+		for(int rowX = kingRow - 1; rowX <= kingRow + 1; rowX++) {
+			for(int colY = kingCol - 1; colY <= kingCol + 1; colY++) {
+				if(rowX >= ChessConstants.MIN_DIM && rowX <= ChessConstants.MAX_DIM &&
+						colY >= ChessConstants.MIN_DIM && colY <= ChessConstants.MAX_DIM) { //Can't check outside the board!
+					if(rowX != kingRow || colY != kingCol) { //To avoid checking the position where the current king is.
+						if(this.getPosition(rowX, colY) != null) {
+							if(this.getPosition(rowX, colY) instanceof King) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	//Checks if the king is threatened from any row or column, horizontally or vertically by either a Queen or a Rook.
+	private boolean checkHorizVertThreat(int kingRow, int kingCol) {
+		for(int rowX = kingRow + 1; rowX <= ChessConstants.MAX_DIM; rowX++) { //South Direction
+			if(this.getPosition(rowX, kingCol) != null) { //If the position is empty, the loop keeps running.
+				if(checkHorizVertAttacker(rowX, kingCol, ((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite()))
+					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
+				else
+					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
+			}
+		}
+		
+		for(int rowX = kingRow - 1; rowX >= ChessConstants.MIN_DIM; rowX--) { //North Direction
+			if(this.getPosition(rowX, kingCol) != null) { //If the position is empty, the loop keeps running.
+				if(checkHorizVertAttacker(rowX, kingCol, ((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite()))
+					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
+				else
+					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
+			}
+		}
+		
+		for(int colY = kingCol + 1; colY <= ChessConstants.MAX_DIM; colY++) { //East Direction
+			if(this.getPosition(kingRow, colY) != null) { //If the position is empty, the loop keeps running.
+				if(checkHorizVertAttacker(kingRow, colY, ((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite()))
+					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
+				else
+					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
+			}
+		}
+		
+		for(int colY = kingCol - 1; colY >= ChessConstants.MIN_DIM; colY--) { //West Direction
+			if(this.getPosition(kingRow, colY) != null) { //If the position is empty, the loop keeps running.
+				if(checkHorizVertAttacker(kingRow, colY, ((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite()))
+					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
+				else
+					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and returns false, since none of the loops found a threat.
+			}
+		}
+		return false;
+	}
+	
+	private boolean checkHorizVertAttacker(int rowX, int colY, boolean isWhiteKing) {
+		return (this.getPosition(rowX, colY) instanceof Queen || this.getPosition(rowX, colY) instanceof Rook) && //Checks that there's either a Queen or a Rook
+				(!((ChessPiece) this.getPosition(rowX, colY)).getWhite() == isWhiteKing); //And that the king is not the same color as the piece.
+	}
+	
+	//Checks if the king is threatened from any diagonal by either a Queen or a Bishop.
+	private boolean checkDiagonalThreat(int kingRow, int kingCol) {
+		int rowOffSet = ChessConstants.NEGATIVE, colOffSet = ChessConstants.NEGATIVE;
+		int multiplier = 1;
+		int rowX, colY;
+		rowX = kingRow + rowOffSet * multiplier;
+		colY = kingCol + colOffSet * multiplier;
+		while(rowX >= ChessConstants.MIN_DIM && colY >= ChessConstants.MIN_DIM) { //NorthWest Direction
+			if(this.getPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
+				if(checkDiagonalAttacker(rowX, colY, ((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite()))
+					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
+				else
+					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
+			}
+			multiplier++;
+			rowX = kingRow + rowOffSet * multiplier;
+			colY = kingCol + colOffSet * multiplier;
+		}
+		
+		multiplier = 1; rowOffSet = ChessConstants.NEGATIVE; colOffSet = ChessConstants.POSITIVE;
+		rowX = kingRow + rowOffSet * multiplier;
+		colY = kingCol + colOffSet * multiplier;
+		while(rowX >= ChessConstants.MIN_DIM && colY <= ChessConstants.MAX_DIM) { //NorthEast Direction
+			if(this.getPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
+				if(checkDiagonalAttacker(rowX, colY, ((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite()))
+					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
+				else
+					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
+			}
+			multiplier++;
+			rowX = kingRow + rowOffSet * multiplier;
+			colY = kingCol + colOffSet * multiplier;
+		}
+		
+		multiplier = 1; rowOffSet = ChessConstants.POSITIVE; colOffSet = ChessConstants.POSITIVE;
+		rowX = kingRow + rowOffSet * multiplier;
+		colY = kingCol + colOffSet * multiplier;
+		while(rowX <= ChessConstants.MAX_DIM && colY <= ChessConstants.MAX_DIM) { //SouthEast Direction
+			if(this.getPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
+				if(checkDiagonalAttacker(rowX, colY, ((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite()))
+					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
+				else
+					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and starts the next one.
+			}
+			multiplier++;
+			rowX = kingRow + rowOffSet * multiplier;
+			colY = kingCol + colOffSet * multiplier;
+		}
+		
+		multiplier = 1; rowOffSet = ChessConstants.POSITIVE; colOffSet = ChessConstants.NEGATIVE;
+		rowX = kingRow + rowOffSet * multiplier;
+		colY = kingCol + colOffSet * multiplier;
+		while(rowX <= ChessConstants.MAX_DIM && colY >= ChessConstants.MIN_DIM) { //SouthWest Direction
+			rowX = kingRow + rowOffSet * multiplier;
+			colY = kingCol + colOffSet * multiplier;
+			if(this.getPosition(rowX, colY) != null) { //If the position is empty, the loop keeps running.
+				if(checkDiagonalAttacker(rowX, colY, ((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite()))
+					return true; //If it's not empty and this function above finds an attacker on the explored position, it returns true and breaks every loop.
+				else
+					break; //If it's not empty and it finds a piece that isn't a threat or is an ally, it breaks the current loop and returns false, since none of the loops found a threat.
+			}
+			multiplier++;
+			rowX = kingRow + rowOffSet * multiplier;
+			colY = kingCol + colOffSet * multiplier;
+		}
+		return false;
+	}
+	
+	private boolean checkDiagonalAttacker(int rowX, int colY, boolean isWhiteKing) {
+		return (this.getPosition(rowX, colY) instanceof Queen || this.getPosition(rowX, colY) instanceof Bishop) && //Checks that there's either a Queen or a Bishop
+				(!((ChessPiece) this.getPosition(rowX, colY)).getWhite() == isWhiteKing); //And that the king is not the same color as the piece.
+	}
+
+	private boolean checkKnightThreat(int kingRow, int kingCol) {
+		boolean isWhiteKing = ((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite();
+		
+		if(kingRow - 2 >= ChessConstants.MIN_DIM) { //Check if going 2 rows up is within the board range.
+			if(kingCol - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 column left is within the board range
+				if(this.getPosition(kingRow - 2, kingCol - 1) != null &&
+						this.getPosition(kingRow - 2, kingCol - 1) instanceof Knight &&
+						((ChessPiece) this.getPosition(kingRow - 2, kingCol - 1)).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+			
+			if(kingCol + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 column right is within the board range
+				if(this.getPosition(kingRow - 2, kingCol + 1) != null &&
+						this.getPosition(kingRow - 2, kingCol + 1) instanceof Knight &&
+						((ChessPiece) this.getPosition(kingRow - 2, kingCol + 1)).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+		}
+		
+		if(kingRow + 2 <= ChessConstants.MAX_DIM) { //Check if going 2 rows down is within the board range.
+			if(kingCol - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 column left is within the board range
+				if(this.getPosition(kingRow + 2, kingCol - 1) != null &&
+						this.getPosition(kingRow + 2, kingCol - 1) instanceof Knight &&
+						((ChessPiece) this.getPosition(kingRow + 2, kingCol - 1)).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+			
+			if(kingCol + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 column right is within the board range
+				if(this.getPosition(kingRow + 2, kingCol + 1) != null &&
+						this.getPosition(kingRow + 2, kingCol + 1) instanceof Knight &&
+						((ChessPiece) this.getPosition(kingRow + 2, kingCol + 1)).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+		}
+		
+		if(kingCol - 2 >= ChessConstants.MIN_DIM) { //Check if going 2 columns left is within the board range.
+			if(kingRow - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 row up is within the board range
+				if(this.getPosition(kingRow - 1, kingCol - 2) != null &&
+						this.getPosition(kingRow - 1, kingCol - 2) instanceof Knight &&
+						((ChessPiece) this.getPosition(kingRow - 1, kingCol - 2)).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+			
+			if(kingRow + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 row down is within the board range
+				if(this.getPosition(kingRow + 1, kingCol - 2) != null &&
+						this.getPosition(kingRow + 1, kingCol - 2) instanceof Knight &&
+						((ChessPiece) this.getPosition(kingRow + 1, kingCol - 2)).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+		}
+		
+		if(kingCol + 2 <= ChessConstants.MAX_DIM) { //Check if going 2 columns right is within the board range.
+			if(kingRow - 1 >= ChessConstants.MIN_DIM) { //Check if going 1 row up is within the board range
+				if(this.getPosition(kingRow - 1, kingCol + 2) != null &&
+						this.getPosition(kingRow - 1, kingCol + 2) instanceof Knight &&
+						((ChessPiece) this.getPosition(kingRow - 1, kingCol + 2)).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+			
+			if(kingRow + 1 <= ChessConstants.MAX_DIM) { //Check if going 1 row down is within the board range
+				if(this.getPosition(kingRow + 1, kingCol + 2) != null &&
+						this.getPosition(kingRow + 1, kingCol + 2) instanceof Knight &&
+						((ChessPiece) this.getPosition(kingRow + 1, kingCol + 2)).getWhite() != isWhiteKing) {
+					return true; //If the explored position is not empty, and has a enemy Knight
+				}
+			}
+		}
+		
+		return false; //If none of the above conditions were met at some point
+	}
+
+	//Checks if the king is threatened by a Pawn.
+	private boolean checkPawnThreat(int kingRow, int kingCol) {
+		if(((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite() && kingRow > ChessConstants.MIN_DIM + 1) { //If the king is white and not on the top 2 rows (since pawns can't be on the top row anyway).
+			if(kingCol + 1 <= ChessConstants.MAX_DIM && this.getPosition(kingRow - 1, kingCol + 1) != null) { //Checking the right diagonal for a pawn.
+				if(!((ChessPiece) this.getPosition(kingRow - 1, kingCol + 1)).getWhite()) { //If there is a black piece on that position
+					if(this.getPosition(kingRow - 1, kingCol + 1) instanceof Pawn) { //If that piece is a pawn
+						return true; //All the conditions were met.
+					}
+				}
+			}
+			
+			if(kingCol - 1 <= ChessConstants.MAX_DIM && this.getPosition(kingRow - 1, kingCol - 1) != null) { //Checking the left diagonal.
+				if(!((ChessPiece) this.getPosition(kingRow - 1, kingCol - 1)).getWhite()) { //If there is a black piece on that position
+					if(this.getPosition(kingRow - 1, kingCol - 1) instanceof Pawn) { //If that piece is a pawn
+						return true; //All the conditions were met.
+					}
+				}
+			}
+		} else if(!((ChessPiece) this.getPosition(kingRow, kingCol)).getWhite() && kingRow < ChessConstants.MAX_DIM - 1) { //If the king is black and not on the bottom 2 rows (since pawns can't be on the bottom row anyway).
+			if(kingCol + 1 <= ChessConstants.MAX_DIM && this.getPosition(kingRow + 1, kingCol + 1) != null) { //Checking the right diagonal for a pawn.
+				if(((ChessPiece) this.getPosition(kingRow + 1, kingCol + 1)).getWhite()) { //If there is a white piece on that position
+					if(this.getPosition(kingRow + 1, kingCol + 1) instanceof Pawn) { //If that piece is a pawn
+						return true; //All the conditions were met.
+					}
+				}
+			}
+			
+			if(kingCol - 1 <= ChessConstants.MAX_DIM && this.getPosition(kingRow + 1, kingCol - 1) != null) { //Checking the left diagonal.
+				if(((ChessPiece) this.getPosition(kingRow + 1, kingCol - 1)).getWhite()) { //If there is a white piece on that position
+					if(this.getPosition(kingRow + 1, kingCol - 1) instanceof Pawn) { //If that piece is a pawn
+						return true; //All the conditions were met.
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+		
 	@Override
 	public boolean isFull() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
