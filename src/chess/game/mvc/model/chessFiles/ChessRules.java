@@ -121,7 +121,7 @@ public class ChessRules implements GameRules {
 		ChessPiece lastChessPlayer = (ChessPiece) lastPlayer;
 
 		//Creates an empty chess move to check if the enemy king is in check
-		if(new ChessMove().isKingInCheck((ChessBoard) board, !lastChessPlayer.getWhite())) { //Checks if the King from the player that hasn't made the last move is in Check. (It would be Checkmate)
+		if(((ChessBoard) board).isKingInCheck(!lastChessPlayer.getWhite())) { //Checks if the King from the player that hasn't made the last move is in Check. (It would be Checkmate)
 			//If there is a Checkmate
 			if(lastChessPlayer.getWhite()) {
 				//If the last one to move was White
@@ -169,7 +169,7 @@ public class ChessRules implements GameRules {
 	}
 	
 	private void checkAndAdd(ChessMove testMove, Board testBoard, Board originalBoard, List<GameMove> legalMoves) {
-		if(testMove.isMoveLegal(testBoard)) {
+		if(testMove.isMoveLegal((ChessBoard) testBoard)) {
 			testMove.revertBoard(testBoard, originalBoard);
 			legalMoves.add(testMove);
 		}

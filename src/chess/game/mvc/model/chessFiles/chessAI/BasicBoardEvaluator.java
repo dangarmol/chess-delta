@@ -186,7 +186,7 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	 * @return @true if game is won BY CHECKMATE, NOT stalemate, @false otherwise.
 	 */
 	private boolean isWhiteInCheck(ChessBoard board) {
-		if(new ChessMove().isKingInCheck(board, ChessConstants.WHITE)) //TODO This should be changed later to avoid creating new ChessMove.
+		if(board.isKingInCheck(ChessConstants.WHITE))
 			return true;
 		else
 			return false;
@@ -197,7 +197,7 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	 * @return @true if game is won BY CHECKMATE, NOT stalemate, @false otherwise.
 	 */
 	private boolean isBlackInCheck(ChessBoard board) {
-		if(new ChessMove().isKingInCheck(board, ChessConstants.BLACK)) //TODO This should be changed later to avoid creating new ChessMove.
+		if(board.isKingInCheck(ChessConstants.BLACK))
 			return true;
 		else
 			return false;

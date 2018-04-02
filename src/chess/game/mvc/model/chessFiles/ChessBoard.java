@@ -79,11 +79,11 @@ public class ChessBoard extends BasicBoard {
 	}
 
 	@Override
-	public Piece getPosition(int row, int col) { //May be worth overriding this for chess pieces.
+	public ChessPiece getPosition(int row, int col) { //May be worth overriding this for chess pieces.
 		if (row < 0 || row >= rows || col < 0 || col >= cols) {
 			throw new GameError("Trying to access an invalid position (" + row + "," + col + ")");
 		}
-		return board[row][col];
+		return (ChessPiece) board[row][col];
 	}
 
 	@Override

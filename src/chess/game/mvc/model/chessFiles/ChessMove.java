@@ -33,8 +33,8 @@ public class ChessMove extends GameMove {
 	private boolean actionMove; //If it is a pawn move or a capture move, for the 50 moves rule.
 	private boolean testMove; //If it is a test move and will be reversed/ignored.
 	
-	private Piece chessPiece;
-	private Board chessBoard;
+	private ChessPiece chessPiece;
+	private ChessBoard chessBoard;
 	
 	public ChessMove() {}
 	
@@ -55,10 +55,10 @@ public class ChessMove extends GameMove {
 	public void execute(Board board, List<Piece> playersPieces, List<Piece> chessPieces) {
 		//this.getPiece() now returns the player that made the move!!!
 		
-		this.chessBoard = board;
+		this.chessBoard = (ChessBoard) board;
 		this.actionMove = false;
 		
-		Board originalBoard = this.chessBoard.copy();
+		ChessBoard originalBoard = (ChessBoard) this.chessBoard.copy();
 		
 		if(this.chessBoard.getPosition(this.row, this.col) == null)
 			throw new GameError("You need to select one of your pieces to perform the move!");
@@ -92,9 +92,9 @@ public class ChessMove extends GameMove {
 			throw new GameError("Piece type not recognised! This should be unreachable.");
 		}
 		
-		if(isKingInCheck(this.chessBoard, ((ChessPiece) this.getPiece()).getWhite())) { //If the King is in Check
+		if(this.chessBoard.isKingInCheck(((ChessPiece) this.getPiece()).getWhite())) { //If the King is in Check
 			revertBoard(this.chessBoard, originalBoard);
-			if(isKingInCheck(originalBoard, ((ChessPiece) this.getPiece()).getWhite())) { //If the King was in Check before the move.
+			if(originalBoard.isKingInCheck(((ChessPiece) this.getPiece()).getWhite())) { //If the King was in Check before the move.
 				throw new GameError("You cannot perform that move, your King is in Check!!!");
 			} else { //If the King would be in check after the move.
 				throw new GameError("You cannot perform that move, your King would be in Check after that!!!");
@@ -114,7 +114,7 @@ public class ChessMove extends GameMove {
 	}
 	
 	//Used by ChessRules to get the list of valid moves.
-	public boolean isMoveLegal(Board testBoard) {
+	public boolean isMoveLegal(ChessBoard testBoard) {
 		try {
 			if (this.colDes > ChessConstants.MAX_DIM || this.rowDes > ChessConstants.MAX_DIM ||
 					this.colDes < ChessConstants.MIN_DIM || this.rowDes < ChessConstants.MIN_DIM) //First checks the range of the move.
@@ -131,8 +131,8 @@ public class ChessMove extends GameMove {
 	
 	//Used by the function above to test if a move is valid or not.
 	//Similar to execute, but faster to run.
-	private void executeFakeMove(Board testBoard) {
-		this.chessBoard = testBoard.copy();
+	private void executeFakeMove(ChessBoard testBoard) {
+		this.chessBoard = (ChessBoard) testBoard.copy();
 		
 		if(this.chessBoard.getPosition(this.row, this.col) == null)
 			throw new GameError("You need to select one of your pieces to perform the move!");
@@ -165,7 +165,7 @@ public class ChessMove extends GameMove {
 			throw new GameError("Piece type not recognised! This should be unreachable.");
 		}
 		
-		if(isKingInCheck(this.chessBoard, ((ChessPiece) this.getPiece()).getWhite())) { //If the King is in Check
+		if(((ChessBoard) this.chessBoard).isKingInCheck(((ChessPiece) this.getPiece()).getWhite())) { //If the King is in Check
 			throw new GameError("You cannot perform that move, your King would be in Check after that!!!");
 		}
 	}
@@ -219,14 +219,14 @@ public class ChessMove extends GameMove {
 	
 	//Due to the peculiar pattern of pawn movement, it is required to have two
 	//different functions, since white pawns move upwards, and black ones move downwards.
-	private void executePawnMove(Board chessBoard2) {
+	private void executePawnMove(ChessBoard chessBoard2) {
 		if(((ChessPiece) this.getPiece()).getWhite())
 			executeWhitePawnMove(chessBoard2);
 		else
 			executeBlackPawnMove(chessBoard2);
 	}
 	
-	private void executeWhitePawnMove(Board chessBoard2) {
+	private void executeWhitePawnMove(ChessBoard chessBoard2) {
 		//Check if this pawn is trying to capture a piece. (Diagonal move)
 		if(this.rowDes == this.row - 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			if(chessBoard2.getPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
@@ -283,7 +283,7 @@ public class ChessMove extends GameMove {
 		}
 		
 		//You can only get here if everything went right during the execution of the move.
-		if(!this.testMove && !isKingInCheck(chessBoard2, ((ChessPiece) this.getPiece()).getWhite()) && checkPromotion(chessBoard2)) {
+		if(!this.testMove && !chessBoard2.isKingInCheck(((ChessPiece) this.getPiece()).getWhite()) && checkPromotion(chessBoard2)) {
 			if(!Controller.isWhiteAI) {
 				ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", true);
 				
@@ -317,7 +317,7 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	private void executeBlackPawnMove(Board chessBoard2) {
+	private void executeBlackPawnMove(ChessBoard chessBoard2) {
 		//Check if this pawn is trying to capture a piece. (Diagonal move)
 		if(this.rowDes == this.row + 1 && (this.colDes == this.col + 1 || this.colDes == this.col - 1)) {
 			if(chessBoard2.getPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
@@ -374,7 +374,7 @@ public class ChessMove extends GameMove {
 		}
 		
 		//You can only get here if everything went right during the execution of the move.
-		if(!this.testMove && !isKingInCheck(chessBoard2, ((ChessPiece) this.getPiece()).getWhite()) && checkPromotion(chessBoard2)) {
+		if(!this.testMove && !chessBoard2.isKingInCheck(((ChessPiece) this.getPiece()).getWhite()) && checkPromotion(chessBoard2)) {
 			if(!Controller.isBlackAI) {
 				ChessPawnPromotionDialog dialog = new ChessPawnPromotionDialog("Select the piece you would like:", false);
 				
@@ -408,16 +408,16 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	private boolean checkPromotion(Board chessBoard2) { //This function should only be called from within the Pawn movement function for it to work properly.
+	private boolean checkPromotion(ChessBoard chessBoard2) { //This function should only be called from within the Pawn movement function for it to work properly.
 		return (((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && this.rowDes == ChessConstants.MIN_DIM) || //If it's white and has reached the top
 				(!((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && this.rowDes == ChessConstants.MAX_DIM); //If it's black and has reached the bottom
 	}
 	
-	private void executePromotion(Board chessBoard2, ChessPiece p) { //The piece must be properly created in another function. Usually executeWhite/BlackPawnMove().
+	private void executePromotion(ChessBoard chessBoard2, ChessPiece p) { //The piece must be properly created in another function. Usually executeWhite/BlackPawnMove().
 		chessBoard2.setPosition(this.rowDes, this.colDes, p);
 	}
 
-	private void executeRookMove(Board chessBoard2) {
+	private void executeRookMove(ChessBoard chessBoard2) {
 		if(checkHorizVertMove()) { //Check that it's moving either horizontally or vertically.
 			if(chessBoard2.getPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
 				if((((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && ((ChessPiece) this.getPiece()).getWhite()) ||
@@ -444,7 +444,7 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	private void executeKnightMove(Board chessBoard2) {
+	private void executeKnightMove(ChessBoard chessBoard2) {
 		if(((this.colDes == this.col + 1 || this.colDes == this.col - 1) &&
 			(this.rowDes == this.row + 2 || this.rowDes == this.row - 2)) ||
 			((this.rowDes == this.row + 1 || this.rowDes == this.row - 1) &&
@@ -460,7 +460,7 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	private void executeBishopMove(Board board) {
+	private void executeBishopMove(ChessBoard board) {
 		if(checkDiagonalMove()) { //Checks that it's moving diagonally.
 			if(board.getPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
 				if((((ChessPiece) board.getPosition(this.rowDes, this.colDes)).getWhite() && ((ChessPiece) this.getPiece()).getWhite()) ||
@@ -510,7 +510,7 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	private void executeKingMove(Board board) {
+	private void executeKingMove(ChessBoard board) {
 		if(Math.abs(this.row - this.rowDes) <= 1 && Math.abs(this.col - this.colDes) <= 1) {
 			//Check that it's moving only 1 tile away.
 			if(board.getPosition(this.rowDes, this.colDes) != null) { //Trying to capture a piece.
@@ -534,14 +534,14 @@ public class ChessMove extends GameMove {
 					if(board.getPosition(7, 7) != null && board.getPosition(7, 7) instanceof Rook) { //Check that there's a rook
 						if(((Rook) board.getPosition(7, 7)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 7, 7)) { //Check that there are no pieces inbetween
-								if(!isKingInCheck(board, ChessConstants.WHITE)) { //Check that the WHITE king is not in check
-									Board testBoard = board.copy(); //Duplicate the board
+								if(!board.isKingInCheck(ChessConstants.WHITE)) { //Check that the WHITE king is not in check
+									ChessBoard testBoard = (ChessBoard) board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 7, 5); //Move to the first position it would go through
-									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
+									if(testBoard.isKingInCheck(((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
 									executeCastlingTestMove(testBoard, 7, 5, 7, 6); //Move to the next position
-									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
+									if(testBoard.isKingInCheck(((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
@@ -566,14 +566,14 @@ public class ChessMove extends GameMove {
 					if(board.getPosition(7, 0) != null && board.getPosition(7, 0) instanceof Rook) { //Check that there's a rook
 						if(((Rook) board.getPosition(7, 0)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 7, 0)) { //Check that there are no pieces inbetween
-								if(!isKingInCheck(board, ChessConstants.WHITE)) { //Check that the WHITE king is not in check
-									Board testBoard = board.copy(); //Duplicate the board
+								if(!board.isKingInCheck(ChessConstants.WHITE)) { //Check that the WHITE king is not in check
+									ChessBoard testBoard = (ChessBoard) board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 7, 3); //Move to the first position it would go through
-									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
+									if(testBoard.isKingInCheck(((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
 									executeCastlingTestMove(testBoard, 7, 3, 7, 2); //Move to the next position
-									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
+									if(testBoard.isKingInCheck(((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
@@ -605,14 +605,14 @@ public class ChessMove extends GameMove {
 					if(board.getPosition(0, 7) != null && board.getPosition(0, 7) instanceof Rook) { //Check that there's a rook
 						if(((Rook) board.getPosition(0, 7)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 0, 7)) { //Check that there are no pieces inbetween
-								if(!isKingInCheck(board, ChessConstants.BLACK)) { //Check that the BLACK king is not in check
-									Board testBoard = board.copy(); //Duplicate the board
+								if(!board.isKingInCheck(ChessConstants.BLACK)) { //Check that the BLACK king is not in check
+									ChessBoard testBoard = (ChessBoard) board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 0, 5); //Move to the first position it would go through
-									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
+									if(testBoard.isKingInCheck(((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
 									executeCastlingTestMove(testBoard, 0, 5, 0, 6); //Move to the next position
-									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
+									if(testBoard.isKingInCheck(((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
@@ -637,14 +637,14 @@ public class ChessMove extends GameMove {
 					if(board.getPosition(0, 0) != null && board.getPosition(0, 0) instanceof Rook) { //Check that there's a rook
 						if(((Rook) board.getPosition(0, 0)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 0, 0)) { //Check that there are no pieces inbetween
-								if(!isKingInCheck(board, ChessConstants.BLACK)) { //Check that the BLACK king is not in check
-									Board testBoard = board.copy(); //Duplicate the board
+								if(!board.isKingInCheck(ChessConstants.BLACK)) { //Check that the BLACK king is not in check
+									ChessBoard testBoard = (ChessBoard) board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 0, 3); //Move to the first position it would go through
-									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
+									if(testBoard.isKingInCheck(((ChessPiece) this.getPiece()).getWhite()))//Check if it is in check at this point.
 										abortMovement = true;
 									executeCastlingTestMove(testBoard, 0, 3, 0, 2); //Move to the next position
-									if(isKingInCheck(testBoard, ((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
+									if(testBoard.isKingInCheck(((ChessPiece) this.getPiece()).getWhite())) //Check if it is in check at this point.
 										abortMovement = true;
 									if(!abortMovement) { //If the king doesn't go through any danger positions
 										executeCheckedMove(board); //Performs Castling...
