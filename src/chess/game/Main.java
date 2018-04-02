@@ -10,20 +10,6 @@ import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
 import chess.game.mvc.model.genericGameFiles.Game;
 import chess.game.mvc.model.genericGameFiles.Piece;
 
-/**
- * This is the class with the main method for the board games application.
- *
- * It uses the Commons-CLI library for parsing command-line arguments: the game
- * to play, the players list, etc.. More information is available at
- * {@link https://commons.apache.org/proper/commons-cli/}
- *
- * <p>
- * Esta es la clase con el metodo main de inicio del programa. Se utiliza la
- * libreria Commons-CLI para leer argumentos de la linea de ordenes: el juego al
- * que se quiere jugar y la lista de jugadores. Puedes encontrar mas informaciÃ³n
- * sobre esta libreria en {@link https://commons.apache.org/proper/commons-cli/}
- * .
- */
 public class Main {
     
     /**
@@ -128,12 +114,10 @@ public class Main {
     private static boolean multiviews;
     
     /**
-     * The algorithm to be used by the automatic player. Not used so far, it is
-     * always {@code null}.
+     * The algorithm to be used by the automatic player.
      *
      * <p>
-     * Algoritmo a utilizar por el jugador automatico. Actualmente no se
-     * utiliza, por lo que siempre es {@code null}.
+     * Algoritmo a utilizar por el jugador automatico.
      */
     private static AIAlgorithm aiPlayerAlg;
     
@@ -152,7 +136,7 @@ public class Main {
         Controller c = null;
         pieces = gameFactory.createDefaultPieces();
         pieceTypes = gameFactory.createPieceTypes();
-        aiPlayerAlg = new ChessMinMax(); //TODO Test this
+        aiPlayerAlg = new ChessMinMax();
         
         playerModes = new ArrayList<PlayerMode>();
         for (int i = 0; i < pieces.size(); i++) {

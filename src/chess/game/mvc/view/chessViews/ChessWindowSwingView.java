@@ -286,8 +286,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	/**
 	 * Starts the sidebar GUI
 	 */
-	protected void startSidebarGUI()
-	{
+	protected void startSidebarGUI() {
 		addStatusMessagesTextArea();
 		addPlayerInfoTable();
 		addPlayersModes();
@@ -297,8 +296,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	/**
 	 * Adds both button panels
 	 */
-	private void addButtons()
-	{
+	private void addButtons() {
 		addAutoPlayersButtons();
 		addBottomButtons();
 	}
@@ -306,8 +304,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	/**
 	 * Adds quit and restart
 	 */
-	private void addBottomButtons()
-	{
+	private void addBottomButtons() {
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); //Creates the bottom panel for the buttons
 		quit = new JButton("Quit");	//Creates the quit button
 		quit.addActionListener(new ActionListener() { //Adds the action listener to the button
@@ -336,8 +333,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	/**
 	 * Adds the random and intelligent button
 	 */
-	private void addAutoPlayersButtons()
-	{
+	private void addAutoPlayersButtons() {
 		JPanel autoPlayerPanel = new JPanel(new GridLayout(0,2,5,5)); //Creates a panel with a grid of 2 columns and gaps of 5 units
 		autoPlayerPanel.setBorder(BorderFactory.createTitledBorder(/*"Automatic Moves"*/"Game Options")); //Creates and sets the label of the border
 		autoPlayerPanel.setSize(new Dimension(10,50)); //Sets the size for the panel
@@ -430,8 +426,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	/**
 	 * Adds the player information table to the side
 	 */
-	private void addPlayerInfoTable()
-	{
+	private void addPlayerInfoTable() {
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBorder(BorderFactory.createTitledBorder("Move History")); //Used to be Player information
 		
@@ -540,8 +535,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	/**
 	 * Enables the view
 	 */
-	private void enableView()
-	{
+	private void enableView() {
 		enableButtons();
 		activateBoard();
 	}
@@ -549,8 +543,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	/**
 	 * Disables the view
 	 */
-	private void disableView()
-	{
+	private void disableView() {
 		disableButtons();
 		deActivateBoard();
 	}
