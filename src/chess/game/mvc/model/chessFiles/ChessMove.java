@@ -107,17 +107,17 @@ public class ChessMove extends GameMove {
 		//to move next turn, since it has been more than a move ago that he moved his pieces.
 		
 		if(actionMove && !testMove) {
-			ChessConstants.movesWithoutAction = 0;
+			ChessStatic.movesWithoutAction = 0;
 		} else {
-			ChessConstants.movesWithoutAction++;
+			ChessStatic.movesWithoutAction++;
 		}
 	}
 	
 	//Used by ChessRules to get the list of valid moves.
 	public boolean isMoveLegal(ChessBoard testBoard) {
 		try {
-			if (this.colDes > ChessConstants.MAX_DIM || this.rowDes > ChessConstants.MAX_DIM ||
-					this.colDes < ChessConstants.MIN_DIM || this.rowDes < ChessConstants.MIN_DIM) //First checks the range of the move.
+			if (this.colDes > ChessStatic.MAX_DIM || this.rowDes > ChessStatic.MAX_DIM ||
+					this.colDes < ChessStatic.MIN_DIM || this.rowDes < ChessStatic.MIN_DIM) //First checks the range of the move.
 				return false;
 			
 			this.testMove = true;
@@ -199,8 +199,8 @@ public class ChessMove extends GameMove {
 	
 	//Disable En Passant for every Pawn from the colour passed by parameter.
 	private void disableEnPassant(boolean isWhite) {
-		for(int rowX = ChessConstants.MIN_DIM + 3; rowX <= ChessConstants.MAX_DIM - 3; rowX++) { //Pawns that have the "En passant" attribute set, can only be in the 2 central rows
-			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
+		for(int rowX = ChessStatic.MIN_DIM + 3; rowX <= ChessStatic.MAX_DIM - 3; rowX++) { //Pawns that have the "En passant" attribute set, can only be in the 2 central rows
+			for(int colY = ChessStatic.MIN_DIM; colY <= ChessStatic.MAX_DIM; colY++) {
 				if(this.chessBoard.getPosition(rowX, colY) != null &&
 						this.chessBoard.getPosition(rowX, colY) instanceof Pawn &&
 						((ChessPiece) this.chessBoard.getPosition(rowX, colY)).getWhite() == isWhite) {
@@ -409,8 +409,8 @@ public class ChessMove extends GameMove {
 	}
 	
 	private boolean checkPromotion(ChessBoard chessBoard2) { //This function should only be called from within the Pawn movement function for it to work properly.
-		return (((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && this.rowDes == ChessConstants.MIN_DIM) || //If it's white and has reached the top
-				(!((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && this.rowDes == ChessConstants.MAX_DIM); //If it's black and has reached the bottom
+		return (((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && this.rowDes == ChessStatic.MIN_DIM) || //If it's white and has reached the top
+				(!((ChessPiece) chessBoard2.getPosition(this.rowDes, this.colDes)).getWhite() && this.rowDes == ChessStatic.MAX_DIM); //If it's black and has reached the bottom
 	}
 	
 	private void executePromotion(ChessBoard chessBoard2, ChessPiece p) { //The piece must be properly created in another function. Usually executeWhite/BlackPawnMove().
@@ -534,7 +534,7 @@ public class ChessMove extends GameMove {
 					if(board.getPosition(7, 7) != null && board.getPosition(7, 7) instanceof Rook) { //Check that there's a rook
 						if(((Rook) board.getPosition(7, 7)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 7, 7)) { //Check that there are no pieces inbetween
-								if(!board.isKingInCheck(ChessConstants.WHITE)) { //Check that the WHITE king is not in check
+								if(!board.isKingInCheck(ChessStatic.WHITE)) { //Check that the WHITE king is not in check
 									ChessBoard testBoard = (ChessBoard) board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 7, 5); //Move to the first position it would go through
@@ -566,7 +566,7 @@ public class ChessMove extends GameMove {
 					if(board.getPosition(7, 0) != null && board.getPosition(7, 0) instanceof Rook) { //Check that there's a rook
 						if(((Rook) board.getPosition(7, 0)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 7, 0)) { //Check that there are no pieces inbetween
-								if(!board.isKingInCheck(ChessConstants.WHITE)) { //Check that the WHITE king is not in check
+								if(!board.isKingInCheck(ChessStatic.WHITE)) { //Check that the WHITE king is not in check
 									ChessBoard testBoard = (ChessBoard) board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 7, 3); //Move to the first position it would go through
@@ -605,7 +605,7 @@ public class ChessMove extends GameMove {
 					if(board.getPosition(0, 7) != null && board.getPosition(0, 7) instanceof Rook) { //Check that there's a rook
 						if(((Rook) board.getPosition(0, 7)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 0, 7)) { //Check that there are no pieces inbetween
-								if(!board.isKingInCheck(ChessConstants.BLACK)) { //Check that the BLACK king is not in check
+								if(!board.isKingInCheck(ChessStatic.BLACK)) { //Check that the BLACK king is not in check
 									ChessBoard testBoard = (ChessBoard) board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 0, 5); //Move to the first position it would go through
@@ -637,7 +637,7 @@ public class ChessMove extends GameMove {
 					if(board.getPosition(0, 0) != null && board.getPosition(0, 0) instanceof Rook) { //Check that there's a rook
 						if(((Rook) board.getPosition(0, 0)).getCastle()) { //Check if the Rook can castle
 							if(checkPiecesInbetween(this.row, this.col, 0, 0)) { //Check that there are no pieces inbetween
-								if(!board.isKingInCheck(ChessConstants.BLACK)) { //Check that the BLACK king is not in check
+								if(!board.isKingInCheck(ChessStatic.BLACK)) { //Check that the BLACK king is not in check
 									ChessBoard testBoard = (ChessBoard) board.copy(); //Duplicate the board
 									boolean abortMovement = false;
 									executeCastlingTestMove(testBoard, this.row, this.col, 0, 3); //Move to the first position it would go through
@@ -695,25 +695,25 @@ public class ChessMove extends GameMove {
 	private int checkDirection(int rowIni, int colIni, int rowEnd, int colEnd) {
 		if(rowIni == rowEnd) { //It's either E or W
 			if(colIni > colEnd) {
-				return ChessConstants.W;
+				return ChessStatic.W;
 			} else { //colIni < colEnd (colIni always != colEnd at this point!) since both parameters can't be equal!
-				return ChessConstants.E;
+				return ChessStatic.E;
 			}
 		} else if (rowIni > rowEnd) { //It's either NW, N or NE
 			if(colIni == colEnd) {
-				return ChessConstants.N;
+				return ChessStatic.N;
 			} else if(colIni > colEnd) {
-				return ChessConstants.NW;
+				return ChessStatic.NW;
 			} else { //colIni < colEnd
-				return ChessConstants.NE;
+				return ChessStatic.NE;
 			}
 		} else { //rowIni < rowEnd //It's either SW, S or SE
 			if(colIni == colEnd) {
-				return ChessConstants.S;
+				return ChessStatic.S;
 			} else if(colIni > colEnd) {
-				return ChessConstants.SW;
+				return ChessStatic.SW;
 			} else { //colIni < colEnd
-				return ChessConstants.SE;
+				return ChessStatic.SE;
 			}
 		}
 	}
@@ -726,22 +726,22 @@ public class ChessMove extends GameMove {
 	private boolean checkPiecesInbetween(int rowIni, int colIni, int rowEnd, int colEnd) {
 		int rowOffset, colOffset;
 		switch(checkDirection(rowIni, colIni, rowEnd, colEnd)) {
-			case ChessConstants.NW:
-				rowOffset = ChessConstants.NEGATIVE; colOffset = ChessConstants.NEGATIVE; break;
-			case ChessConstants.N:
-				rowOffset = ChessConstants.NEGATIVE; colOffset = ChessConstants.NEUTRAL; break;
-			case ChessConstants.NE:
-				rowOffset = ChessConstants.NEGATIVE; colOffset = ChessConstants.POSITIVE; break;
-			case ChessConstants.E:
-				rowOffset = ChessConstants.NEUTRAL; colOffset = ChessConstants.POSITIVE; break;
-			case ChessConstants.SE:
-				rowOffset = ChessConstants.POSITIVE; colOffset = ChessConstants.POSITIVE; break;
-			case ChessConstants.S:
-				rowOffset = ChessConstants.POSITIVE; colOffset = ChessConstants.NEUTRAL; break;
-			case ChessConstants.SW:
-				rowOffset = ChessConstants.POSITIVE; colOffset = ChessConstants.NEGATIVE; break;
-			case ChessConstants.W:
-				rowOffset = ChessConstants.NEUTRAL; colOffset = ChessConstants.NEGATIVE; break;
+			case ChessStatic.NW:
+				rowOffset = ChessStatic.NEGATIVE; colOffset = ChessStatic.NEGATIVE; break;
+			case ChessStatic.N:
+				rowOffset = ChessStatic.NEGATIVE; colOffset = ChessStatic.NEUTRAL; break;
+			case ChessStatic.NE:
+				rowOffset = ChessStatic.NEGATIVE; colOffset = ChessStatic.POSITIVE; break;
+			case ChessStatic.E:
+				rowOffset = ChessStatic.NEUTRAL; colOffset = ChessStatic.POSITIVE; break;
+			case ChessStatic.SE:
+				rowOffset = ChessStatic.POSITIVE; colOffset = ChessStatic.POSITIVE; break;
+			case ChessStatic.S:
+				rowOffset = ChessStatic.POSITIVE; colOffset = ChessStatic.NEUTRAL; break;
+			case ChessStatic.SW:
+				rowOffset = ChessStatic.POSITIVE; colOffset = ChessStatic.NEGATIVE; break;
+			case ChessStatic.W:
+				rowOffset = ChessStatic.NEUTRAL; colOffset = ChessStatic.NEGATIVE; break;
 			default:
 				throw new GameError("Internal error. Invalid move direction, this should be unreachable.");
 		}
@@ -749,7 +749,7 @@ public class ChessMove extends GameMove {
 		int itCount = 0; //In case any error happens, this avoids an infinite loop.
 		int rowIt = rowIni, colIt = colIni;
 		
-		while(itCount < ChessConstants.ITER_LIMIT && (rowIt != rowEnd || colIt != colEnd)) {
+		while(itCount < ChessStatic.ITER_LIMIT && (rowIt != rowEnd || colIt != colEnd)) {
 			rowIt += rowOffset;
 			colIt += colOffset;
 			
@@ -761,7 +761,7 @@ public class ChessMove extends GameMove {
 			itCount++;
 		}
 		
-		if(itCount >= ChessConstants.ITER_LIMIT) 
+		if(itCount >= ChessStatic.ITER_LIMIT) 
 			throw new GameError("Internal error. Move direction bugged. This should never happen.");
 		
 		return true;
@@ -773,8 +773,8 @@ public class ChessMove extends GameMove {
 	}
 	
 	public void revertBoard(Board chessBoard2, Board originalBoard) {
-		for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
-			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
+		for(int rowX = ChessStatic.MIN_DIM; rowX <= ChessStatic.MAX_DIM; rowX++) {
+			for(int colY = ChessStatic.MIN_DIM; colY <= ChessStatic.MAX_DIM; colY++) {
 				if(originalBoard.getPosition(rowX, colY) == null) { //If the cell was empty...
 					if(chessBoard2.getPosition(rowX, colY) != null) { //and the cell is occupied now...
 						chessBoard2.setPosition(rowX, colY, null); //it deletes the contents.

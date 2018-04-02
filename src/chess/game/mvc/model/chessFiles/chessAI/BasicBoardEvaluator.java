@@ -3,7 +3,7 @@ package chess.game.mvc.model.chessFiles.chessAI;
 import java.util.List;
 
 import chess.game.mvc.model.chessFiles.ChessBoard;
-import chess.game.mvc.model.chessFiles.ChessConstants;
+import chess.game.mvc.model.chessFiles.ChessStatic;
 import chess.game.mvc.model.chessFiles.ChessMove;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
@@ -58,8 +58,8 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	 */
 	private double rateBoardByPieces(ChessBoard board, boolean isMaxWhite) {
 		double rating = 0;
-		for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
-			for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
+		for(int rowX = ChessStatic.MIN_DIM; rowX <= ChessStatic.MAX_DIM; rowX++) {
+			for(int colY = ChessStatic.MIN_DIM; colY <= ChessStatic.MAX_DIM; colY++) {
 				if(board.getPosition(rowX, colY) != null) { //If there's a piece
 					if(((ChessPiece) board.getPosition(rowX, colY)).getWhite() == isMaxWhite) { //If the colour matches the max player...
 						if(board.getPosition(rowX, colY) instanceof Pawn) {
@@ -141,10 +141,10 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	private double rateRook(int rowX, int colY, boolean isWhite) {
 		double rating = 25;
 		if(isWhite) {
-			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
+			if(rowX == ChessStatic.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
 				rating -= 4;
 		} else {
-			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
+			if(rowX == ChessStatic.MIN_DIM) //The opposite is true for black pieces
 				rating -= 4;
 		}
 		return rating;
@@ -153,10 +153,10 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	private double rateKnight(int rowX, int colY, boolean isWhite) {
 		double rating = 15;
 		if(isWhite) {
-			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
+			if(rowX == ChessStatic.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
 				rating -= 3;
 		} else {
-			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
+			if(rowX == ChessStatic.MIN_DIM) //The opposite is true for black pieces
 				rating -= 3;
 		}
 		return rating;
@@ -165,10 +165,10 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	private double rateBishop(int rowX, int colY, boolean isWhite) {
 		double rating = 15;
 		if(isWhite) {
-			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
+			if(rowX == ChessStatic.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
 				rating -= 3;
 		} else {
-			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
+			if(rowX == ChessStatic.MIN_DIM) //The opposite is true for black pieces
 				rating -= 3;
 		}
 		return rating;
@@ -177,10 +177,10 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	private double rateQueen(int rowX, int colY, boolean isWhite) {
 		double rating = 45;
 		if(isWhite) {
-			if(rowX == ChessConstants.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
+			if(rowX == ChessStatic.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
 				rating -= 5;
 		} else {
-			if(rowX == ChessConstants.MIN_DIM) //The opposite is true for black pieces
+			if(rowX == ChessStatic.MIN_DIM) //The opposite is true for black pieces
 				rating -= 5;
 		}
 		return rating;
@@ -191,7 +191,7 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	 * @return @true if game is won BY CHECKMATE, NOT stalemate, @false otherwise.
 	 */
 	private boolean isWhiteInCheck(ChessBoard board) {
-		if(board.isKingInCheck(ChessConstants.WHITE))
+		if(board.isKingInCheck(ChessStatic.WHITE))
 			return true;
 		else
 			return false;
@@ -202,7 +202,7 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	 * @return @true if game is won BY CHECKMATE, NOT stalemate, @false otherwise.
 	 */
 	private boolean isBlackInCheck(ChessBoard board) {
-		if(board.isKingInCheck(ChessConstants.BLACK))
+		if(board.isKingInCheck(ChessStatic.BLACK))
 			return true;
 		else
 			return false;

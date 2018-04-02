@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
-import chess.game.mvc.model.chessFiles.ChessConstants;
+import chess.game.mvc.model.chessFiles.ChessStatic;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.King;
@@ -202,7 +202,7 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 		//x and y are coordinates in the space, not rows/cols!!
 		
 		//Selects the colour for each tile depending on position
-		if(ChessConstants.rowClicked == row && ChessConstants.colClicked == col && !ChessConstants.firstClick) {
+		if(ChessStatic.rowClicked == row && ChessStatic.colClicked == col && !ChessStatic.firstClick) {
 			g.setColor(new Color(45, 152, 38)); //Color for the selected tile after first click.
 		} else if(row % 2 == 0 && col % 2 == 1 || row % 2 == 1 && col % 2 == 0) {
 			g.setColor(new Color(204, 102, 0)); //Dark tiles

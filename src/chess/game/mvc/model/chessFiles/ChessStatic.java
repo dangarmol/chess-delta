@@ -1,7 +1,6 @@
 package chess.game.mvc.model.chessFiles;
 
-//TODO Possibly change name to ChessStatic
-public class ChessConstants {
+public class ChessStatic {
 	//CHESSBOARD
 	public static final int MIN_DIM = 0;
 	public static final int MAX_DIM = 7;

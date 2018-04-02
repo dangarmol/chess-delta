@@ -2,18 +2,18 @@ package chess.game.mvc.model.chessFiles.chessAI;
 
 import chess.game.mvc.model.chessFiles.ChessMove;
 
-public class ChessMinMaxNode {
+public class ChessAINode {
 	
 	private ChessMove move;
 	private double rating;
 	
-	public ChessMinMaxNode() {}
+	public ChessAINode() {}
 	
-	public ChessMinMaxNode(ChessMove cm) {
+	public ChessAINode(ChessMove cm) {
 		this.move = cm;
 	}
 	
-	public ChessMinMaxNode(ChessMove cm, double rating) {
+	public ChessAINode(ChessMove cm, double rating) {
 		this.move = cm;
 		this.rating = rating;
 	}

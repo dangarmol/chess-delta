@@ -82,8 +82,8 @@ public class ChessRules implements GameRules {
 	private void setStartingAttributes(Board b) {
 		if(b instanceof ChessBoard) {
 			ChessBoard board = (ChessBoard) b;
-			for(int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) {
-				for(int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
+			for(int rowX = ChessStatic.MIN_DIM; rowX <= ChessStatic.MAX_DIM; rowX++) {
+				for(int colY = ChessStatic.MIN_DIM; colY <= ChessStatic.MAX_DIM; colY++) {
 					if(board.getPosition(rowX, colY) != null) { //If there's a piece
 						if(board.getPosition(rowX, colY) instanceof Rook) {
 							((Rook) board.getPosition(rowX, colY)).setCastle(true);
@@ -106,7 +106,7 @@ public class ChessRules implements GameRules {
 		if(nextPlayer(board, pieces, lastPlayer) == null) { //If next player can't move, someone has won or there's a Checkmate!
 			//There must be a Checkmate or Stalemate, therefore we check the end of the game.
 			gameState = checkWinnerEndGame(board, pieces, lastPlayer);
-		} else if(ChessConstants.movesWithoutAction >= 50) { //Check if no pawn has been moved or no piece has been captured in the last 50 moves
+		} else if(ChessStatic.movesWithoutAction >= 50) { //Check if no pawn has been moved or no piece has been captured in the last 50 moves
 			gameState = new Pair<State, Piece>(State.Draw, null);
 		}
 		
@@ -125,10 +125,10 @@ public class ChessRules implements GameRules {
 			//If there is a Checkmate
 			if(lastChessPlayer.getWhite()) {
 				//If the last one to move was White
-				return new Pair<State, Piece>(State.Won, pieces.get(ChessConstants.WHITE_ID)); //White wins!
+				return new Pair<State, Piece>(State.Won, pieces.get(ChessStatic.WHITE_ID)); //White wins!
 			} else {
 				//If the last one to move was Black
-				return new Pair<State, Piece>(State.Won, pieces.get(ChessConstants.BLACK_ID)); //Black wins!
+				return new Pair<State, Piece>(State.Won, pieces.get(ChessStatic.BLACK_ID)); //Black wins!
 			}
 		} else {
 			//If there is a Stalemate
@@ -142,8 +142,8 @@ public class ChessRules implements GameRules {
 		boolean isWhiteTurn = ((ChessPiece) turn).getWhite();
 		Board testBoard = originalBoard.copy();
 		List<GameMove> legalMoves = new ArrayList<GameMove>(); //Every single possible move on the board is saved here
-		for (int rowX = ChessConstants.MIN_DIM; rowX <= ChessConstants.MAX_DIM; rowX++) { //Exploring rows and cols.
-			for (int colY = ChessConstants.MIN_DIM; colY <= ChessConstants.MAX_DIM; colY++) {
+		for (int rowX = ChessStatic.MIN_DIM; rowX <= ChessStatic.MAX_DIM; rowX++) { //Exploring rows and cols.
+			for (int colY = ChessStatic.MIN_DIM; colY <= ChessStatic.MAX_DIM; colY++) {
 				if(originalBoard.getPosition(rowX, colY) != null && //If the position is not empty...
 					((ChessPiece) originalBoard.getPosition(rowX, colY)).getWhite() == isWhiteTurn){ //...and it is from the current turn.
 					if(originalBoard.getPosition(rowX, colY) instanceof Pawn) {
@@ -177,25 +177,25 @@ public class ChessRules implements GameRules {
 	
 	private void addHorizVertMoves(Board testBoard, Board originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
 		int rowDes = rowX - 1, colDes = colY;
-		while(rowDes >= ChessConstants.MIN_DIM) { //North direction
+		while(rowDes >= ChessStatic.MIN_DIM) { //North direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
 			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			rowDes--;
 		}
 		rowDes = rowX + 1; colDes = colY;
-		while(rowDes <= ChessConstants.MAX_DIM) { //South direction
+		while(rowDes <= ChessStatic.MAX_DIM) { //South direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
 			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			rowDes++;
 		}
 		rowDes = rowX; colDes = colY + 1;
-		while(colDes <= ChessConstants.MAX_DIM) { //East direction
+		while(colDes <= ChessStatic.MAX_DIM) { //East direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
 			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			colDes++;
 		}
 		rowDes = rowX; colDes = colY - 1;
-		while(colDes >= ChessConstants.MIN_DIM) { //West direction
+		while(colDes >= ChessStatic.MIN_DIM) { //West direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
 			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			colDes--;
@@ -204,7 +204,7 @@ public class ChessRules implements GameRules {
 	
 	private void addDiagonalMoves(Board testBoard, Board originalBoard, List<GameMove> legalMoves, int rowX, int colY, Piece turn) {
 		int rowDes = rowX - 1, colDes = colY - 1;
-		while(rowDes >= ChessConstants.MIN_DIM && colDes >= ChessConstants.MIN_DIM) { //NorthWest direction
+		while(rowDes >= ChessStatic.MIN_DIM && colDes >= ChessStatic.MIN_DIM) { //NorthWest direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
 			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			rowDes--;
@@ -212,7 +212,7 @@ public class ChessRules implements GameRules {
 		}
 		
 		rowDes = rowX - 1; colDes = colY + 1;
-		while(rowDes >= ChessConstants.MIN_DIM && colDes <= ChessConstants.MAX_DIM) { //NorthEast direction
+		while(rowDes >= ChessStatic.MIN_DIM && colDes <= ChessStatic.MAX_DIM) { //NorthEast direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
 			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			rowDes--;
@@ -220,7 +220,7 @@ public class ChessRules implements GameRules {
 		}
 		
 		rowDes = rowX + 1; colDes = colY + 1;
-		while(colDes <= ChessConstants.MAX_DIM && rowDes <= ChessConstants.MAX_DIM) { //SouthEast direction
+		while(colDes <= ChessStatic.MAX_DIM && rowDes <= ChessStatic.MAX_DIM) { //SouthEast direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
 			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			colDes++;
@@ -228,7 +228,7 @@ public class ChessRules implements GameRules {
 		}
 		
 		rowDes = rowX + 1; colDes = colY - 1;
-		while(colDes >= ChessConstants.MIN_DIM && rowDes <= ChessConstants.MAX_DIM) { //SouthWest direction
+		while(colDes >= ChessStatic.MIN_DIM && rowDes <= ChessStatic.MAX_DIM) { //SouthWest direction
 			this.checkAndAdd(new ChessMove(rowX, colY, rowDes, colDes, turn), testBoard, originalBoard, legalMoves);
 			if(originalBoard.getPosition(rowDes, colDes) != null) break;
 			colDes--;
@@ -279,10 +279,10 @@ public class ChessRules implements GameRules {
 	public Piece nextPlayer(Board board, List<Piece> playersPieces, Piece lastPlayer){
 		Piece nextPlayer;
 		
-		if(lastPlayer == playersPieces.get(ChessConstants.WHITE_ID))
-			nextPlayer = playersPieces.get(ChessConstants.BLACK_ID);
-		else if (lastPlayer == playersPieces.get(ChessConstants.BLACK_ID))
-			nextPlayer = playersPieces.get(ChessConstants.WHITE_ID);
+		if(lastPlayer == playersPieces.get(ChessStatic.WHITE_ID))
+			nextPlayer = playersPieces.get(ChessStatic.BLACK_ID);
+		else if (lastPlayer == playersPieces.get(ChessStatic.BLACK_ID))
+			nextPlayer = playersPieces.get(ChessStatic.WHITE_ID);
 		else
 			return null; //throw new GameError("Something went wrong while changing turns. Unrecognised player. This should be unreachable.");
 		
@@ -294,7 +294,7 @@ public class ChessRules implements GameRules {
 
 	@Override
 	public Piece initialPlayer(Board board, List<Piece> pieces) {
-		return pieces.get(ChessConstants.WHITE_ID); //White always starts
+		return pieces.get(ChessStatic.WHITE_ID); //White always starts
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package chess.game.mvc.model.chessFiles.chessAI;
 
-import chess.game.mvc.model.chessFiles.ChessConstants;
+import chess.game.mvc.model.chessFiles.ChessStatic;
 
 public class AIStatistics {
 	
@@ -15,7 +15,7 @@ public class AIStatistics {
 	private boolean isWhite;
 	
 	public AIStatistics() {
-		this.depth = ChessConstants.DEFAULT_MINMAX_LEVEL;
+		this.depth = ChessStatic.DEFAULT_MINMAX_LEVEL;
 		this.totalMoves = 0;
 		this.totalThinkingTime = 0;
 		this.totalNodesExplored = 0;

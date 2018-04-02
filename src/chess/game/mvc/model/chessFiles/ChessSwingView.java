@@ -102,9 +102,9 @@ public class ChessSwingView extends ChessFRBoardSwingView {
 	
 	//Paints (or unpaints the selected cell)
 	private void paintSelectedCell() {
-		ChessConstants.firstClick = this.firstClick;
-		ChessConstants.rowClicked = this.row;
-		ChessConstants.colClicked = this.col;
+		ChessStatic.firstClick = this.firstClick;
+		ChessStatic.rowClicked = this.row;
+		ChessStatic.colClicked = this.col;
 		this.redrawBoard();
 	}
 	
