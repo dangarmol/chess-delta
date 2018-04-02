@@ -56,6 +56,9 @@ public class ChessMinMax implements AIAlgorithm {
 		return minMax(board, ChessConstants.STARTING_MINMAX_DEPTH, -1000, +1000).getMove();
 	}
 	
+	
+	//TODO Make sure that ELO sites allow computers to play
+	//Also make matrix of different alpha-beta and Minmax win-loss and plot average thinking times
 	private ChessMinMaxNode minMax(Board board, int depth, double alpha, double beta) {
 		this.aiStats.increaseMoves();
 		
