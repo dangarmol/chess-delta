@@ -890,12 +890,12 @@ public class MainConnection {
 			c = new Controller(g, pieces, pieceTypes);
 			if(!isMultiviews())
 			{
-				gameFactory.createSwingView(g, c, null, gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));
+				//TODO This needs to be implemented //gameFactory.createSwingView(g, c, null, gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));
 			}
 			else
 			{
 				for (Piece p : pieces) {
-			       gameFactory.createSwingView(g, c, p, gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));
+					//TODO This needs to be implemented //gameFactory.createSwingView(g, c, p, gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));
 				}
 			}
 			break;
@@ -942,7 +942,7 @@ public class MainConnection {
 		try {
 			GameClient c = new GameClient(serverHost, serverPort);
 			gameFactory = c.getGameFactory();
-			gameFactory.createSwingView(c, c, c.getPlayerPiece(), gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));
+			//TODO This needs to be implemented //gameFactory.createSwingView(c, c, c.getPlayerPiece(), gameFactory.createRandomPlayer(), gameFactory.createAIPlayer(aiPlayerAlg));
 			c.start();
 		} catch (Exception e) {
 			System.err.println("Error while trying to connect to server");

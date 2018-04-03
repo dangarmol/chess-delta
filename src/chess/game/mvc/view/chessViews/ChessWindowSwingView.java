@@ -436,7 +436,9 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 				}
 			}
 			
-			if(currentMode == PlayerMode.MANUAL && selectedMode != PlayerMode.MANUAL && turn.equals(localPiece)) //TODO Change if possible
+			//TODO Repaint gamemode board?
+			
+			if(currentMode == PlayerMode.MANUAL && selectedMode != PlayerMode.MANUAL && ((ChessPiece) turn).getWhite() == ((ChessPiece) selectedPiece).getWhite())
 				decideMakeAutomaticMove();
 			}
 		});
@@ -680,7 +682,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		this.turn = turn;
 		redrawBoard();
 		addMsg("Turn for player '" + turn + "'");
-		if(false/*Main.isMultiviews() || Main.isClientMode()*/) //TODO Only for online mode or multiviews
+		/*if(Main.isMultiviews() || Main.isClientMode()) //TODO Only for online mode or multiviews
 		{
 			this.setTitle(gameDesc + ". View from: " + localPiece + " (Turn for: " + turn.getId() + ")");
 			if(turn.equals(localPiece) && playerModes.get(turn) == PlayerMode.MANUAL) {
@@ -688,10 +690,10 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 			} else {
 				disableView();
 			}
-		} else {
+		} else {*/
 			this.setTitle(gameDesc + " (Turn for: " + turn + ")");
 			enableView();
-		}
+		//}
 		if(playerModes.get(turn) != PlayerMode.MANUAL) {
 			addMsg("AI Player is thinking...");
 			
