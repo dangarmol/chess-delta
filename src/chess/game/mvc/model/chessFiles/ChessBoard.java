@@ -20,8 +20,6 @@ import chess.game.mvc.model.genericGameFiles.Piece;
 public class ChessBoard extends BasicBoard {
 
 	private static final long serialVersionUID = 1L;
-
-	//TODO Implement 3 repeated board positions is draw.
 	
 	/**
 	 * The internal representation of the board. Simply a matrix of objects of
@@ -144,6 +142,7 @@ public class ChessBoard extends BasicBoard {
 	 */
 	@Override
 	public String toString() {
+		//Modified this function to make each board string unique by using both ID characters.
 		StringBuilder render = new StringBuilder();
 
 		int height = getRows();
@@ -153,15 +152,15 @@ public class ChessBoard extends BasicBoard {
 
 			render.append("  +");
 			for (int c = 0; c < width; ++c)
-				render.append("---+");
+				render.append("----+");
 			render.append("\n");
 			render.append("" + (r % 10) + " |");
 
 			for (int c = 0; c < width; ++c) {
 				if (getPosition(r, c) == null) {
-					render.append("   |");
+					render.append("    |");
 				} else {
-					render.append(" " + getPosition(r, c).toString().charAt(0) + " |");
+					render.append(" " + getPosition(r, c).toString() + " |");
 				}
 			} // for columns
 			render.append("\n");
@@ -169,11 +168,11 @@ public class ChessBoard extends BasicBoard {
 
 		render.append("  +");
 		for (int c = 0; c < width; ++c)
-			render.append("---+");
+			render.append("----+");
 		render.append("\n");
 		render.append("   ");
 		for (int c = 0; c < width; ++c)
-			render.append(" " + (c % 10) + "  ");
+			render.append(" " + (c % 10) + "   ");
 		render.append("\n");
 
 		return render.toString();
