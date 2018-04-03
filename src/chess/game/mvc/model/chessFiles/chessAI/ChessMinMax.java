@@ -33,13 +33,13 @@ public class ChessMinMax implements AIAlgorithm {
 	public ChessMinMax() {
 		this.level = ChessStatic.DEFAULT_MINMAX_LEVEL;
 		this.evaluator = new BasicBoardEvaluator();
-		this.aiStats = new AIStatistics(ChessStatic.DEFAULT_MINMAX_LEVEL);
+		this.aiStats = new AIStatistics(ChessStatic.DEFAULT_MINMAX_LEVEL, "MinMax");
 	}
 	
 	public ChessMinMax(int level) {
 		this.level = level;
 		this.evaluator = new BasicBoardEvaluator();
-		this.aiStats = new AIStatistics(level);
+		this.aiStats = new AIStatistics(level, "MinMax");
 	}
 	
 	@Override
