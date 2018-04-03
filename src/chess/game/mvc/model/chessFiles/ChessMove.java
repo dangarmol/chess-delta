@@ -110,6 +110,7 @@ public class ChessMove extends GameMove {
 			this.chessBoard.resetMovesWithoutAction();
 		} else if(!testMove) {
 			this.chessBoard.increaseMovesWithoutAction();
+			this.chessBoard.addCurrentPosition();
 		}
 	}
 	
@@ -173,6 +174,7 @@ public class ChessMove extends GameMove {
 			this.chessBoard.resetMovesWithoutAction();
 		} else if(!testMove) {
 			this.chessBoard.increaseMovesWithoutAction();
+			this.chessBoard.addCurrentPosition();
 		}
 	}
 	

@@ -1,5 +1,7 @@
 package chess.game.mvc.model.chessFiles;
 
+import java.util.HashMap;
+
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.King;
@@ -50,6 +52,13 @@ public class ChessBoard extends BasicBoard {
 	 */
 	protected int movesWithoutAction;
 	
+	protected boolean repetitionsRule;
+	
+	/**
+	 * Keeps track of the last positions of the board to avoid 3 repeated positions in a match.
+	 */
+	protected HashMap<String, Integer> lastPositions;
+	
 	/**
 	 * This constructor constructs a finite rectangular board of a given
 	 * dimension.
@@ -69,7 +78,9 @@ public class ChessBoard extends BasicBoard {
 	public ChessBoard() {
 		this.rows = ChessStatic.BOARD_DIMS;
 		this.cols = ChessStatic.BOARD_DIMS;
-		board = new Piece[rows][cols];
+		this.lastPositions = new HashMap();
+		this.repetitionsRule = false;
+		this.board = new Piece[rows][cols];
 		this.movesWithoutAction = 0;
 	}
 
@@ -453,20 +464,47 @@ public class ChessBoard extends BasicBoard {
 		
 		return false;
 	}
-		
+	
+	public void addCurrentPosition() {
+		if(this.lastPositions.get(this.toString()) == null) {
+			this.lastPositions.put(this.toString(), 1);
+		} else {
+			Integer repeats = this.lastPositions.get(this.toString());
+			if(repeats + 1 == 3) { //If this is reached, it means that it will be incremented to 3 on this iteration.
+				this.repetitionsRule = true;
+			} else {
+				this.lastPositions.put(this.toString(), repeats + 1);
+			}
+		}
+	}
+	
+	public void resetPositions() {
+		this.repetitionsRule = false;
+		this.lastPositions.clear(); //Test this.
+	}
+	
+	/**
+	 * @return @false if there have not been more than 3 repeated boards, @true otherwise.
+	 */
+	public boolean check3Repetitions() {
+		//TODO This function is not needed.
+		return this.repetitionsRule;
+	}
+	
 	public void increaseMovesWithoutAction() {
 		this.movesWithoutAction++;
 	}
 	
 	public void resetMovesWithoutAction() {
 		this.movesWithoutAction = 0;
+		resetPositions();
 	}
 	
 	/**
 	 * @return @true if there have been more than 50 moves without a capture or pawn movement. @false otherwise
 	 */
 	public boolean check50MovesLimit() {
-		return movesWithoutAction >= 50;
+		return this.movesWithoutAction >= 50 || this.repetitionsRule;
 	}
 	
 	@Override

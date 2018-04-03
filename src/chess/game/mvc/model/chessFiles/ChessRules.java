@@ -37,7 +37,6 @@ public class ChessRules implements GameRules {
 		Board board = new ChessBoard();		
 		
 		//Sets the positions for every piece on their starting positions.
-		//NOTE: This cannot be done with a "for" loop because of some issues on the piece order.
 		board.setPosition(0, 0, pieceTypes.get(ChessPieceID.BLACK_ROOK_A));
 		board.setPosition(0, 1, pieceTypes.get(ChessPieceID.BLACK_KNIGHT));
 		board.setPosition(0, 2, pieceTypes.get(ChessPieceID.BLACK_BISHOP));
@@ -74,6 +73,7 @@ public class ChessRules implements GameRules {
 		board.setPosition(6, 7, pieceTypes.get(ChessPieceID.WHITE_PAWN_H));
 		
 		setStartingAttributes(board);
+		((ChessBoard) board).addCurrentPosition();
 		
 		return board;
 	}
