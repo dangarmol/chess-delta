@@ -106,9 +106,9 @@ public class ChessMove extends GameMove {
 		disableEnPassant(!((ChessPiece) this.getPiece()).getWhite()); //Disable En passant for every pawn of the colour that is going
 		//to move next turn, since it has been more than a move ago that he moved his pieces.
 		
-		if(actionMove && !testMove) {
+		if(actionMove/* && !testMove*/) {
 			this.chessBoard.resetMovesWithoutAction();
-		} else if(!testMove) {
+		} else /*if(!testMove)*/ {
 			this.chessBoard.increaseMovesWithoutAction();
 			this.chessBoard.addCurrentPosition();
 		}
@@ -170,9 +170,9 @@ public class ChessMove extends GameMove {
 			throw new GameError("You cannot perform that move, your King would be in Check after that!!!");
 		}
 		
-		if(actionMove && !testMove) {
+		if(actionMove/* && !testMove*/) {
 			this.chessBoard.resetMovesWithoutAction();
-		} else if(!testMove) {
+		} else /*if(!testMove)*/ {
 			this.chessBoard.increaseMovesWithoutAction();
 			this.chessBoard.addCurrentPosition();
 		}
@@ -180,9 +180,9 @@ public class ChessMove extends GameMove {
 	
 	//Simply executes a move that has been previously checked and is legal.
 	//It is public so that it can be called from the AI classes to perform moves from the list of possible (valid) moves.
-	public void executeCheckedMove(ChessBoard chessBoard2) { 
-		chessBoard2.setPosition(this.rowDes, this.colDes, chessBoard2.getPosition(this.row, this.col));
-		deleteMovedPiece(this.row, this.col, chessBoard2);
+	public void executeCheckedMove(ChessBoard chessBoard) { //TODO Need to check if it's an action move!!!!!!
+		chessBoard.setPosition(this.rowDes, this.colDes, chessBoard.getPosition(this.row, this.col));
+		deleteMovedPiece(this.row, this.col, chessBoard);
 	}
 	
 	private void executeCastlingTestMove(ChessBoard testBoard, int row, int col, int rowDes, int colDes) { 

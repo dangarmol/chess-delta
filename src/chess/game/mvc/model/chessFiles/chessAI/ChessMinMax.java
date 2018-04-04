@@ -72,6 +72,11 @@ public class ChessMinMax implements AIAlgorithm {
 		
 		System.out.println(this.aiStats.getStats());
 		
+		ChessBoard newBoard = (ChessBoard) board.copy();
+		this.bestNode.getMove().executeCheckedMove(newBoard);
+		System.out.println(newBoard);
+		System.out.println("Rating: " + this.bestNode.getRating());
+		
 		return this.bestNode;
 	}
 	

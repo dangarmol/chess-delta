@@ -482,14 +482,6 @@ public class ChessBoard extends BasicBoard {
 		this.lastPositions.clear(); //Test this.
 	}
 	
-	/**
-	 * @return @false if there have not been more than 3 repeated boards, @true otherwise.
-	 */
-	public boolean check3Repetitions() {
-		//TODO This function is not needed.
-		return this.repetitionsRule;
-	}
-	
 	public void increaseMovesWithoutAction() {
 		this.movesWithoutAction++;
 	}
@@ -500,9 +492,9 @@ public class ChessBoard extends BasicBoard {
 	}
 	
 	/**
-	 * @return @true if there have been more than 50 moves without a capture or pawn movement. @false otherwise
+	 * @return @true if there have been more than 50 moves without a capture or pawn movement of 3 repeated boards. @false otherwise
 	 */
-	public boolean check50MovesLimit() {
+	public boolean checkMovesRulesLimit() {
 		return this.movesWithoutAction >= 50 || this.repetitionsRule;
 	}
 	

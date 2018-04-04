@@ -106,8 +106,8 @@ public class ChessRules implements GameRules {
 		if(nextPlayer(board, pieces, lastPlayer) == null) { //If next player can't move, someone has won or there's a Stalemate!
 			//There must be a Checkmate or Stalemate, therefore we check the end of the game.
 			gameState = checkWinnerEndGame(board, pieces, lastPlayer);
-		} else if(((ChessBoard) board).check50MovesLimit()) { //Check if no pawn has been moved or no piece has been captured in the last 50 moves
-			gameState = new Pair<State, Piece>(State.Draw, null); //TODO Rename 50 moves function
+		} else if(((ChessBoard) board).checkMovesRulesLimit()) { //Check if no pawn has been moved or no piece has been captured in the last 50 moves
+			gameState = new Pair<State, Piece>(State.Draw, null);
 		}
 		
 		return gameState;
