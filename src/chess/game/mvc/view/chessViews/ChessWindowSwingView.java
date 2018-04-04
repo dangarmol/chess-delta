@@ -569,6 +569,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	/**
 	 * Disables the view
 	 */
+	@SuppressWarnings("unused")
 	private void disableView() {
 		disableButtons();
 		deActivateBoard();
