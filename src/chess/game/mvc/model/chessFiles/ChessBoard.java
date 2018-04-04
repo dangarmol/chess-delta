@@ -477,7 +477,7 @@ public class ChessBoard extends BasicBoard {
 		}
 	}
 	
-	public void resetPositions() {
+	public void resetBoardHistory() {
 		this.repetitionsRule = false;
 		this.lastPositions.clear(); //Test this.
 	}
@@ -486,9 +486,9 @@ public class ChessBoard extends BasicBoard {
 		this.movesWithoutAction++;
 	}
 	
-	public void resetMovesWithoutAction() {
+	public void resetMovesRules() {
 		this.movesWithoutAction = 0;
-		resetPositions();
+		resetBoardHistory();
 	}
 	
 	/**

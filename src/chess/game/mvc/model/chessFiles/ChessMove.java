@@ -106,15 +106,19 @@ public class ChessMove extends GameMove {
 		disableEnPassant(!((ChessPiece) this.getPiece()).getWhite()); //Disable En passant for every pawn of the colour that is going
 		//to move next turn, since it has been more than a move ago that he moved his pieces.
 		
-		if(actionMove/* && !testMove*/) {
-			this.chessBoard.resetMovesWithoutAction();
-		} else /*if(!testMove)*/ {
+		if(actionMove && !testMove) {
+			this.chessBoard.resetMovesRules();
+		} else if(!testMove) {
 			this.chessBoard.increaseMovesWithoutAction();
 			this.chessBoard.addCurrentPosition();
 		}
 	}
 	
-	//Used by ChessRules to get the list of valid moves.
+	/**
+	 * Used by ChessRules to get the list of valid moves.
+	 * @param testBoard
+	 * @return
+	 */
 	public boolean isMoveLegal(ChessBoard testBoard) {
 		try {
 			if (this.colDes > ChessStatic.MAX_DIM || this.rowDes > ChessStatic.MAX_DIM ||
@@ -122,7 +126,7 @@ public class ChessMove extends GameMove {
 				return false;
 			
 			this.testMove = true;
-			this.executeFakeMove(testBoard);
+			this.executeTestMove(testBoard);
 			this.testMove = false;
 		} catch(Exception e) {
 			return false;
@@ -130,9 +134,11 @@ public class ChessMove extends GameMove {
 		return true;
 	}
 	
-	//Used by the function above to test if a move is valid or not.
-	//Similar to execute, but faster to run.
-	private void executeFakeMove(ChessBoard testBoard) {
+	/**
+	 * Used by the function above to test if a move is valid or not by capturing exceptions!
+	 * @param testBoard
+	 */
+	public void executeTestMove(ChessBoard testBoard) {
 		this.chessBoard = (ChessBoard) testBoard.copy();
 		
 		if(this.chessBoard.getPosition(this.row, this.col) == null)
@@ -144,7 +150,7 @@ public class ChessMove extends GameMove {
 				color = "WHITE";
 			else
 				color = "BLACK";
-			throw new GameError("You can only move your own pieces. It's the turn for " + color + ". Try again."); //Works properly
+			throw new GameError("You can only move your own pieces. It's the turn for " + color + ". Try again.");
 		}
 		
 		if(this.row == this.rowDes && this.col == this.colDes)
@@ -170,9 +176,9 @@ public class ChessMove extends GameMove {
 			throw new GameError("You cannot perform that move, your King would be in Check after that!!!");
 		}
 		
-		if(actionMove/* && !testMove*/) {
-			this.chessBoard.resetMovesWithoutAction();
-		} else /*if(!testMove)*/ {
+		if(actionMove && !testMove) {
+			this.chessBoard.resetMovesRules();
+		} else if(!testMove) {
 			this.chessBoard.increaseMovesWithoutAction();
 			this.chessBoard.addCurrentPosition();
 		}
@@ -180,7 +186,14 @@ public class ChessMove extends GameMove {
 	
 	//Simply executes a move that has been previously checked and is legal.
 	//It is public so that it can be called from the AI classes to perform moves from the list of possible (valid) moves.
-	public void executeCheckedMove(ChessBoard chessBoard) { //TODO Need to check if it's an action move!!!!!!
+	public void executeCheckedMove(ChessBoard chessBoard) {
+		//TODO This condition below needs testing.
+		if(chessBoard.getPosition(this.row, this.col) instanceof Pawn || chessBoard.getPosition(this.rowDes, this.colDes) != null) {
+			this.chessBoard.resetMovesRules();
+		} else {
+			this.chessBoard.increaseMovesWithoutAction();
+			this.chessBoard.addCurrentPosition();
+		}
 		chessBoard.setPosition(this.rowDes, this.colDes, chessBoard.getPosition(this.row, this.col));
 		deleteMovedPiece(this.row, this.col, chessBoard);
 	}
