@@ -20,6 +20,10 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	public BasicBoardEvaluator() {}
 	
 	public double getRating(ChessBoard board, ChessPiece currentPiece, ChessPiece maxPiece) {
+		if(board.checkMovesRulesLimit()) {
+			return 0;
+		}
+		
 		double cumulativeRating = 0;
 		
 		boolean whiteInCheck = isWhiteInCheck(board);

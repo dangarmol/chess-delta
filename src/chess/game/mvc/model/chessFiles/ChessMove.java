@@ -184,18 +184,32 @@ public class ChessMove extends GameMove {
 		}
 	}
 	
-	//Simply executes a move that has been previously checked and is legal.
-	//It is public so that it can be called from the AI classes to perform moves from the list of possible (valid) moves.
-	public void executeCheckedMove(ChessBoard chessBoard) {
-		//TODO This condition below needs testing.
-		if(chessBoard.getPosition(this.row, this.col) instanceof Pawn || chessBoard.getPosition(this.rowDes, this.colDes) != null) {
-			this.chessBoard.resetMovesRules();
-		} else {
-			this.chessBoard.increaseMovesWithoutAction();
-			this.chessBoard.addCurrentPosition();
-		}
+	/**
+	 * Simply executes a move that has been previously checked and is legal.
+	 * @param chessBoard
+	 */
+	private void executeCheckedMove(ChessBoard chessBoard) {
 		chessBoard.setPosition(this.rowDes, this.colDes, chessBoard.getPosition(this.row, this.col));
 		deleteMovedPiece(this.row, this.col, chessBoard);
+	}
+	
+	/**
+	 * Simply executes a move that has been previously checked and is legal.
+	 * It is public so that it can be called from the AI classes to perform moves from the list of possible (valid) moves.
+	 * @param chessBoard
+	 */
+	public void executeAICheckedMove(ChessBoard chessBoard) {
+		//TODO This condition below needs testing.
+		if(chessBoard.getPosition(this.row, this.col) instanceof Pawn || chessBoard.getPosition(this.rowDes, this.colDes) != null) {
+			chessBoard.setPosition(this.rowDes, this.colDes, chessBoard.getPosition(this.row, this.col));
+			deleteMovedPiece(this.row, this.col, chessBoard);
+			chessBoard.resetMovesRules();
+		} else {
+			chessBoard.setPosition(this.rowDes, this.colDes, chessBoard.getPosition(this.row, this.col));
+			deleteMovedPiece(this.row, this.col, chessBoard);
+			chessBoard.increaseMovesWithoutAction();
+			chessBoard.addCurrentPosition();
+		}
 	}
 	
 	private void executeCastlingTestMove(ChessBoard testBoard, int row, int col, int rowDes, int colDes) { 

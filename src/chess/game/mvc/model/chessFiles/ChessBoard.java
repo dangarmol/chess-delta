@@ -81,6 +81,16 @@ public class ChessBoard extends BasicBoard {
 		this.board = new Piece[rows][cols];
 		this.movesWithoutAction = 0;
 	}
+	
+	public ChessBoard(HashMap<String, Integer> positions, boolean repetitions, int noAction) {
+		this.rows = ChessStatic.BOARD_DIMS;
+		this.cols = ChessStatic.BOARD_DIMS;
+		this.lastPositions = new HashMap();
+		this.lastPositions.putAll(positions);
+		this.repetitionsRule = repetitions;
+		this.board = new Piece[rows][cols];
+		this.movesWithoutAction = noAction;
+	}
 
 	@Override
 	public void setPosition(int row, int col, Piece p) {
@@ -125,7 +135,7 @@ public class ChessBoard extends BasicBoard {
 
 	@Override
 	public Board copy() {
-		ChessBoard newboard = new ChessBoard();
+		ChessBoard newboard = new ChessBoard(this.lastPositions, this.repetitionsRule, this.movesWithoutAction);
 		copyTo(newboard);
 		return newboard;
 	}
@@ -479,7 +489,7 @@ public class ChessBoard extends BasicBoard {
 	
 	public void resetBoardHistory() {
 		this.repetitionsRule = false;
-		this.lastPositions.clear(); //Test this.
+		this.lastPositions.clear();
 	}
 	
 	public void increaseMovesWithoutAction() {

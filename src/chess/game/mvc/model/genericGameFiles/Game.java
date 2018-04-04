@@ -346,13 +346,14 @@ public class Game implements Observable<GameObserver> {
 			
 			if (m == null) {
 				if(state == State.InPlay && turn != null) //TODO Check this
-					rules.updateState(board, pieceTypes, turn);
+					rules.updateState(board, pieceTypes, turn); //TODO Remove this bit
 			}
 		} catch (GameError e) {
 			notifyError(e);
 			errors = true;
 		}
 		if (!errors) {
+			if(m == null) throw new GameError("Null movement!");
 			executeMove(m);
 		}
 	}

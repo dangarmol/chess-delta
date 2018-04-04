@@ -2,6 +2,7 @@ package chess.game.mvc.model.chessFiles.chessAI;
 
 import java.util.List;
 
+import chess.game.mvc.Utils;
 import chess.game.mvc.model.chessFiles.ChessBoard;
 import chess.game.mvc.model.chessFiles.ChessStatic;
 import chess.game.mvc.model.chessFiles.ChessMove;
@@ -13,6 +14,7 @@ import chess.game.mvc.model.genericGameFiles.GameRules;
 import chess.game.mvc.model.genericGameFiles.Pair;
 import chess.game.mvc.model.genericGameFiles.Piece;
 import chess.game.mvc.model.genericGameFiles.Game.State;
+import chess.game.mvc.model.genericGameFiles.GameError;
 
 public class ChessMinMax implements AIAlgorithm {
 
@@ -72,10 +74,15 @@ public class ChessMinMax implements AIAlgorithm {
 		
 		System.out.println(this.aiStats.getStats());
 		
-		ChessBoard newBoard = (ChessBoard) board.copy();
-		this.bestNode.getMove().executeCheckedMove(newBoard);
+		if(this.bestNode.getMove() == null || this.bestNode == null) {
+			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
+			this.bestNode.changeNode((ChessMove) validMoves.get(Utils.randomInt(validMoves.size())), -1000);
+		}
+		
+		/*ChessBoard newBoard = (ChessBoard) board.copy();
+		this.bestNode.getMove().executeAICheckedMove(newBoard);
 		System.out.println(newBoard);
-		System.out.println("Rating: " + this.bestNode.getRating());
+		System.out.println("Rating: " + this.bestNode.getRating());*/
 		
 		return this.bestNode;
 	}
@@ -100,7 +107,7 @@ public class ChessMinMax implements AIAlgorithm {
 			double lowestInBranch = Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
 				ChessBoard testBoard = (ChessBoard) board.copy();
-				((ChessMove) move).executeCheckedMove(testBoard);
+				((ChessMove) move).executeAICheckedMove(testBoard);
 				
 				if(depth == ChessStatic.STARTING_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is
 					double currentNodeRating = max(testBoard, depth + 1);
@@ -142,7 +149,7 @@ public class ChessMinMax implements AIAlgorithm {
 			double highestInBranch = -Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
 				ChessBoard testBoard = (ChessBoard) board.copy();
-				((ChessMove) move).executeCheckedMove(testBoard);
+				((ChessMove) move).executeAICheckedMove(testBoard);
 				
 				if(depth == ChessStatic.STARTING_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is
 					double currentNodeRating = min(testBoard, depth + 1);
