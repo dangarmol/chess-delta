@@ -21,7 +21,7 @@ public class ChessMinMax implements AIAlgorithm {
 	private static final long serialVersionUID = 556625192621284461L;
 
 	private int level; //How hard it is to win against the AI. The higher this number, the more intelligent it becomes.
-	private BasicBoardEvaluator evaluator;
+	private BasicChessBoardEvaluator evaluator;
 	private AIStatistics aiStats;
 	private GameRules rules;
 	private List<Piece> pieces;
@@ -34,13 +34,13 @@ public class ChessMinMax implements AIAlgorithm {
 	
 	public ChessMinMax() {
 		this.level = ChessStatic.DEFAULT_MINMAX_LEVEL;
-		this.evaluator = new BasicBoardEvaluator();
+		this.evaluator = new BasicChessBoardEvaluator();
 		this.aiStats = new AIStatistics(ChessStatic.DEFAULT_MINMAX_LEVEL, "MinMax");
 	}
 	
 	public ChessMinMax(int level) {
 		this.level = level;
-		this.evaluator = new BasicBoardEvaluator();
+		this.evaluator = new BasicChessBoardEvaluator();
 		this.aiStats = new AIStatistics(level, "MinMax");
 	}
 	

@@ -335,7 +335,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					ctrl.restart(); //Calls the controller to restart the game //TODO Fix game restart for attributes
+					ctrl.restart(); //Calls the controller to restart the game //TODO Fix game restart for attributes or remove
 				}
 				catch(GameError _e){}
 			}
@@ -454,7 +454,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	 */
 	private void addPlayerInfoTable() {
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.setBorder(BorderFactory.createTitledBorder("Move History")); //Used to be Player information
+		panel.setBorder(BorderFactory.createTitledBorder("Player Info")); //Used to be Player information
 		
 		tableModel = new PlayerInfoTableModel();
 		JTable table = new JTable(tableModel) {
@@ -744,7 +744,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		private String[] colNames;
 		
 		PlayerInfoTableModel(){
-			this.colNames = new String[] {"Player", "Move", "Comments"};
+			this.colNames = new String[] {"Player", "Mode", "Last Move Rating"};
 		}
 		
 		@Override

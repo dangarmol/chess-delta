@@ -20,7 +20,7 @@ public class ChessAlphaBeta implements AIAlgorithm {
 	private static final long serialVersionUID = 556625192621284461L;
 
 	private int level; //How hard it is to win against the AI. The higher this number, the more intelligent it becomes.
-	private BasicBoardEvaluator evaluator;
+	private BasicChessBoardEvaluator evaluator;
 	private AIStatistics aiStats;
 	private GameRules rules;
 	private List<Piece> pieces;
@@ -33,13 +33,13 @@ public class ChessAlphaBeta implements AIAlgorithm {
 	
 	public ChessAlphaBeta() {
 		this.level = ChessStatic.DEFAULT_MINMAX_LEVEL;
-		this.evaluator = new BasicBoardEvaluator();
+		this.evaluator = new BasicChessBoardEvaluator();
 		this.aiStats = new AIStatistics(ChessStatic.DEFAULT_MINMAX_LEVEL, "AlphaBeta");
 	}
 	
 	public ChessAlphaBeta(int level) {
 		this.level = level;
-		this.evaluator = new BasicBoardEvaluator();
+		this.evaluator = new BasicChessBoardEvaluator();
 		this.aiStats = new AIStatistics(level, "AlphaBeta");
 	}
 	
@@ -123,7 +123,7 @@ public class ChessAlphaBeta implements AIAlgorithm {
 					if (currentNodeRating < beta) {
 						beta = currentNodeRating;
 						lowestInBranch = currentNodeRating;
-						this.bestNode.changeNode((ChessMove) move, currentNodeRating); //Should this be here?
+						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
 					}
 				} else {
 					double currentNodeRating = max(testBoard, depth + 1, alpha, beta);

@@ -15,9 +15,9 @@ import chess.game.mvc.model.chessPieces.chessPiecesImp.Rook;
 import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.GameMove;
 
-public class BasicBoardEvaluator implements ChessBoardEvaluator {
+public class BasicChessBoardEvaluator implements ChessBoardEvaluator {
 	
-	public BasicBoardEvaluator() {}
+	public BasicChessBoardEvaluator() {}
 	
 	public double getRating(ChessBoard board, ChessPiece currentPiece, ChessPiece maxPiece) {
 		if(board.checkMovesRulesLimit()) {
@@ -145,10 +145,10 @@ public class BasicBoardEvaluator implements ChessBoardEvaluator {
 	private double rateRook(int rowX, int colY, boolean isWhite) {
 		double rating = 25;
 		if(isWhite) {
-			if(rowX == ChessStatic.MAX_DIM) //If it's white and is on the bottom row it's worth less because it's usually trapped.
+			if(rowX == ChessStatic.MAX_DIM || rowX == ChessStatic.MAX_DIM - 1) //If it's white and is on the bottom row it's worth less because it's usually trapped.
 				rating -= 4;
 		} else {
-			if(rowX == ChessStatic.MIN_DIM) //The opposite is true for black pieces
+			if(rowX == ChessStatic.MIN_DIM || rowX == ChessStatic.MIN_DIM + 1) //The opposite is true for black pieces
 				rating -= 4;
 		}
 		return rating;
