@@ -14,7 +14,6 @@ import org.apache.commons.cli.ParseException;
 
 import chess.connection.connectionFiles.GameClient;
 import chess.connection.connectionFiles.GameServer;
-import chess.game.minmax.MinMax;
 import chess.game.mvc.controller.ConsoleCtrl;
 import chess.game.mvc.controller.ConsoleCtrlMVC;
 import chess.game.mvc.controller.Controller;
@@ -479,10 +478,10 @@ public class MainConnection {
 
 		switch (selectedAlg) {
 		case MINMAX:
-			aiPlayerAlg = minmaxTreeDepth == null ? new MinMax(false) : new MinMax(minmaxTreeDepth, false);
+			//aiPlayerAlg = minmaxTreeDepth == null ? new MinMax(false) : new MinMax(minmaxTreeDepth, false);
 			break;
 		case MINMAXAB:
-			aiPlayerAlg = minmaxTreeDepth == null ? new MinMax() : new MinMax(minmaxTreeDepth);
+			//aiPlayerAlg = minmaxTreeDepth == null ? new MinMax() : new MinMax(minmaxTreeDepth);
 			break;
 		case NONE:
 			aiPlayerAlg = null;
