@@ -54,13 +54,10 @@ public class ChessAlphaBeta implements AIAlgorithm {
 		this.minPiece = (ChessPiece) this.pieces.get(this.minID);
 		this.nodesExplored = 0;
 		this.aiStats.setColour(((ChessPiece) p).getWhite());
-		return minMax(board, ChessStatic.STARTING_DEPTH, -1000, +1000).getMove();
+		return alphaBeta(board, ChessStatic.STARTING_DEPTH, -1000, +1000).getMove();
 	}
 	
-	
-	//TODO Make sure that ELO sites allow computers to play
-	//Also make matrix of different alpha-beta and Minmax win-loss and plot average thinking times
-	private ChessAINode minMax(Board board, int depth, double alpha, double beta) {
+	private ChessAINode alphaBeta(Board board, int depth, double alpha, double beta) {
 		this.aiStats.increaseMoves();
 		
 		final long startTime = System.currentTimeMillis();
@@ -87,7 +84,6 @@ public class ChessAlphaBeta implements AIAlgorithm {
 	}
 	
 	/**
-	 * TODO Add to report!
 	 * Alpha is changed in max if the value is higher than Alpha.
 	 * Beta is changed in min if the value is lower than Beta.
 	 * 
@@ -101,6 +97,7 @@ public class ChessAlphaBeta implements AIAlgorithm {
 		
 		this.nodesExplored++;
 		
+		//This part is similar to MinMax
 		if(gameState.getFirst().equals(State.Won)) {
 			if(gameState.getSecond().equals(this.minPiece)) {
 				return 1000;
@@ -121,18 +118,18 @@ public class ChessAlphaBeta implements AIAlgorithm {
 				if(depth == ChessStatic.STARTING_DEPTH) { //ONLY saves the movements in the case when the depth is 0, moves from a higher depth are not relevant, only the rating is
 					double currentNodeRating = max(testBoard, depth + 1, alpha, beta);
 					if (currentNodeRating < beta) {
-						beta = currentNodeRating;
+						beta = currentNodeRating; //If the value of the current node is higher lower than beta, it becomes the new beta
 						lowestInBranch = currentNodeRating;
 						this.bestNode.changeNode((ChessMove) move, currentNodeRating);
 					}
 				} else {
 					double currentNodeRating = max(testBoard, depth + 1, alpha, beta);
 					if (currentNodeRating < beta) {
-						beta = currentNodeRating;
+						beta = currentNodeRating; //If the value of the current node is higher lower than beta, it becomes the new beta
 						lowestInBranch = currentNodeRating;
 					}
 				}
-				if(alpha >= beta) {
+				if(alpha >= beta) { //Whenever alpha is equal or higher than beta, there's no need to keep searching, since the explored nodes will never be selected
 					return lowestInBranch;
 				}
 			}
@@ -142,6 +139,14 @@ public class ChessAlphaBeta implements AIAlgorithm {
 		}
 	}
 	
+	/**
+	 * As in MinMax, max is fairly similar to min, with some key differences.
+	 * @param board
+	 * @param depth
+	 * @param alpha
+	 * @param beta
+	 * @return
+	 */
 	private double max(Board board, int depth, double alpha, double beta) {
 		Pair<State, Piece> gameState = this.rules.updateState(board, pieces, this.maxPiece);
 		
@@ -160,11 +165,6 @@ public class ChessAlphaBeta implements AIAlgorithm {
 		} else if(this.bestNode.getRating() < 1000 && this.bestNode.getRating() > -1000) {
 			List<GameMove> validMoves = this.rules.validMoves(board, this.pieces, this.pieces.get(this.maxID));
 
-			/**
-			 * TODO Add to report: IN JAVA, Double.MIN_VALUE IS JUST THE MINIMUM ABSOLUTE VALUE, NOT NEGATIVE INFINITY.
-			 * It should be expressed like so: -Double.MAX_VALUE
-			 * https://stackoverflow.com/questions/3884793/why-is-double-min-value-in-not-negative
-			 */
 			double highestInBranch = -Double.MAX_VALUE;
 			for(GameMove move : validMoves) {
 				ChessBoard testBoard = (ChessBoard) board.copy();

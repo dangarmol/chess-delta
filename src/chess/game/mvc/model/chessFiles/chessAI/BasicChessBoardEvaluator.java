@@ -1,10 +1,7 @@
 package chess.game.mvc.model.chessFiles.chessAI;
 
-import java.util.List;
-
 import chess.game.mvc.model.chessFiles.ChessBoard;
 import chess.game.mvc.model.chessFiles.ChessStatic;
-import chess.game.mvc.model.chessFiles.ChessMove;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.King;
@@ -13,7 +10,6 @@ import chess.game.mvc.model.chessPieces.chessPiecesImp.Pawn;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Queen;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Rook;
 import chess.game.mvc.model.genericGameFiles.GameError;
-import chess.game.mvc.model.genericGameFiles.GameMove;
 
 public class BasicChessBoardEvaluator implements ChessBoardEvaluator {
 	
