@@ -73,6 +73,7 @@ public class ChessBoard extends BasicBoard {
 	 *            <p>
 	 *            Numero de columnas.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ChessBoard() {
 		this.rows = ChessStatic.BOARD_DIMS;
 		this.cols = ChessStatic.BOARD_DIMS;
@@ -82,6 +83,7 @@ public class ChessBoard extends BasicBoard {
 		this.movesWithoutAction = 0;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ChessBoard(HashMap<String, Integer> positions, boolean repetitions, int noAction) {
 		this.rows = ChessStatic.BOARD_DIMS;
 		this.cols = ChessStatic.BOARD_DIMS;
@@ -190,7 +192,7 @@ public class ChessBoard extends BasicBoard {
 	
 	//Returns the position of the king from the current player as an 2 digits integer.
 	//Left digit represents row and right digit represents col. King at (2, 5), would be returned as "25".
-	//Returns -1 if the king hasn't been found. An exception should be thrown if this happens.
+	//Returns @ChessStatic.UNKNOWN if the king hasn't been found. An exception should be thrown if this happens.
 	private int findKing(boolean isWhite) {
 		for(int rowX = ChessStatic.MIN_DIM; rowX <= ChessStatic.MAX_DIM; rowX++) {
 			for(int colY = ChessStatic.MIN_DIM; colY <= ChessStatic.MAX_DIM; colY++) {

@@ -6,8 +6,7 @@ import chess.game.mvc.model.chessPieces.ChessPiece;
 public interface ChessBoardEvaluator {
 	
 	/**
-	 * This function should return a rating for the current state of the board from the perspective
-	 * of the max player.
+	 * This function should return a rating for the current state of the board.
 	 * @param board
 	 * @param currentPiece
 	 * @param maxPiece

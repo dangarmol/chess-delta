@@ -187,8 +187,8 @@ public class BasicChessBoardEvaluator implements ChessBoardEvaluator {
 	}
 	
 	/**
-	 * Checks if the game is over for the white player!!
-	 * @return @true if game is won BY CHECKMATE, NOT stalemate, @false otherwise.
+	 * Returns if the king is in check for the white player!!
+	 * @return @true if it is, @false otherwise.
 	 */
 	private boolean isWhiteInCheck(ChessBoard board) {
 		if(board.isKingInCheck(ChessStatic.WHITE))
@@ -198,8 +198,8 @@ public class BasicChessBoardEvaluator implements ChessBoardEvaluator {
 	}
 	
 	/**
-	 * Checks if the game is over for the black player!!
-	 * @return @true if game is won BY CHECKMATE, NOT stalemate, @false otherwise.
+	 * Returns if the king is in check for the white player!!
+	 * @return @true if it is, @false otherwise.
 	 */
 	private boolean isBlackInCheck(ChessBoard board) {
 		if(board.isKingInCheck(ChessStatic.BLACK))
