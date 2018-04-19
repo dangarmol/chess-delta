@@ -155,7 +155,7 @@ public abstract class ChessBoardComponent extends JComponent { //Draws the board
 		super.paintComponent(g);
 
 		if(board == null) {
-			g.drawString("Game has not started yet, waiting for more clients to connect...", 300, 300);
+			g.drawString("Game has not started yet...", 300, 300);
 			return;
 		}
 		g.setColor(Color.lightGray);

@@ -7,7 +7,7 @@ public class Pawn extends ChessPiece {
 	private static final long serialVersionUID = 1L;
 
 	private boolean canPassant; //If this pawn can be captured "En Passant"
-	private boolean firstMove;
+	private boolean firstMove; //If this pawn can perform an opening move
 	
 	public Pawn() {
 		super();

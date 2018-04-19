@@ -156,7 +156,6 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		startSidebarGUI(); //Esto inicializa el lateral
 		
 		this.addWindowListener(new WindowListener() {
-			//Creo que esto es para elegir las acciones que ejecutar en caso de que se haga algo con la ventana
 			public void windowClosing(WindowEvent e) {
 				quit();
 			}

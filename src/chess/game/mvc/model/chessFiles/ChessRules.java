@@ -299,7 +299,7 @@ public class ChessRules implements GameRules {
 
 	@Override
 	public double evaluate(Board board, List<Piece> pieces, Piece turn, Piece p) {
-		//TODO This should never be called
+		//This function should never be called
 		/*ChessBoardEvaluator evaluator = new ChessBoardEvaluator((ChessBoard) board, ((ChessPiece) turn).getWhite());
 		return evaluator.getRating();*/
 		return 0;

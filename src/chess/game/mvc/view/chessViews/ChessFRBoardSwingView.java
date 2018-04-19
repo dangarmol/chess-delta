@@ -36,7 +36,8 @@ public abstract class ChessFRBoardSwingView extends ChessWindowSwingView { //Cre
 					handleMouseClick(row, col, mouseButton);
 				}
 				
-				protected void mouseOver() { //TODO Create this
+				@SuppressWarnings("unused")
+				protected void mouseOver() {
 					
 				}
 				
