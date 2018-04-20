@@ -141,11 +141,17 @@ public class BasicChessBoardEvaluator implements ChessBoardEvaluator {
 	private double rateRook(int rowX, int colY, boolean isWhite) {
 		double rating = 25;
 		if(isWhite) {
-			if(rowX == ChessStatic.MAX_DIM || rowX == ChessStatic.MAX_DIM - 1) //If it's white and is on the bottom row it's worth less because it's usually trapped.
+			if(rowX == ChessStatic.MAX_DIM) { //If it's white and is on the bottom row it's worth less because it's usually trapped.
+				rating -= 2;
+			} else if(rowX == ChessStatic.MAX_DIM - 1) { //On this row, rooks can be even more constrained, especially at the beginning of a match.
 				rating -= 4;
+			}
 		} else {
-			if(rowX == ChessStatic.MIN_DIM || rowX == ChessStatic.MIN_DIM + 1) //The opposite is true for black pieces
+			if(rowX == ChessStatic.MIN_DIM) { //The opposite is true for black pieces
+				rating -= 2;
+			} else if(rowX == ChessStatic.MIN_DIM + 1) { //Same as above.
 				rating -= 4;
+			}
 		}
 		return rating;
 	}
