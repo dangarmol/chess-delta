@@ -83,10 +83,12 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	enum PlayerMode {
 		MANUAL("Manual", "Manual"),
 		RANDOM("Dummy AI", "Dummy AI"),
+		MINMAX1("MinMax Depth 1", "MinMax Depth 1"),
 		MINMAX2("MinMax Depth 2", "MinMax Depth 2"),
 		MINMAX3("MinMax Depth 3", "MinMax Depth 3"),
 		MINMAX4("MinMax Depth 4", "MinMax Depth 4"),
 		MINMAX5("MinMax Depth 5", "MinMax Depth 5"),
+		AB1("AlphaBeta Depth 1", "AlphaBeta Depth 1"),
 		AB2("AlphaBeta Depth 2", "AlphaBeta Depth 2"),
 		AB3("AlphaBeta Depth 3", "AlphaBeta Depth 3"),
 		AB4("AlphaBeta Depth 4", "AlphaBeta Depth 4"),
@@ -280,16 +282,18 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	 */
 	final protected void decideMakeAutomaticMove() {
 		switch(playerModes.get(turn)) {
-			case MINMAX2: intelligentMove(0); break;
-			case MINMAX3: intelligentMove(1); break;
-			case MINMAX4: intelligentMove(2); break;
-			case MINMAX5: intelligentMove(3); break;
-			case AB2: intelligentMove(4); break;
-			case AB3: intelligentMove(5); break;
-			case AB4: intelligentMove(6); break;
-			case AB5: intelligentMove(7); break;
-			case AB6: intelligentMove(8); break;
-			case AB7: intelligentMove(9); break;
+			case MINMAX1: intelligentMove(0); break;
+			case MINMAX2: intelligentMove(1); break;
+			case MINMAX3: intelligentMove(2); break;
+			case MINMAX4: intelligentMove(3); break;
+			case MINMAX5: intelligentMove(4); break;
+			case AB1: intelligentMove(5); break;
+			case AB2: intelligentMove(6); break;
+			case AB3: intelligentMove(7); break;
+			case AB4: intelligentMove(8); break;
+			case AB5: intelligentMove(9); break;
+			case AB6: intelligentMove(10); break;
+			case AB7: intelligentMove(11); break;
 			case RANDOM: randomMove(); break;
 			default: throw new GameError("Unknown AI Player");
 		}
@@ -334,7 +338,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					ctrl.restart(); //Calls the controller to restart the game //TODO Fix game restart for attributes or remove
+					ctrl.restart(); //Calls the controller to restart the gam
 				}
 				catch(GameError _e){}
 			}
@@ -376,7 +380,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	 * Makes an intelligent move
 	 */
 	protected void intelligentMove(int aiIndex) {
-		ctrl.makeMove(aiPlayers.get(aiIndex)); //TODO Test this
+		ctrl.makeMove(aiPlayers.get(aiIndex));
 		tableModel.refresh();
 	}
 
@@ -402,10 +406,12 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 			modes.addItem(PlayerMode.RANDOM);
 		}
 		if(!aiPlayers.isEmpty()) {
+			modes.addItem(PlayerMode.MINMAX1);
 			modes.addItem(PlayerMode.MINMAX2);
 			modes.addItem(PlayerMode.MINMAX3);
 			modes.addItem(PlayerMode.MINMAX4);
 			modes.addItem(PlayerMode.MINMAX5);
+			modes.addItem(PlayerMode.AB1);
 			modes.addItem(PlayerMode.AB2);
 			modes.addItem(PlayerMode.AB3);
 			modes.addItem(PlayerMode.AB4);
@@ -682,7 +688,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 		this.turn = turn;
 		redrawBoard();
 		addMsg("Turn for player '" + turn + "'");
-		/*if(Main.isMultiviews() || Main.isClientMode()) //TODO Only for online mode or multiviews
+		/*if(Main.isMultiviews() || Main.isClientMode()) //Only for online mode or multiviews
 		{
 			this.setTitle(gameDesc + ". View from: " + localPiece + " (Turn for: " + turn.getId() + ")");
 			if(turn.equals(localPiece) && playerModes.get(turn) == PlayerMode.MANUAL) {
@@ -698,16 +704,18 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 			addMsg("AI Player is thinking...");
 			
 			switch(playerModes.get(turn)) {
-				case MINMAX2: intelligentMove(0); break;
-				case MINMAX3: intelligentMove(1); break;
-				case MINMAX4: intelligentMove(2); break;
-				case MINMAX5: intelligentMove(3); break;
-				case AB2: intelligentMove(4); break;
-				case AB3: intelligentMove(5); break;
-				case AB4: intelligentMove(6); break;
-				case AB5: intelligentMove(7); break;
-				case AB6: intelligentMove(8); break;
-				case AB7: intelligentMove(9); break;
+				case MINMAX1: intelligentMove(0); break;
+				case MINMAX2: intelligentMove(1); break;
+				case MINMAX3: intelligentMove(2); break;
+				case MINMAX4: intelligentMove(3); break;
+				case MINMAX5: intelligentMove(4); break;
+				case AB1: intelligentMove(5); break;
+				case AB2: intelligentMove(6); break;
+				case AB3: intelligentMove(7); break;
+				case AB4: intelligentMove(8); break;
+				case AB5: intelligentMove(9); break;
+				case AB6: intelligentMove(10); break;
+				case AB7: intelligentMove(11); break;
 				case RANDOM: randomMove(); break;
 				default: throw new GameError("Unknown AI Player");
 			}

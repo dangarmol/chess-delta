@@ -137,10 +137,12 @@ public class ChessFactory implements GameFactory {
 		List<AIAlgorithm> aiAlgs = new ArrayList<AIAlgorithm>();
 		
 		//This is important
+		aiAlgs.add(new ChessMinMax(1));
 		aiAlgs.add(new ChessMinMax(2));
 		aiAlgs.add(new ChessMinMax(3));
 		aiAlgs.add(new ChessMinMax(4));
 		aiAlgs.add(new ChessMinMax(5));
+		aiAlgs.add(new ChessAlphaBeta(1));
 		aiAlgs.add(new ChessAlphaBeta(2));
 		aiAlgs.add(new ChessAlphaBeta(3));
 		aiAlgs.add(new ChessAlphaBeta(4));
