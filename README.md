@@ -12,9 +12,9 @@ To try the latest release, go to the folder [**releases**](/releases) and launch
 - [x] Dummy player implementation that performs a random (but legal) move.<br>
 - [x] Min-Max AI implementation.<br>
 - [x] Alpha-Beta AI implementation.<br>
-- [ ] MCTS AI implementation (MonteCarlo Tree Search).<br>
 
 ### Possible additional features: <br>
+- [ ] MCTS AI implementation (MonteCarlo Tree Search).<br>
 - [ ] Implement Chess variants to the game.<br>
 - [ ] Online version of the game.<br>
 - [ ] Neural Networks approach to AI (Research).<br>
