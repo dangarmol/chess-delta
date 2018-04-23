@@ -136,7 +136,7 @@ public class Main {
         Controller c = null;
         pieces = gameFactory.createDefaultPieces();
         pieceTypes = gameFactory.createPieceTypes();
-        aiPlayerAlgs = gameFactory.createAIPlayerList(); //new ChessMinMax();
+        aiPlayerAlgs = gameFactory.createAIPlayerList();
         
         playerModes = new ArrayList<PlayerMode>();
         for (int i = 0; i < pieces.size(); i++) {
@@ -177,6 +177,7 @@ public class Main {
      * 
      */
     public static void main(String[] args) {
-        startGame(); //TODO Create Menu before this
+    		//Add menu before game in the future.
+        startGame();
     }
 }

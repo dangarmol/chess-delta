@@ -192,8 +192,7 @@ public abstract class ChessWindowSwingView extends JFrame implements GameObserve
 	protected void quit() { //Method to execute when the user attempts to quit the game
 		if (JOptionPane.showOptionDialog(new JFrame(), "Are you sure you want to exit the game?", "Exit confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null) == 0)
 		{
-			try 
-			{
+			try {
 				ctrl.stop();
 			}
 			catch (GameError _e) {}
