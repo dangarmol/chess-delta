@@ -1,12 +1,6 @@
- package chess.game.mvc.controller;
+ package chess.game.mvc.model.genericGameFiles;
 
 import java.util.List;
-
-import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
-import chess.game.mvc.model.genericGameFiles.Board;
-import chess.game.mvc.model.genericGameFiles.GameMove;
-import chess.game.mvc.model.genericGameFiles.GameRules;
-import chess.game.mvc.model.genericGameFiles.Piece;
 
 /**
  * Class that implements an AI player that simply delegates the requests to an

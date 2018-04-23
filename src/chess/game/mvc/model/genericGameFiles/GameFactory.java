@@ -1,12 +1,8 @@
-package chess.game.mvc.controller;
+package chess.game.mvc.model.genericGameFiles;
 
 import java.util.List;
 
-import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
-import chess.game.mvc.model.genericGameFiles.GameObserver;
-import chess.game.mvc.model.genericGameFiles.GameRules;
-import chess.game.mvc.model.genericGameFiles.Observable;
-import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.controller.Controller;
 
 /**
  * Interface for game factories. It contains the prototypes of the methods

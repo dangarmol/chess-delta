@@ -17,12 +17,12 @@ import chess.connection.connectionFiles.GameServer;
 import chess.game.mvc.controller.ConsoleCtrl;
 import chess.game.mvc.controller.ConsoleCtrlMVC;
 import chess.game.mvc.controller.Controller;
-import chess.game.mvc.controller.GameFactory;
-import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
 import chess.game.mvc.model.genericGameFiles.Game;
 import chess.game.mvc.model.genericGameFiles.GameError;
+import chess.game.mvc.model.genericGameFiles.GameFactory;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Player;
 
 /**
  * This is the class with the main method for the board games application.

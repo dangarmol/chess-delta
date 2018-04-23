@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.util.List;
 
 import chess.game.mvc.controller.Controller;
-import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.genericGameFiles.GameObserver;
 import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Player;
 
 @SuppressWarnings("serial")
 public abstract class ChessFRBoardSwingView extends ChessWindowSwingView { //Crea el tablero

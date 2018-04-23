@@ -1,12 +1,7 @@
 
-package chess.game.mvc.controller;
+package chess.game.mvc.model.genericGameFiles;
 
 import java.util.List;
-
-import chess.game.mvc.model.genericGameFiles.Board;
-import chess.game.mvc.model.genericGameFiles.GameMove;
-import chess.game.mvc.model.genericGameFiles.GameRules;
-import chess.game.mvc.model.genericGameFiles.Piece;
 
 /**
  * Abstract class for implementing game players. Players should not be confused

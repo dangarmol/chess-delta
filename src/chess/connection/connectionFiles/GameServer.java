@@ -22,14 +22,14 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 import chess.game.mvc.controller.Controller;
-import chess.game.mvc.controller.GameFactory;
-import chess.game.mvc.controller.Player;
 import chess.game.mvc.controller.commands.Command;
 import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.Game;
 import chess.game.mvc.model.genericGameFiles.GameError;
+import chess.game.mvc.model.genericGameFiles.GameFactory;
 import chess.game.mvc.model.genericGameFiles.GameObserver;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Player;
 import chess.game.mvc.model.genericGameFiles.Game.State;
 
 public class GameServer extends Controller implements GameObserver {

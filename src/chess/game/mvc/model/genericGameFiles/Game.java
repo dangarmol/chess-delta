@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.chessFiles.ChessBoard;
 
 /**

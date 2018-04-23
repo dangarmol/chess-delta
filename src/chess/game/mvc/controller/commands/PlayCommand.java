@@ -1,7 +1,7 @@
 package chess.game.mvc.controller.commands;
 
 import chess.game.mvc.controller.Controller;
-import chess.game.mvc.controller.Player;
+import chess.game.mvc.model.genericGameFiles.Player;
 
 /**
  * A 'PLAY' command. It executes {@link Controller#makeMove(Player)} of the

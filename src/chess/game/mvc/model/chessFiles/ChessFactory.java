@@ -4,12 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import chess.game.mvc.controller.AIPlayer;
-import chess.game.mvc.controller.ConsolePlayer;
 import chess.game.mvc.controller.Controller;
-import chess.game.mvc.controller.DummyAIPlayer;
-import chess.game.mvc.controller.GameFactory;
-import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.chessFiles.chessAI.ChessAlphaBeta;
 import chess.game.mvc.model.chessFiles.chessAI.ChessMinMax;
 import chess.game.mvc.model.chessPieces.ChessPiece;
@@ -21,11 +16,16 @@ import chess.game.mvc.model.chessPieces.chessPiecesImp.Pawn;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Queen;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Rook;
 import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
+import chess.game.mvc.model.genericGameFiles.AIPlayer;
+import chess.game.mvc.model.genericGameFiles.ConsolePlayer;
+import chess.game.mvc.model.genericGameFiles.DummyAIPlayer;
+import chess.game.mvc.model.genericGameFiles.GameFactory;
 import chess.game.mvc.model.genericGameFiles.GameMove;
 import chess.game.mvc.model.genericGameFiles.GameObserver;
 import chess.game.mvc.model.genericGameFiles.GameRules;
 import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Player;
 
 public class ChessFactory implements GameFactory {
 	

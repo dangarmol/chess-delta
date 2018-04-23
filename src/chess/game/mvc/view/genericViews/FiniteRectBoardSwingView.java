@@ -3,10 +3,10 @@ package chess.game.mvc.view.genericViews;
 import java.awt.Color;
 
 import chess.game.mvc.controller.Controller;
-import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.genericGameFiles.GameObserver;
 import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Player;
 import chess.game.mvc.view.genericViews.SwingView;
 
 @SuppressWarnings("serial")

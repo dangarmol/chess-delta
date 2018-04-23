@@ -3,11 +3,11 @@ package chess.game;
 import java.util.ArrayList;
 import java.util.List;
 import chess.game.mvc.controller.Controller;
-import chess.game.mvc.controller.GameFactory;
 import chess.game.mvc.model.chessFiles.ChessFactoryExtended;
 import chess.game.mvc.model.chessFiles.chessAI.ChessMinMax;
 import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
 import chess.game.mvc.model.genericGameFiles.Game;
+import chess.game.mvc.model.genericGameFiles.GameFactory;
 import chess.game.mvc.model.genericGameFiles.Piece;
 
 public class Main {

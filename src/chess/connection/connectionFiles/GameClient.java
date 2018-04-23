@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chess.game.mvc.controller.Controller;
-import chess.game.mvc.controller.GameFactory;
-import chess.game.mvc.controller.Player;
 import chess.game.mvc.controller.commands.Command;
 import chess.game.mvc.controller.commands.PlayCommand;
 import chess.game.mvc.controller.commands.QuitCommand;
 import chess.game.mvc.controller.commands.RestartCommand;
 import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameError;
+import chess.game.mvc.model.genericGameFiles.GameFactory;
 import chess.game.mvc.model.genericGameFiles.GameObserver;
 import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Player;
 import chess.game.mvc.model.genericGameFiles.Game.State;
 
 public class GameClient extends Controller implements Observable<GameObserver> {

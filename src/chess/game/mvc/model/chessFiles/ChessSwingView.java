@@ -3,11 +3,11 @@ package chess.game.mvc.model.chessFiles;
 import java.util.List;
 
 import chess.game.mvc.controller.Controller;
-import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.GameObserver;
 import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Player;
 import chess.game.mvc.view.chessViews.ChessFRBoardSwingView;
 
 @SuppressWarnings("serial")

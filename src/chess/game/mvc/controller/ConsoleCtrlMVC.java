@@ -8,6 +8,7 @@ import chess.game.mvc.controller.commands.CommandSet;
 import chess.game.mvc.model.genericGameFiles.Game;
 import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Player;
 import chess.game.mvc.model.genericGameFiles.Game.State;
 
 /**

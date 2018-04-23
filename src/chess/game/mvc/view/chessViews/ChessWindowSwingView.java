@@ -32,7 +32,6 @@ import javax.swing.table.TableCellRenderer;
 
 import chess.game.Main;
 import chess.game.mvc.controller.Controller;
-import chess.game.mvc.controller.Player;
 import chess.game.mvc.model.chessFiles.ChessStatic;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.genericGameFiles.Board;
@@ -40,6 +39,7 @@ import chess.game.mvc.model.genericGameFiles.GameError;
 import chess.game.mvc.model.genericGameFiles.GameObserver;
 import chess.game.mvc.model.genericGameFiles.Observable;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Player;
 import chess.game.mvc.model.genericGameFiles.Game.State;
 
 @SuppressWarnings("serial")

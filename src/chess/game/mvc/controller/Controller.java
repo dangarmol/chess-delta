@@ -5,6 +5,7 @@ import java.util.List;
 
 import chess.game.mvc.model.genericGameFiles.Game;
 import chess.game.mvc.model.genericGameFiles.Piece;
+import chess.game.mvc.model.genericGameFiles.Player;
 
 /**
  * The controller's top class. It allows starting a game with a list of pieces
