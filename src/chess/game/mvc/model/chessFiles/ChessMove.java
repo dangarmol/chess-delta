@@ -266,7 +266,9 @@ public class ChessMove extends GameMove {
 			if(chessBoard2.getPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
 				executeCaptureMove(chessBoard2); //This already checks the kind of piece that is in the destination position and if it can be captured.
 				if(!this.testMove) ((Pawn) chessBoard2.getPosition(this.rowDes, this.colDes)).setFirstMove(false);
-			} else if((chessBoard2.getPosition(this.row, this.col + 1) instanceof Pawn) && (this.colDes == this.col + 1) || //There is a pawn on the right //TODO Check this!
+			} else if(this.row <= ChessStatic.MAX_DIM && this.row >= ChessStatic.MIN_DIM && this.col + 1 <= ChessStatic.MAX_DIM && this.col + 1 >= ChessStatic.MIN_DIM &&
+					(chessBoard2.getPosition(this.row, this.col + 1) instanceof Pawn) && (this.colDes == this.col + 1) || //There is a pawn on the right
+					this.row <= ChessStatic.MAX_DIM && this.row >= ChessStatic.MIN_DIM && this.col - 1 <= ChessStatic.MAX_DIM && this.col - 1 >= ChessStatic.MIN_DIM &&
 					(chessBoard2.getPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
 				//No need to check that destination is null, that's checked above.
 				if(this.colDes == this.col + 1) { //Capture to the right
@@ -357,7 +359,9 @@ public class ChessMove extends GameMove {
 			if(chessBoard2.getPosition(this.rowDes, this.colDes) != null) { //The destination position isn't empty
 				executeCaptureMove(chessBoard2); //This already checks the kind of piece that is in the destination position and if it can be captured.
 				if(!this.testMove) ((Pawn) chessBoard2.getPosition(this.rowDes, this.colDes)).setFirstMove(false);
-			} else if((chessBoard2.getPosition(this.row, this.col + 1) instanceof Pawn) && (this.colDes == this.col + 1) || //There is a pawn on the right
+			} else if(this.row <= ChessStatic.MAX_DIM && this.row >= ChessStatic.MIN_DIM && this.col + 1 <= ChessStatic.MAX_DIM && this.col + 1 >= ChessStatic.MIN_DIM && 
+					(chessBoard2.getPosition(this.row, this.col + 1) instanceof Pawn) && (this.colDes == this.col + 1) || //There is a pawn on the right
+					this.row <= ChessStatic.MAX_DIM && this.row >= ChessStatic.MIN_DIM && this.col - 1 <= ChessStatic.MAX_DIM && this.col - 1 >= ChessStatic.MIN_DIM &&
 					(chessBoard2.getPosition(this.row, this.col - 1) instanceof Pawn) && (this.colDes == this.col - 1)) { //or the left for En Passant capture
 				//No need to check that destination is null, that's checked above.
 				if(this.colDes == this.col + 1) { //Capture to the right
