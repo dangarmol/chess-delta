@@ -20,7 +20,7 @@ public class ChessAlphaBeta implements AIAlgorithm {
 	private static final long serialVersionUID = 556625192621284461L;
 
 	private int level; //How hard it is to win against the AI. The higher this number, the more intelligent it becomes.
-	private BasicChessBoardEvaluator evaluator;
+	private ChessBoardEvaluator evaluator;
 	private AIStatistics aiStats;
 	private GameRules rules;
 	private List<Piece> pieces;

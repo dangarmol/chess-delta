@@ -14,14 +14,13 @@ import chess.game.mvc.model.genericGameFiles.GameRules;
 import chess.game.mvc.model.genericGameFiles.Pair;
 import chess.game.mvc.model.genericGameFiles.Piece;
 import chess.game.mvc.model.genericGameFiles.Game.State;
-import chess.game.mvc.model.genericGameFiles.GameError;
 
 public class ChessMinMax implements AIAlgorithm {
 
 	private static final long serialVersionUID = 556625192621284461L;
 
 	private int level; //How hard it is to win against the AI. The higher this number, the more intelligent it becomes.
-	private BasicChessBoardEvaluator evaluator;
+	private ChessBoardEvaluator evaluator;
 	private AIStatistics aiStats; //Instance of the class to create the statistics
 	private GameRules rules; //Rules of chess
 	private List<Piece> pieces;
