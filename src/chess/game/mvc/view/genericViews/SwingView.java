@@ -77,7 +77,7 @@ public abstract class SwingView extends JFrame implements GameObserver { //Hace 
 	
 	/**
 	 * Available playermodes
-	 * @author Dani-MacBookPro
+	 * @author Daniel-MacBookPro
 	 *
 	 */
 	enum PlayerMode {
