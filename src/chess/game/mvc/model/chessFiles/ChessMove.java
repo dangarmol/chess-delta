@@ -115,7 +115,7 @@ public class ChessMove extends GameMove {
 	}
 	
 	/**
-	 * Used by ChessRules to get the list of valid moves.
+	 * Used by Chess Rules to get the list of valid moves.
 	 * @param testBoard
 	 * @return
 	 */

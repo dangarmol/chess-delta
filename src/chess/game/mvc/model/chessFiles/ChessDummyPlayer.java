@@ -3,6 +3,7 @@ package chess.game.mvc.model.chessFiles;
 import java.util.List;
 
 import chess.game.mvc.Utils;
+import chess.game.mvc.model.chessFiles.chessRules.ClassicChessRules;
 import chess.game.mvc.model.genericGameFiles.Board;
 import chess.game.mvc.model.genericGameFiles.GameMove;
 import chess.game.mvc.model.genericGameFiles.GameRules;
@@ -18,7 +19,7 @@ public class ChessDummyPlayer extends Player {
 	@Override
 	public GameMove requestMove(Piece piece, Board board, List<Piece> playersPieces, List<Piece> pieceTypes, GameRules rules) {
 		List<GameMove> moves = rules.validMoves(board, playersPieces, piece);
-		Pair<State, Piece> gameState = ((ChessRules) rules).updateState(board, playersPieces, piece);
+		Pair<State, Piece> gameState = ((ClassicChessRules) rules).updateState(board, playersPieces, piece);
 		if(gameState.getFirst() != State.InPlay) { //If the game has finished the player doesn't move.
 			return null;
 		}

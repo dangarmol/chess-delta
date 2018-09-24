@@ -7,6 +7,7 @@ import java.util.Scanner;
 import chess.game.mvc.controller.Controller;
 import chess.game.mvc.model.chessFiles.chessAI.ChessAlphaBeta;
 import chess.game.mvc.model.chessFiles.chessAI.ChessMinMax;
+import chess.game.mvc.model.chessFiles.chessRules.ClassicChessRules;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.chessPieces.ChessPieceID;
 import chess.game.mvc.model.chessPieces.chessPiecesImp.Bishop;
@@ -36,7 +37,7 @@ public class ChessFactory implements GameFactory {
 	
 	@Override
 	public GameRules gameRules() {
-		return new ChessRules();
+		return new ClassicChessRules();
 	}
 	
 	@Override
