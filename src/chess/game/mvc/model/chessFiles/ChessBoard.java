@@ -448,7 +448,7 @@ public class ChessBoard extends BasicBoard {
 				}
 			}
 			
-			if(kingCol - 1 <= ChessStatic.MAX_DIM && this.getPosition(kingRow - 1, kingCol - 1) != null) { //Checking the left diagonal.
+			if(kingCol - 1 >= ChessStatic.MIN_DIM && this.getPosition(kingRow - 1, kingCol - 1) != null) { //Checking the left diagonal.
 				if(!((ChessPiece) this.getPosition(kingRow - 1, kingCol - 1)).getWhite()) { //If there is a black piece on that position
 					if(this.getPosition(kingRow - 1, kingCol - 1) instanceof Pawn) { //If that piece is a pawn
 						return true; //All the conditions were met.
@@ -464,7 +464,7 @@ public class ChessBoard extends BasicBoard {
 				}
 			}
 			
-			if(kingCol - 1 <= ChessStatic.MAX_DIM && this.getPosition(kingRow + 1, kingCol - 1) != null) { //Checking the left diagonal.
+			if(kingCol - 1 >= ChessStatic.MIN_DIM && this.getPosition(kingRow + 1, kingCol - 1) != null) { //Checking the left diagonal.
 				if(((ChessPiece) this.getPosition(kingRow + 1, kingCol - 1)).getWhite()) { //If there is a white piece on that position
 					if(this.getPosition(kingRow + 1, kingCol - 1) instanceof Pawn) { //If that piece is a pawn
 						return true; //All the conditions were met.
