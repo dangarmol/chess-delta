@@ -1,4 +1,4 @@
-package chess.game.mvc.model.chessFiles.chessAI;
+package chess.game.mvc.model.chessFiles.chessAI.chessBoardEvaluators;
 
 import chess.game.mvc.model.chessFiles.ChessBoard;
 import chess.game.mvc.model.chessPieces.ChessPiece;

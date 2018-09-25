@@ -6,6 +6,8 @@ import chess.game.mvc.Utils;
 import chess.game.mvc.model.chessFiles.ChessBoard;
 import chess.game.mvc.model.chessFiles.ChessStatic;
 import chess.game.mvc.model.chessFiles.ChessMove;
+import chess.game.mvc.model.chessFiles.chessAI.chessBoardEvaluators.BasicChessBoardEvaluator;
+import chess.game.mvc.model.chessFiles.chessAI.chessBoardEvaluators.ChessBoardEvaluator;
 import chess.game.mvc.model.chessPieces.ChessPiece;
 import chess.game.mvc.model.genericGameFiles.AIAlgorithm;
 import chess.game.mvc.model.genericGameFiles.Board;
