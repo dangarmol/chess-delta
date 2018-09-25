@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07a7c9cc-49db-47b5-86f2-b35cfac009e6" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/chessRules/ClassicChessRules.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/ChessDelta_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessDummyPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessDummyPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessRules.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessDummyPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessDummyPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessMove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessMove.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessRules.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,8 +28,8 @@
       <file leaf-file-name="ChessMove.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessMove.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="139" column="7" lean-forward="true" selection-start-line="139" selection-start-column="7" selection-end-line="139" selection-end-column="7" />
+            <state relative-caret-position="15">
+              <caret line="139" column="7" selection-start-line="139" selection-start-column="7" selection-end-line="139" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -44,7 +37,7 @@
       <file leaf-file-name="ChessDummyPlayer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessDummyPlayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
+            <state relative-caret-position="180">
               <caret line="22" column="102" selection-start-line="22" selection-start-column="102" selection-end-line="22" selection-end-column="102" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -74,7 +67,7 @@
       <file leaf-file-name="ClassicChessRules.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/chessRules/ClassicChessRules.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
+            <state relative-caret-position="60">
               <caret line="24" column="51" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -135,7 +128,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -202,14 +195,14 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
@@ -298,7 +291,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -308,7 +300,7 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32900944" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32900944" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
@@ -345,6 +337,68 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/chess/game/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2010">
+          <caret line="147" column="46" selection-start-line="147" selection-start-column="46" selection-end-line="147" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessDummyPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="22" column="102" selection-start-line="22" selection-start-column="102" selection-end-line="22" selection-end-column="102" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1035">
+          <caret line="81" column="43" selection-start-line="81" selection-start-column="43" selection-end-line="81" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="61" selection-start-line="16" selection-start-column="61" selection-end-line="16" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/chessRules/ClassicChessRules.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="24" column="51" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessStatic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessMove.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2085">
+          <caret line="139" column="7" lean-forward="true" selection-start-line="139" selection-start-column="7" selection-end-line="139" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/chess/game/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2010">
@@ -493,7 +547,7 @@
     <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/chessRules/ChessRules.java" />
     <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessDummyPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
+        <state relative-caret-position="180">
           <caret line="22" column="102" selection-start-line="22" selection-start-column="102" selection-end-line="22" selection-end-column="102" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -503,7 +557,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/chessRules/ClassicChessRules.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
+        <state relative-caret-position="60">
           <caret line="24" column="51" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -527,8 +581,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessMove.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="139" column="7" lean-forward="true" selection-start-line="139" selection-start-column="7" selection-end-line="139" selection-end-column="7" />
+        <state relative-caret-position="15">
+          <caret line="139" column="7" selection-start-line="139" selection-start-column="7" selection-end-line="139" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -538,10 +592,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>ChessDelta:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
