@@ -6,149 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="07a7c9cc-49db-47b5-86f2-b35cfac009e6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ChessDelta_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/ChessDelta_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChessDelta.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ChessDelta.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$AlgorithmForAIPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$AlgorithmForAIPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$ApplicationMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$ApplicationMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$GameInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$GameInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$PlayerMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$PlayerMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$ViewInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection$ViewInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/MainConnection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/Connection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWChangeTurnResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWChangeTurnResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWErrorResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWErrorResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWGameOverResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWGameOverResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWGameStartResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWGameStartResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWMoveEndResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWMoveEndResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWMoveStartResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/FWMoveStartResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameClient$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameClient$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameClient$GameOverClientObserver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameClient$GameOverClientObserver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameOverClientObserver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameOverClientObserver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameServer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameServer$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameServer$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameServer$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameServer$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameServer$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameServer$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameServer$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/GameServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/Response.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/Response.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/TestServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/connection/connectionFiles/TestServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/Main$PlayerMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/Main$PlayerMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/Utils$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/Utils$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/Utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/Utils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/ConsoleCtrl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/ConsoleCtrl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/ConsoleCtrlMVC.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/ConsoleCtrlMVC.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/Command.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/CommandSet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/CommandSet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/HelpCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/HelpCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/PlayCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/PlayCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/QuitCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/QuitCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/RestartCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/controller/commands/RestartCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessBoard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessDummyPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessDummyPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessFactoryExtended$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessFactoryExtended$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessFactoryExtended.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessFactoryExtended.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessMove$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessMove$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessMove$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessMove$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessMove.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessMove.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessStatic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessStatic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessSwingPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessSwingPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessSwingView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/ChessSwingView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/AIStatistics.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/AIStatistics.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/BasicChessBoardEvaluator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/BasicChessBoardEvaluator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/ChessAINode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/ChessAINode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/ChessAlphaBeta.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/ChessAlphaBeta.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/ChessBoardEvaluator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/ChessBoardEvaluator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/ChessMinMax.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessFiles/chessAI/ChessMinMax.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/ChessPiece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/ChessPiece.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/ChessPieceID.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/ChessPieceID.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/Bishop.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/Bishop.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/King.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/King.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/Knight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/Knight.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/Pawn.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/Queen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/Queen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/Rook.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/chessPieces/chessPiecesImp/Rook.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/AIAlgorithm.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/AIAlgorithm.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/AIPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/AIPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/BasicBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/BasicBoard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Board.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/ConsolePlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/ConsolePlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/ConsolePlayerFromListOfMoves.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/ConsolePlayerFromListOfMoves.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/DummyAIPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/DummyAIPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/FiniteRectBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/FiniteRectBoard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Game$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Game$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Game$State.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Game$State.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/GameError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/GameError.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/GameFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/GameFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/GameMove.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/GameMove.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/GameObserver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/GameObserver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/GameRules.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/GameRules.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Observable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Observable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Pair.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Pair.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Piece.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/ReadOnlyBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/model/genericGameFiles/ReadOnlyBoard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessBoardComponent$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessBoardComponent$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessBoardComponent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessBoardComponent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessFRBoardSwingView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessFRBoardSwingView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessFRBoardSwingView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessFRBoardSwingView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$10.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$11.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$12.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$13.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$14.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$PlayerInfoTableModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$PlayerInfoTableModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$PlayerMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView$PlayerMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/chessViews/ChessWindowSwingView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/BoardComponent$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/BoardComponent$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/BoardComponent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/BoardComponent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/ColorChooser$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/ColorChooser$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/ColorChooser$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/ColorChooser$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/ColorChooser$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/ColorChooser$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/ColorChooser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/ColorChooser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/FiniteRectBoardSwingView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/FiniteRectBoardSwingView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/FiniteRectBoardSwingView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/FiniteRectBoardSwingView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$10.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$11.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$12.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$13.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$14.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$PlayerInfoTableModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$PlayerInfoTableModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$PlayerMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView$PlayerMode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ChessDelta/chess/game/mvc/view/genericViews/SwingView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/releases/jar/ChessDelta Beta v2.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/releases/jar/ChessDelta Beta v2.1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/releases/zip/ChessDelta Beta v2.1.zip" beforeDir="false" afterPath="$PROJECT_DIR$/releases/zip/ChessDelta Beta v2.1.zip" afterDir="false" />
-    </list>
+    <list default="true" id="07a7c9cc-49db-47b5-86f2-b35cfac009e6" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -162,7 +20,7 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/chess/game/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2010">
+            <state relative-caret-position="2205">
               <caret line="147" column="46" selection-start-line="147" selection-start-column="46" selection-end-line="147" selection-end-column="46" />
             </state>
           </provider>
@@ -272,77 +130,23 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="ChessDelta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChessDelta" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ChessDelta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChessDelta" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ChessDelta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChessDelta" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="chess" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ChessDelta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChessDelta" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="chess" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ChessDelta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChessDelta" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="chess" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-              <item name="mvc" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ChessDelta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChessDelta" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="chess" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-              <item name="mvc" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ChessDelta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChessDelta" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="chess" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-              <item name="mvc" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="chessFiles" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ChessDelta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ChessDelta" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="chess" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-              <item name="mvc" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="chessPieces" type="462c0819:PsiDirectoryNode" />
+              <item name="Chess-Delta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Chess-Delta" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -434,22 +238,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32900944" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32900944" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32900944" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
@@ -462,6 +264,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32900944" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32900944" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -481,6 +284,68 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/chess/game/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2205">
+          <caret line="147" column="46" selection-start-line="147" selection-start-column="46" selection-end-line="147" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessDummyPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="22" column="102" selection-start-line="22" selection-start-column="102" selection-end-line="22" selection-end-column="102" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1035">
+          <caret line="81" column="43" selection-start-line="81" selection-start-column="43" selection-end-line="81" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="61" selection-start-line="16" selection-start-column="61" selection-end-line="16" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/chessRules/ClassicChessRules.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="24" column="51" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessStatic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessPawnPromotionDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/chess/game/mvc/model/chessFiles/ChessMove.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2085">
+          <caret line="139" column="7" selection-start-line="139" selection-start-column="7" selection-end-line="139" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/chess/game/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2010">
@@ -669,7 +534,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/chess/game/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2010">
+        <state relative-caret-position="2205">
           <caret line="147" column="46" selection-start-line="147" selection-start-column="46" selection-end-line="147" selection-end-column="46" />
         </state>
       </provider>
