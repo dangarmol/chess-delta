@@ -125,7 +125,7 @@ public class ChessAlphaBeta implements AIAlgorithm {
 				} else {
 					double currentNodeRating = max(testBoard, depth + 1, alpha, beta);
 					if (currentNodeRating < beta) {
-						beta = currentNodeRating; //If the value of the current node is higher lower than beta, it becomes the new beta
+						beta = currentNodeRating; //If the value of the current node is lower than beta, it becomes the new beta
 						lowestInBranch = currentNodeRating;
 					}
 				}
